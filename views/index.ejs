@@ -20,15 +20,15 @@
       <div class="links">
         <ul class="flex flex-row space-x-5 text-lg flex-nowrap">
           <li class="relative group">
-            <a href="#" class="text-lg">Funcionalidades</a>
+            <a href="#funcionalidades" class="text-lg">Funcionalidades</a>
             <span class="block absolute left-0 bottom-0 w-0 h-[2px] bg-fontColor transition-all duration-300 group-hover:w-full"></span>
           </li>
           <li class="relative group">
-            <a href="#" class="text-lg">Sobre</a>
+            <a href="#sobre" class="text-lg">Sobre</a>
             <span class="block absolute left-0 bottom-0 w-0 h-[2px] bg-fontColor transition-all duration-300 group-hover:w-full"></span>
           </li>
           <li class="relative group">
-            <a href="#" class="text-lg">Contato</a>
+            <a href="#contato" class="text-lg">Contato</a>
             <span class="block absolute left-0 bottom-0 w-0 h-[2px] bg-fontColor transition-all duration-300 group-hover:w-full"></span>
           </li>
           <li class="relative group">
@@ -78,52 +78,14 @@
     </div>
   </section>
 
-  <section class="servicos w-full h-96 py-8 px-36">
-    <div class="tittle text-center text-fontColor text-4xl font-extrabold mb-8">
-     Com os nossos serviços você terá:
-    </div>
-
-    <div class="cards w-full flex flex-row space-x-4 p-2">
-      <!-- CARD1 -->
-      <div class="card1 flex flex-col w-1/3 justify-center items-center py-1 px-6">
-        <img src="./images/agendamento.png" alt="Icone de Calendário" class="h-16 w-16 bg-white p-2 rounded-xl shadow-shape mb-2">
-
-        <div class="tittle text-lg font-bold mb-1">
-          Agendamento Simplificado
-        </div>
-        <div class="texto text-center font-medium">
-          Facilite o agendamento de consultas pediátricas para seus filhos com poucos cliques.
-        </div>
-      </div>
-
-       <!-- CARD2 -->
-      <div class="card2 flex flex-col w-1/3 justify-center items-center py-1 px-8">
-        <img src="./images/prontuario.png" alt="Icone de Calendário" class="h-16 w-16 bg-white p-2 rounded-xl shadow-shape mb-2">
-
-        <div class="tittle text-lg font-bold mb-1">
-          Gerenciamento de Prontuários
-        </div>
-        <div class="texto text-center font-medium">
-          Acompanhe o histórico de consultas, diagnósticos e tratamentos de forma segura.
-        </div>
-      </div>
-
-       <!-- CARD3 -->
-      <div class="card3 flex flex-col w-1/3 justify-center items-center py-1 px-8">
-        <img src="./images/lembrete.png" alt="Icone de Calendário" class="h-16 w-16 bg-white p-2 rounded-xl shadow-shape mb-2">
-
-        <div class="tittle text-lg font-bold mb-1">
-          Notificações e Lembretes
-        </div>
-        <div class="texto text-center font-medium">
-          Receba notificações por e-mail e SMS para não perder nenhum agendamento.
-        </div>
-      </div>
-
-    </div>
-
-    <div class="divider w-full border border-secondary mt-8"></div>
+  <section id="funcionalidades" class="carrosel bg-pattern py-8 w-full flex flex-col px-2 scroll-beha">
+    <div class="tittle text-center text-fontColor text-4xl font-extrabold mb-2">
+      Com os nossos serviços você terá:
+     </div>
+    <%- include('carousel') %>
   </section>
+
+  <div class="divider w-full mt-2"></div>
 
   <section class="h-fit flex items-center justify-start bg-pattern">
     <div class="content flex flex-row w-full justify-between items-center py-3">
@@ -152,11 +114,34 @@
     
   </section>
 
+  <section id="sobre" class="sobre bg-pattern py-16 px-8 w-full">
+    <div class="container mx-auto">
+      <!-- Título da Seção -->
+      <h2 class="text-4xl font-extrabold text-center text-fontColor mb-8">Sobre o PediCare+</h2>
+  
+      <!-- Conteúdo da Seção -->
+      <div class="text-lg text-fontColor leading-relaxed">
+        <p class="mb-6">
+          O <strong>PediCare+</strong> é um hospital pediátrico dedicado exclusivamente ao cuidado da saúde de crianças, oferecendo um ambiente especializado que atende às necessidades únicas dos pequenos pacientes. Fundado há mais de uma década, nossa missão é proporcionar um cuidado humanizado, onde as crianças se sintam confortáveis e seguras durante o tratamento.
+        </p>
+  
+        <p class="mb-6">
+          Ao longo dos anos, o <strong>PediCare+</strong> se destacou pela sua abordagem inovadora e pela utilização de tecnologias avançadas, tornando-se um referencial em saúde pediátrica na região. O hospital expandiu suas especialidades para oferecer cuidados abrangentes, desde emergências até o tratamento de doenças crônicas.
+        </p>
+  
+        <p class="mb-6">
+          Além disso, o <strong>PediCare+</strong> se compromete com a educação das famílias, oferecendo workshops sobre saúde infantil, nutrição e desenvolvimento. Acreditamos que o envolvimento da família é essencial para a recuperação e o bem-estar das crianças.
+        </p>
+  
+        <p class="mb-6">
+          Hoje, somos reconhecidos por uma equipe dedicada de profissionais que trabalham em conjunto para garantir o melhor atendimento possível a cada criança. O <strong>PediCare+</strong> continua a ser um apoio integral na jornada de saúde de cada paciente, com um compromisso constante com a excelência, inovação e cuidado humanizado.
+        </p>
+      </div>
+    </div>
+  </section>
 
-  <div class="divider w-full mt-8"></div>
 
-
-  <footer class="bg-secondary py-8 w-full flex flex-col px-2">
+  <footer id="contato" class="bg-secondary py-8 w-full flex flex-col px-2">
     <div class="flex px-2">
       <h3 class="text-2xl font-black text-white">PediCare+</h3>
 
@@ -198,6 +183,24 @@
     
   </footer>
   
+  <script>
+    let defaultTransform = 0;
+    function goNext() {
+      defaultTransform = defaultTransform - 398;
+      var slider = document.getElementById("slider");
+      if (Math.abs(defaultTransform) >= slider.scrollWidth / 1.7) defaultTransform = 0;
+      slider.style.transform = "translateX(" + defaultTransform + "px)";
+    }
+    next.addEventListener("click", goNext);
+
+    function goPrev() {
+      var slider = document.getElementById("slider");
+      if (Math.abs(defaultTransform) === 0) defaultTransform = 0;
+      else defaultTransform = defaultTransform + 398;
+      slider.style.transform = "translateX(" + defaultTransform + "px)";
+    }
+    prev.addEventListener("click", goPrev);
+  </script>
   
   
 </body>
