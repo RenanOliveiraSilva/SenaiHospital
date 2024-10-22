@@ -1,3 +1,29 @@
-<h1><%= message %></h1>
-<h2><%= error.status %></h2>
-<pre><%= error.stack %></pre>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Error</title>
+    <link href="./stylesheets/output.css" rel="stylesheet">
+</head>
+<body>
+    <div class="flex h-screen bg-white items-center flex-col justify-center lg:flex-row py-10 px-6 md:px-24 md:py-20 lg:py-32 gap-16 lg:gap-28">
+        <div class="w-full lg:w-1/2">
+            <embed src="./images/error-image.svg" type="image/svg+xml" class="w-full h-auto">
+        </div>
+        <div class="w-full lg:w-1/2">
+            <h1 class="py-4 text-3xl lg:text-4xl font-extrabold text-gray-800 dark:text-white">Ops! Parece que este caminho não existe</h1>
+                <p class="text-base text-gray-800 dark:text-white">O conteúdo que você procura pode ter sido removido ou é inexistente</p>
+                <p class="py-4 text-base text-gray-800 dark:text-white">Volte para a página principal e acesse tudo por lá, desculpe o transtorno!</p>
+            <button 
+                class="w-full lg:w-auto my-4 rounded-md px-1 sm:px-16 py-5 bg-fontColor text-white hover:bg-[#384A39] focus:outline-none focus:ring-2 focus:ring-indigo-700 focus:ring-opacity-50 animate-bounce"
+                onclick="window.location.href = '/'"
+            >
+                Voltar para a Home
+            </button>
+        </div>
+    </div>
+</body>
+</html>
+
+
