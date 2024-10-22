@@ -11,197 +11,41 @@
 </head>
 <body class="w-full h-full m-0 p-0 box-border bg-pattern font-sans text-fontColor">
 
-  <!-- Sessão de Cabeçalho (Navbar) -->
+  <!-- Sessão Navbar -->
   <section class="navbar w-full bg-pattern shadow-shape p-6 box-border relative z-10">
-    <div class="content w-full flex flex-row justify-between items-center">
-      <div class="logo font-black text-2xl">
-        PediCare+
-      </div>
-      <div class="links">
-        <ul class="flex flex-row space-x-5 text-lg flex-nowrap">
-          <li class="relative group">
-            <a href="#funcionalidades" class="text-lg">Funcionalidades</a>
-            <span class="block absolute left-0 bottom-0 w-0 h-[2px] bg-fontColor transition-all duration-300 group-hover:w-full"></span>
-          </li>
-          <li class="relative group">
-            <a href="#sobre" class="text-lg">Sobre</a>
-            <span class="block absolute left-0 bottom-0 w-0 h-[2px] bg-fontColor transition-all duration-300 group-hover:w-full"></span>
-          </li>
-          <li class="relative group">
-            <a href="#contato" class="text-lg">Contato</a>
-            <span class="block absolute left-0 bottom-0 w-0 h-[2px] bg-fontColor transition-all duration-300 group-hover:w-full"></span>
-          </li>
-          <li class="relative group">
-            <a href="/login" class="text-lg">Entrar</a>
-            <span class="block absolute left-0 bottom-0 w-0 h-[2px] bg-fontColor transition-all duration-300 group-hover:w-full"></span>
-          </li>
-        </ul>
-      </div>
-    </div>
+    <%-include('navbar')  %>
   </section>
   
   <!-- Sessão de Header -->
   <section class="slogan bg-secondary w-full text-white h-80 px-7 py-9">
-    <div class="content flex w-full flex-col justify-between h-full items-center">
-      <div class="main">
-        <div class="tittle text-center text-4xl font-extrabold mb-2">
-          O Melhor Cuidado para os Pequenos
-        </div>
-        <div class="subtittle text-center text-xl font-normal">
-          Facilitando o agendamento de consultas pediátricas de forma rápida e segura.
-        </div>
-
-      </div>
-      <div class="button">
-        <!-- Botão ajustado para largura 52 -->
-        <button
-          class="overflow-hidden w-52 p-2 h-12 bg-white text-fontColor text-center border-none rounded-md text-xl font-bold cursor-pointer relative z-10 group"
-        >
-          Comece Agora
-          <span
-            class="absolute w-56 h-32 -top-12 -left-2 bg-white rotate-12 transform scale-x-0 group-hover:scale-x-100 transition-transform group-hover:duration-500 duration-1000 origin-left"
-          ></span>
-          <span
-            class="absolute w-56 h-32 -top-12 -left-2 bg-[#899289] rotate-12 transform scale-x-0 group-hover:scale-x-100 transition-transform group-hover:duration-700 duration-700 origin-left"
-          ></span>
-          <span
-            class="absolute w-56 h-32 -top-12 -left-2 bg-fontColor rotate-12 transform scale-x-0 group-hover:scale-x-100 transition-transform group-hover:duration-1000 duration-500 origin-left"
-          ></span>
-          <span
-            class="group-hover:opacity-100 text-white text-center group-hover:duration-1000 duration-100 opacity-0 absolute top-2.5 left-12 z-10"
-          >
-            Clique aqui!
-          </span>
-        </button>
-
-      </div>
-    </div>
+    <%-include('header') %>
   </section>
 
+  <!-- Sessão do Carrossel -->
   <section id="funcionalidades" class="carrosel bg-pattern py-8 w-full flex flex-col px-2 scroll-beha">
-    <div class="tittle text-center text-fontColor text-4xl font-extrabold mb-2">
-      Com os nossos serviços você terá:
-     </div>
     <%- include('carousel') %>
   </section>
 
-  <div class="divider w-full mt-2"></div>
+  <!-- Divisor -->
+  <%-include('divisor')%>
 
+  <!-- Sessão de Slogan -->
   <section class="h-fit flex items-center justify-start bg-pattern">
-    <div class="content flex flex-row w-full justify-between items-center py-3">
-  
-      <!-- Mensagem à esquerda -->
-      <div class="mensagem flex justify-center items-center w-1/2 text-fontColor font-extrabold text-6xl px-28 text-center">
-        A saúde das suas crianças é nossa prioridade
-      </div>
-  
-      <!-- Imagens sobrepostas à direita -->
-      <div class="imagem relative flex justify-center w-1/2">
-        <img src="./images/bg1.png" alt="Doutora" class="absolute z-0 w-full h-full ">
-
-        <!-- Background Shape -->
-         <div class="absolute flex justify-center items-center z-10 w-2/4 h-full">
-            <img src="./images/bg2.png" alt="Background Shape" class="h-3/4">
-
-         </div>
-  
-        <!-- Doutora -->
-        <img src="./images/doutora.png" alt="Doutora" class="relative z-20 w-1/2">
-        
-      </div>
-  
-    </div>
-    
+    <%-include('slogan')%>
   </section>
 
+  <!-- Sessão do Sobre -->
   <section id="sobre" class="sobre bg-pattern py-16 px-8 w-full">
-    <div class="container mx-auto">
-      <!-- Título da Seção -->
-      <h2 class="text-4xl font-extrabold text-center text-fontColor mb-8">Sobre o PediCare+</h2>
-  
-      <!-- Conteúdo da Seção -->
-      <div class="text-lg text-fontColor leading-relaxed">
-        <p class="mb-6">
-          O <strong>PediCare+</strong> é um hospital pediátrico dedicado exclusivamente ao cuidado da saúde de crianças, oferecendo um ambiente especializado que atende às necessidades únicas dos pequenos pacientes. Fundado há mais de uma década, nossa missão é proporcionar um cuidado humanizado, onde as crianças se sintam confortáveis e seguras durante o tratamento.
-        </p>
-  
-        <p class="mb-6">
-          Ao longo dos anos, o <strong>PediCare+</strong> se destacou pela sua abordagem inovadora e pela utilização de tecnologias avançadas, tornando-se um referencial em saúde pediátrica na região. O hospital expandiu suas especialidades para oferecer cuidados abrangentes, desde emergências até o tratamento de doenças crônicas.
-        </p>
-  
-        <p class="mb-6">
-          Além disso, o <strong>PediCare+</strong> se compromete com a educação das famílias, oferecendo workshops sobre saúde infantil, nutrição e desenvolvimento. Acreditamos que o envolvimento da família é essencial para a recuperação e o bem-estar das crianças.
-        </p>
-  
-        <p class="mb-6">
-          Hoje, somos reconhecidos por uma equipe dedicada de profissionais que trabalham em conjunto para garantir o melhor atendimento possível a cada criança. O <strong>PediCare+</strong> continua a ser um apoio integral na jornada de saúde de cada paciente, com um compromisso constante com a excelência, inovação e cuidado humanizado.
-        </p>
-      </div>
-    </div>
+    <%-include('sobre')%>
   </section>
 
-
+  <!-- Sessão do Rodapé -->
   <footer id="contato" class="bg-secondary py-8 w-full flex flex-col px-2">
-    <div class="flex px-2">
-      <h3 class="text-2xl font-black text-white">PediCare+</h3>
-
-    </div>
-      <div class="flex flex-row w-full md:flex-row justify-between items-start text-white">
-  
-        <!-- Logo and Social Media -->
-        <div class="mb-6 md:mb-0">
-          
-          <p class="mt-4 mb-2">Siga-nos nas redes sociais:</p>
-          <div class="flex space-x-4">
-            <a href="#" class="text-blue-500 hover:underline">Instagram</a>
-            <span>|</span>
-            <a href="#" class="text-blue-500 hover:underline">LinkedIn</a>
-          </div>
-        </div>
-  
-        <!-- Address -->
-        <div class="mb-6 md:mb-0">
-          <h3 class="font-semibold mb-2">Endereço:</h3>
-          <p>Rua Juarez de Paula, 123<br>Centro - Guará - SP</p>
-        </div>
-  
-        <!-- Contact -->
-        <div class="mb-6 md:mb-0">
-          <h3 class="font-semibold mb-2">Contato:</h3>
-          <p>Telefone: (11) 98765-4321</p>
-          <p>E-mail: <a href="mailto:contato@pedicare.com" class="text-blue-500 hover:underline">contato@pedicare.com</a></p>
-        </div>
-  
-        <!-- Operating Hours -->
-        <div>
-          <h3 class="font-semibold mb-2">Horário de Funcionamento:</h3>
-          <p>Segunda a Sexta: 8h às 18h</p>
-          <p>Sábado: 9h às 13h</p>
-        </div>
-        
-      </div>
-    
+    <%-include('footer') %>    
   </footer>
   
-  <script>
-    let defaultTransform = 0;
-    function goNext() {
-      defaultTransform = defaultTransform - 398;
-      var slider = document.getElementById("slider");
-      if (Math.abs(defaultTransform) >= slider.scrollWidth / 1.7) defaultTransform = 0;
-      slider.style.transform = "translateX(" + defaultTransform + "px)";
-    }
-    next.addEventListener("click", goNext);
-
-    function goPrev() {
-      var slider = document.getElementById("slider");
-      if (Math.abs(defaultTransform) === 0) defaultTransform = 0;
-      else defaultTransform = defaultTransform + 398;
-      slider.style.transform = "translateX(" + defaultTransform + "px)";
-    }
-    prev.addEventListener("click", goPrev);
-  </script>
-  
+  <!-- Script do Carrossel -->
+  <script src="./javascripts/slider.js"></script>
   
 </body>
 </html>
