@@ -15,14 +15,12 @@
                     <p class="text-muted-foreground">Cadastro de Usuário</p>
                 </div>
                 <!-- Formulário de Cadastro -->
-                <form action="/cadastrar" method="POST" class="space-y-4">
+                <form action="/login" method="POST" class="space-y-4">
                     <div class="space-y-2">
-                        <label for="fullName" class="block text-sm font-medium">Nome Completo</label>
-                        <input type="text" id="fullName" name="fullName" placeholder="Nome Completo" class="input-field" required>
+                        <input type="text" id="fullName" name="fullName" placeholder="Entre com e-mail ou telefone" class="input-field" required>
                     </div>
                     <div class="space-y-2">
-                        <label for="cpf" class="block text-sm font-medium">CPF</label>
-                        <input type="text" id="cpf" name="cpf" placeholder="CPF" class="input-field" required>
+                        <input type="password" id="password" name="password" placeholder="Entre com a senha" class="input-field" required>
                     </div>
                     <button type="submit" class="w-full bg-fontColor hover:bg-[#234536] text-white font-bold py-4 px-6 rounded-md">
                         Entrar

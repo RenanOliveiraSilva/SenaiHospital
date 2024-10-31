@@ -13,10 +13,14 @@ const getTodosUsuarios = async () => {
     }
 };
 
-// Listagem de Usuário por ID
-const getUsuario = async () => {
+// Listagem de Usuário por user e senha
+const getUsuario = async (userLogin) => {
+    const { email, senha } = userLogin;
+
     try {
-        const result = await pool.query('SELECT * FROM usuarios');
+        const result = await pool.query('SELECT * FROM usuarios WHERE email = $1 AND senha = $2',
+            [email, senha]
+        );
         return result.rows;
     } catch (err) {
         console.error('Erro ao buscar dados:', err);
@@ -53,7 +57,10 @@ const postUsuario = async (userData) => {
     }
 };
 
+
+
 module.exports = {
     getTodosUsuarios,
+    getUsuario,
     postUsuario
 };

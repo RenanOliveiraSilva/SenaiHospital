@@ -13,6 +13,32 @@ const listarUsuarios = async (req, res) => {
     }
 };
 
+//Verificar senha do usuário
+const logarUsuario = async (req, res) => {
+    const { email, senha } = req.body;
+
+    // Hash da senha
+    const hashedPass = await bcrypt.hash(senha, 10);
+
+    try {
+        const data = await usuarioModel.getUsuario({
+            email,
+            senha: hashedPass
+        });
+
+        if(data.length < 0) {
+            res.render("/home/index")
+        }
+
+        res.render("index")
+        
+    } catch (err) {
+        console.error('Erro ao verificar dados:', err);
+        res.status(500).send('Erro ao verificar dados');
+    }
+}
+
+// Inserir usuário no banco de dados
 const inserirUsuarios = async (req, res) => {
     const { 
         nome, 
@@ -56,5 +82,6 @@ const inserirUsuarios = async (req, res) => {
 
 module.exports = {
     listarUsuarios,
+    logarUsuario,
     inserirUsuarios
 };
