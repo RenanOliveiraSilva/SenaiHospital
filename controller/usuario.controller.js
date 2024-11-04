@@ -8,6 +8,7 @@ const listarUsuarios = async (req, res) => {
     try {
         const data = await usuarioModel.getTodosUsuarios();
         res.render('home/index', { data });
+
     } catch (err) {
         res.status(500).send('Erro ao buscar dados');
     }
@@ -15,26 +16,32 @@ const listarUsuarios = async (req, res) => {
 
 //Verificar senha do usuário
 const logarUsuario = async (req, res) => {
-    const { email, senha } = req.body;
-
-    // Hash da senha
-    const hashedPass = await bcrypt.hash(senha, 10);
+    const { userEmail, userPass } = req.body;
 
     try {
-        const data = await usuarioModel.getUsuario({
-            email,
-            senha: hashedPass
-        });
+         // Buscar o usuário pelo email
+         const data = await usuarioModel.getUsuarioByEmail(userEmail);
 
-        if(data.length < 0) {
-            res.render("/home/index")
+         console.log(userPass)
+
+         // Se o usuário não existir, retornar erro
+         if (!data) {
+             return res.status(404).send('Usuário não encontrado');
+         }
+ 
+        // Comparar a senha fornecida com o hash armazenado no banco de dados
+        const senhaCorreta = await bcrypt.compare(userPass, data.senha);
+        console.log(senhaCorreta)
+
+        if (!senhaCorreta) {
+            return res.status(400).send('Senha incorreta');
         }
-
-        res.render("index")
+ 
+         // Se a senha estiver correta, enviar os dados do usuário
+         res.status(200).json({ mensagem: 'Login bem-sucedido', usuario: data });
         
     } catch (err) {
-        console.error('Erro ao verificar dados:', err);
-        res.status(500).send('Erro ao verificar dados');
+        res.status(500).send('Erro ao verificar dados - controller');
     }
 }
 

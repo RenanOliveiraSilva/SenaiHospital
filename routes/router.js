@@ -14,7 +14,10 @@ router.get('/login', function(req, res, next) {
 
 router.get('/home', usuarioController.listarUsuarios);
 
-// Renderizando de cadastro de usuário
+//Cadastrar usuário
+router.post('/cad_user', usuarioController.inserirUsuarios);
+
+//Validação do usuário
 router.post('/login', usuarioController.logarUsuario);
 
 module.exports = router;

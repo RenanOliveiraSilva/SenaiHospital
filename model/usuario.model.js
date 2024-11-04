@@ -13,15 +13,18 @@ const getTodosUsuarios = async () => {
     }
 };
 
-// Listagem de Usuário por user e senha
-const getUsuario = async (userLogin) => {
-    const { email, senha } = userLogin;
-
+// Listagem de Usuário por email
+const getUsuarioByEmail = async (email) => {
     try {
-        const result = await pool.query('SELECT * FROM usuarios WHERE email = $1 AND senha = $2',
-            [email, senha]
-        );
-        return result.rows;
+        const result = await pool.query('SELECT * FROM usuarios WHERE email = $1', [email]);   
+        
+        // Verificar se algum usuário foi encontrado
+        if (result.rows.length === 0) {
+            return null; // Retornar null se o usuário não for encontrado
+        }
+
+        return result.rows[0]; // Retornar a linha completa do usuário encontrado
+
     } catch (err) {
         console.error('Erro ao buscar dados:', err);
         throw err;
@@ -61,6 +64,6 @@ const postUsuario = async (userData) => {
 
 module.exports = {
     getTodosUsuarios,
-    getUsuario,
+    getUsuarioByEmail,
     postUsuario
 };

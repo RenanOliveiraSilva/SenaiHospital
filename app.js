@@ -13,6 +13,7 @@ const mainRouter = require("./routes/router");
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(bodyParser.json());
+app.use(express.urlencoded({ extended: true }));
 app.set('view engine', 'ejs');
 
 // Rotas
