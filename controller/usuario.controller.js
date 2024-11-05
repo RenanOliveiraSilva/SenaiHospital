@@ -31,7 +31,6 @@ const logarUsuario = async (req, res) => {
  
         // Comparar a senha fornecida com o hash armazenado no banco de dados
         const senhaCorreta = await bcrypt.compare(userPass, data.senha);
-        console.log(senhaCorreta)
 
         if (!senhaCorreta) {
             return res.status(400).send('Senha incorreta');
