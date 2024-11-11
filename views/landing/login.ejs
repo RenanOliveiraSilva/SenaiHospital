@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="./stylesheets/output.css" rel="stylesheet">
+    <title>Cadastro de Usuário - PediCare+</title>
+</head>
+<body>
+    <div class="h-screen grid grid-cols-12">
+        <!-- Coluna 1: Ocupa 35% -->
+        <div 
+            class="hidden md:block bg-cover bg-center col-span-5" 
+            style="
+                background-image: url('./images/login.png');
+                background-position: center;
+                background-size: cover;
+                filter: brightness(0.8);
+                background-repeat: no-repeat;
+                width: 100%;
+            ">
+      
+        </div>
+        <!-- Coluna 2: Ocupa 75% -->
+        <div class="p-6 md:p-8 lg:p-12 flex flex-col justify-center bg-secondary col-span-7">
+            <div class="max-w-md mx-auto w-full">
+                <div class="mb-12">
+                    <h1 class="text-4xl font-black text-fontColor">PediCare+</h1>
+                    <p class="text-muted-foreground font-medium text-2xl text-white">Login de Usuário</p>
+                </div>
+                <!-- Formulário de Cadastro -->
+                <form action="/login" method="POST" class="space-y-8" id="loginForm">
+                    <div class="space-y-4">
+                        <%-include('input', {
+                            id: 'userEmail',
+                            name: 'userEmail',
+                            placeholder: '',
+                            type: 'email',
+                            required: true,
+                            label: 'Email'
+                            
+                        }) %>
+                    </div>
+                    <div class="space-y-4">
+                        <%-include('input', {
+                            id: 'userPass',
+                            name: 'userPass',
+                            placeholder: '',
+                            type: 'password',
+                            required: true,
+                            label: 'Senha'
+                            
+                        }) %>
+
+                    </div>
+                    
+                    <button type="submit" class="w-full text-center bg-fontColor hover:bg-[#234536] text-white font-bold py-4 px-6 rounded-md">
+                        Entrar
+                    </button>
+                    
+                    <!-- Div para mostrar mensagens de erro -->
+                    <div id="errorMessage" class="text-red-500 font-roboto text-md w-full text-center h-3 font-semibold mt-1 invisible"></div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <script src="./javascripts/errorMessage.js"></script>
+</body>
+</html>
