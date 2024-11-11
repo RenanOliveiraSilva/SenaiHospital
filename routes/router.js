@@ -9,7 +9,7 @@ router.get('/', function(req, res, next) {
 
 // Renderizando a página login
 router.get('/login', function(req, res, next) {
-  res.render('landing/login');
+  res.render('home/cadastrar_user');
 });
 
 router.get('/home', usuarioController.listarUsuarios);
@@ -19,5 +19,6 @@ router.post('/cad_user', usuarioController.inserirUsuarios);
 
 //Validação do usuário
 router.post('/login', usuarioController.logarUsuario);
+
 
 module.exports = router;
