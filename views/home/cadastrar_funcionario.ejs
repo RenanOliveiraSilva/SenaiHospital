@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="./stylesheets/output.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Asap&display=swap" rel="stylesheet">
+    <title>Cadastro de Funcionários - PediCare+</title>
+</head>
+<style>
+    input.field {
+        font-family: 'Asap', sans-serif;
+    }
+</style>
+<body>
+    <header class="bg-[#F0E8D9] h-16 shadow-xl flex items-center">
+        <img src="/images/PediCare+.png" alt="logo" class="w-32 h-32 object-contain ml-5">
+    </header>
+    <div class="bg-[url('/images/fundo-funcionario.png')] bg-cover bg-center h-screen">
+    <div class="space-y-2 flex flex-col items-center mb-5">
+        <p class="text-muted-foreground text-[#2C5545] font-extrabold text-xl">Informações Pessoais</p>
+    </div>
+        <!-- Formulário de Cadastro -->
+        <form action="/cadastrar" method="POST">
+            <div class="flex justify-center space-x-4 my-4">
+                <!-- Nome do Paciente -->
+                <div class="flex items-center w-full md:w-[900px]"> 
+                    <label for="employeeName" class="text-sm text-[#465C47] font-extrabold">Nome do Funcionário:</label>
+                    <input type="text" id="employeeName" name="employeeName" placeholder="Digite o nome completo do funcionário" class="input-field text-sm rounded-lg shadow-xl p-4 w-full" required>
+                </div>
+            </div>
+            
+            <div class="flex justify-center space-x-4 my-4"> 
+                <!-- CPF -->
+                <div class="flex items-center space-x-4  md:w-80">
+                    <label for="cpf" class="text-sm text-[#465C47] font-extrabold ">CPF:</label>
+                    <input type="text" id="cpf" name="cpf" placeholder="CPF" class="input-field text-sm rounded-lg shadow-xl p-3 w-full h-12" required>
+                </div>
+                <!-- Data de Nascimento -->
+                <div class="flex items-center space-x-4 w-full md:w-72">
+                    <label for="birthDate" class="text-sm text-[#465C47] font-extrabold">Data de Nascimento:</label>
+                    <input type="date" id="birthDate" name="birthDate" placeholder="Data de Nascimento" class="input-field text-sm rounded-lg shadow-xl p-3 w-full h-12" required>
+                </div>
+                <!-- Sexo -->
+                <div class="flex justify-center space-x-4 my-4">
+                    <div class="flex items-center space-x-4 w-full md:w-64">
+                        <label for="gender" class="text-sm text-[#465C47] font-extrabold">Sexo:</label>
+                        <select id="gender" name="gender" class="input-field text-sm rounded-lg shadow-xl p-4 w-full h-12" required>
+                            <option>Selecione:</option>
+                            <option value="masculino">Masculino</option>
+                            <option value="feminino">Feminino</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="flex justify-center space-x-4 my-4">
+                <!-- Nome do Responsável -->
+                <div class="flex items-center space-x-4 w-full md:w-[300px]"> 
+                    <label for="contact" class="text-sm text-[#465C47] font-extrabold">Contato:</label>
+                    <input type="text" id="contact" name="contact" placeholder="Adicione telefone para contato" class="input-field text-sm rounded-lg shadow-xl p-4 w-full" required>
+                </div>
+                <div class="flex items-center space-x-4 w-full md:w-[600px]"> 
+                    <label for="email" class="text-sm text-[#465C47] font-extrabold">E-mail Profissional:</label>
+                    <input type="email" id="email" name="email" placeholder="Digite o e-mail profissional" class="input-field text-sm rounded-lg shadow-xl p-4 w-full" required>
+                </div>
+            </div>
+             <!-- Relação com o Paciente -->
+            <div class="flex justify-center space-x-4 my-4">
+                <div class="flex items-center space-x-4 w-full md:w-[600px]"> 
+                    <label for="address" class="text-sm text-[#465C47] font-extrabold">Endereço:</label>
+                    <input type="text" id="address" name="address" placeholder="Digite o endereço" class="input-field text-sm rounded-lg shadow-xl p-4 w-full" required>
+                </div>
+                 <!-- Contato -->
+                 <div class="flex items-center space-x-4 w-full md:w-[300px]"> 
+                    <label for="number" class="text-sm text-[#465C47] font-extrabold">Número:</label>
+                    <input type="text" id="number" name="number" placeholder="Número" class="input-field text-sm rounded-lg shadow-xl p-4 w-full" required>
+                </div>
+            </div>
+
+            <div class="flex justify-center space-x-4 my-4">
+                <div class="flex items-center space-x-4 w-full md:w-[400px]"> 
+                    <label for="neighborhood" class="text-sm text-[#465C47] font-extrabold">Bairro:</label>
+                    <input type="text" id="neighborhood" name="neighborhood" placeholder="Digite o bairro" class="input-field text-sm rounded-lg shadow-xl p-4 w-full" required>
+                </div>
+                 <!-- Contato -->
+                 <div class="flex items-center space-x-4 w-full md:w-[350px]"> 
+                    <label for="city" class="text-sm text-[#465C47] font-extrabold">Cidade:</label>
+                    <input type="text" id="city" name="city" placeholder="Digite a cidade" class="input-field text-sm rounded-lg shadow-xl p-4 w-full" required>
+                </div>
+                <div class="flex items-center space-x-4 w-full md:w-[130px]">
+                    <label for="state" class="text-sm text-[#465C47] font-extrabold">UF:</label>
+                    <select id="state" name="state" class="input-field text-sm rounded-lg shadow-xl p-4 w-full" required>
+                        <option value="">Selecione</option>
+                        <option value="AC">AC</option>
+                        <option value="AL">AL</option>
+                        <option value="AP">AP</option>
+                        <option value="AM">AM</option>
+                        <option value="BA">BA</option>
+                        <option value="CE">CE</option>
+                        <option value="DF">DF</option>
+                        <option value="ES">ES</option>
+                        <option value="GO">GO</option>
+                        <option value="MA">MA</option>
+                        <option value="MT">MT</option>
+                        <option value="MS">MS</option>
+                        <option value="MG">MG</option>
+                        <option value="PA">PA</option>
+                        <option value="PB">PB</option>
+                        <option value="PR">PR</option>
+                        <option value="PE">PE</option>
+                        <option value="PI">PI</option>
+                        <option value="RJ">RJ</option>
+                        <option value="RN">RN</option>
+                        <option value="RS">RS</option>
+                        <option value="RO">RO</option>
+                        <option value="RR">RR</option>
+                        <option value="SC">SC</option>
+                        <option value="SP">SP</option>
+                        <option value="SE">SE</option>
+                        <option value="TO">TO</option>
+                    </select>
+                </div>
+            </div>
+
+
+            <div class="space-y-2 flex flex-col items-center">
+                <p class="text-muted-foreground text-[#2C5545] font-extrabold text-xl">Informações Profissionais</p>
+            </div>
+
+            <div class="flex justify-center space-x-4 my-4">
+                <!-- Doenças -->
+                <div class="flex items-center space-x-4 w-full md:w-[400px]"> 
+                    <label for="position" class="text-sm text-[#465C47] font-extrabold">Cargo:</label>
+                    <input type="text" id="position" name="position" placeholder="Informe o cargo" class="input-field text-sm rounded-lg shadow-xl p-4 w-full" required>
+                </div>
+                <div class="flex items-center space-x-4 w-full md:w-[250px]"> 
+                    <label for="salary" class="text-sm text-[#465C47] font-extrabold">Salário:</label>
+                    <input type="text" id="salary" name="salary" placeholder="Informe o salário" class="input-field text-sm rounded-lg shadow-xl p-4 w-full" required>
+                </div>
+                <div class="flex items-center space-x-4 w-full md:w-[200px]"> 
+                    <label for="admission" class="text-sm text-[#465C47] font-extrabold">Data de Admissão:</label>
+                    <input type="date" id="admission" name="admission" placeholder="" class="input-field text-sm rounded-lg shadow-xl p-4 w-full" required>
+                </div>
+            </div>
+            <div class="space-y-2 flex flex-col items-center">
+                <p class="text-muted-foreground text-[#2C5545] font-extrabold text-xl">Formação Acadêmica</p>
+            </div>
+
+            <div class="flex justify-center space-x-4 my-4">
+                <!-- Doenças -->
+                <div class="flex items-center space-x-4 w-full md:w-[400px]">
+                    <label for="education" class="text-sm text-[#465C47] font-extrabold">Escolaridade:</label>
+                    <select id="education" name="education" class="input-field text-sm rounded-lg shadow-xl p-4 w-full" required>
+                        <option value="">Selecione</option>
+                        <option value="fundamental-incompleto">Fundamental Incompleto</option>
+                        <option value="fundamental-completo">Fundamental Completo</option>
+                        <option value="medio-incompleto">Médio Incompleto</option>
+                        <option value="medio-completo">Médio Completo</option>
+                        <option value="superior-incompleto">Superior Incompleto</option>
+                        <option value="superior-completo">Superior Completo</option>
+                        <option value="pos-graduacao">Pós-Graduação</option>
+                        <option value="mestrado">Mestrado</option>
+                        <option value="doutorado">Doutorado</option>
+                    </select>
+                </div>
+                <div class="flex items-center space-x-4 w-full md:w-[500px]"> 
+                    <label for="institution" class="text-sm text-[#465C47] font-extrabold">Instituição de Ensino:</label>
+                    <input type="text" id="institution" name="institution" placeholder="Informe a instituição de ensino" class="input-field text-sm rounded-lg shadow-xl p-4 w-full" required>
+                </div>
+            </div>
+            <div class="flex justify-center items-center mt-4 ">
+                <button type="submit" class="bg-[#F0E8D9] hover:bg-[#F5F2EC] text-[#465C47] font-extrabold py-4 px-6 rounded-lg w-full md:w-40 h-12 flex justify-center items-center shadow-xl">
+                    CADASTRAR
+                </button>
+            </div>
+        </div>
+
+        
+        </form>
+    </div>
+</body>
+</html>
