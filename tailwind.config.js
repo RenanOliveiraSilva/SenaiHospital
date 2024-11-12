@@ -4,7 +4,8 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        sans: 'Asap'
+        sans: 'Asap',
+        roboto: 'Roboto'
       },
       colors: {
         pattern: "#F5F2EC",

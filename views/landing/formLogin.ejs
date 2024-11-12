@@ -7,14 +7,43 @@
     <title>Cadastro de Usuário - PediCare+</title>
 </head>
 <body>
+<<<<<<< HEAD
     <div class="h-screen grid grid-cols-12">
         <!-- Coluna 1: Ocupa 35% -->
-        <div
-            class="hidden md:block bg-cover bg-center col-span-5"
+        <div 
+            class="hidden md:block bg-cover bg-center col-span-5" 
+=======
+    <div class="h-screen grid grid-cols-2">
+        <div class="p-6 md:p-8 lg:p-12 flex flex-col justify-center bg-pattern">
+            <div class="max-w-md mx-auto w-full">
+                <div class="mb-8">
+                    <h1 class="text-2xl font-semibold text-fontColor">PediCare+</h1>
+                    <p class="text-muted-foreground">Cadastro de Usuário</p>
+                </div>
+                <!-- Formulário de Cadastro -->
+                <form action="/cadastrar" method="POST" class="space-y-4">
+                    <div class="space-y-2">
+                        <label for="fullName" class="block text-sm font-medium">Nome Completo</label>
+                        <input type="text" id="fullName" name="fullName" placeholder="Nome Completo" class="input-field" required>
+                    </div>
+                    <div class="space-y-2">
+                        <label for="cpf" class="block text-sm font-medium">CPF</label>
+                        <input type="text" id="cpf" name="cpf" placeholder="CPF" class="input-field" required>
+                    </div>
+                    <button type="submit" class="w-full bg-fontColor hover:bg-[#234536] text-white font-bold py-4 px-6 rounded-md">
+                        Entrar
+                    </button>
+                </form>
+            </div>
+        </div>
+        <div 
+            class="hidden md:block bg-cover bg-center" 
+>>>>>>> d7f72c7b73eaef8d9cf631671fb78ad4a4f94598
             style="
                 background-image: url('./images/login.png');
                 background-position: center;
                 background-size: cover;
+<<<<<<< HEAD
                 filter: brightness(0.8);
                 background-repeat: no-repeat;
                 width: 100%;
@@ -65,5 +94,11 @@
         </div>
     </div>
     <script src="./javascripts/errorMessage.js"></script>
+=======
+                filter: brightness(0.9);
+            ">
+        </div>
+    </div>
+>>>>>>> d7f72c7b73eaef8d9cf631671fb78ad4a4f94598
 </body>
 </html>

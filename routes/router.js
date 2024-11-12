@@ -15,4 +15,8 @@ router
     .post('/login', usuarioController.inserirUsuarios);
 
 
+//Validação do usuário
+router.post('/login', usuarioController.logarUsuario);
+
+
 module.exports = router;
