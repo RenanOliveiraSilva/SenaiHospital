@@ -8,13 +8,11 @@ router.get('/', function(req, res, next) {
 });
 
 // Renderizando a página login
-router.get('/login', function(req, res, next) {
-  res.render('landing/login');
-});
+router
+    .get('/login', function(req, res, next) {
+      res.render('landing/login');
+    })
+    .post('/login', usuarioController.inserirUsuarios);
 
-router.get('/home', usuarioController.listarUsuarios);
-
-// Renderizando de cadastro de usuário
-router.post('/cad_user', usuarioController.inserirUsuarios);
 
 module.exports = router;
