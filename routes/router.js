@@ -10,7 +10,7 @@ router.get('/', function(req, res, next) {
 // Renderizando a página login
 router
     .get('/login', function(req, res, next) {
-      res.render('landing/login');
+      res.render('landing/formLogin');
     })
     .post('/login', usuarioController.inserirUsuarios);
 
