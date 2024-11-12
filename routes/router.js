@@ -1,14 +1,20 @@
 var express = require('express');
+const usuarioController = require('../controller/usuario.controller');
 const router = express.Router();
 
 // Renderizando a página home
 router.get('/', function(req, res, next) {
-  res.render('index');
+  res.render('landing/index');
 });
 
 // Renderizando a página login
 router.get('/login', function(req, res, next) {
-  res.render('login');
-})
+  res.render('landing/login');
+});
+
+router.get('/home', usuarioController.listarUsuarios);
+
+// Renderizando de cadastro de usuário
+router.post('/cad_user', usuarioController.inserirUsuarios);
 
 module.exports = router;
