@@ -17,16 +17,30 @@ document.getElementById('loginForm').addEventListener('submit', async function (
             // Se a resposta não for bem sucedida, mostra a mensagem de erro
             const errorData = await response.json(); // Lê a mensagem de erro do backend
             const errorMessage = document.getElementById('errorMessage');
+
             errorMessage.textContent = errorData.mensagem;
-             errorMessage.classList.remove('invisible');
+            errorMessage.classList.remove('invisible');
+
         } else {
-            // Redireciona para outra página se o login for bem-sucedido
-            window.location.href = '/home';
+            const data = await response.json();
+            const token = data.token; // O servidor deve enviar o token JWT no campo 'token'
+
+            console.log(token);
+
+            // Armazenar o token no localStorage
+            localStorage.setItem('token', token);
+
+            // Redirecionar o usuário ou realizar outra ação
+            window.location.href = '../home/index'; // Redirecionar para uma página protegida
+
         }
-    } catch (error) {
-        console.error('Erro ao enviar dados:', error);
-        const errorMessage = document.getElementById('errorMessage');
-        errorMessage.textContent = 'Usuário ou senha incorretos.';
-         errorMessage.classList.remove('invisible');
-    }
+        } catch (error) {
+            console.error('Erro ao enviar dados:', error);
+            const errorMessage = document.getElementById('errorMessage');
+            errorMessage.textContent = 'Usuário ou senha incorretos.';
+            errorMessage.classList.remove('invisible');
+
+            localStorage.clear();
+
+        }
 });
