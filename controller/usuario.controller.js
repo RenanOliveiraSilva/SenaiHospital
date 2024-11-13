@@ -2,6 +2,40 @@
 const pool = require('../db/conn');
 const usuarioModel = require('../model/usuario.model');
 const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
+
+require('dotenv').config();
+const SECRET_KEY = process.env.SECRET_KEY;
+
+//Renderiza Landing
+const renderizaLanding = async (req, res) => {
+    try {
+       res.render('./landing/index')
+
+    } catch (err) {
+        res.status(404).send('Rota não encontrada');
+    }
+}
+
+//Renderiza Landing
+const renderizaHome = async (req, res) => {
+    try {
+       res.render('./home/index')
+
+    } catch (err) {
+        res.status(404).send('Rota não encontrada');
+    }
+}
+
+//Renderiza Home
+const renderizaFormLogin = async (req, res) => {
+    try {
+        res.render('./landing/formLogin')
+
+    } catch (err) {
+        res.status(404).send('Rota não encontrada');
+    }
+}
 
 // Função para listar os dados
 const listarUsuarios = async (req, res) => {
@@ -19,10 +53,8 @@ const logarUsuario = async (req, res) => {
     const { userEmail, userPass } = req.body;
 
     try {
-         // Buscar o usuário pelo email
-         const data = await usuarioModel.getUsuarioByEmail(userEmail);
-
-         console.log(userPass)
+        // Buscar o usuário pelo email
+        const data = await usuarioModel.getUsuarioByEmail(userEmail);
 
          // Se o usuário não existir, retornar erro
          if (!data) {
@@ -33,11 +65,18 @@ const logarUsuario = async (req, res) => {
         const senhaCorreta = await bcrypt.compare(userPass, data.senha);
 
         if (!senhaCorreta) {
-            return res.status(400).send('Senha incorreta');
+            return res.status(400).send('Usuário ou Senha incorreta');
         }
+
+         // Login bem-sucedido: Gerar um token JWT
+        const token = jwt.sign(
+            { id: data.id, email: data.email }, // Dados para incluir no token
+            SECRET_KEY, // Chave secreta
+            { expiresIn: '1h' } // Duração do token
+        );
  
          // Se a senha estiver correta, enviar os dados do usuário
-         res.status(200).json({ mensagem: 'Login bem-sucedido', usuario: data });
+         res.status(200).json({ mensagem: 'Login bem-sucedido', usuario: data, token });
         
     } catch (err) {
         res.status(500).send('Erro ao verificar dados - controller');
@@ -89,5 +128,8 @@ const inserirUsuarios = async (req, res) => {
 module.exports = {
     listarUsuarios,
     logarUsuario,
-    inserirUsuarios
+    inserirUsuarios,
+    renderizaFormLogin,
+    renderizaHome,
+    renderizaLanding
 };
