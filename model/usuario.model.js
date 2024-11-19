@@ -1,4 +1,3 @@
-// model/exampleModel.js
 const pool = require('../db/conn');
 
 // Listagem de Todos os Usuários
@@ -59,8 +58,6 @@ const postUsuario = async (userData) => {
         throw err;
     }
 };
-
-
 
 module.exports = {
     getTodosUsuarios,
