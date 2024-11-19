@@ -19,7 +19,7 @@ const getUsuarioByEmail = async (email) => {
         const result = await pool.query('SELECT * FROM usuarios WHERE email = $1', [email]);   
         
         // Verificar se algum usuário foi encontrado
-        if (result.rows.length === 0) {
+        if (result.rows.length === 0) { 
             return null; // Retornar null se o usuário não for encontrado
         }
 
