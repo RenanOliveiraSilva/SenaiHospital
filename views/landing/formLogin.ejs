@@ -29,7 +29,7 @@
                     <p class="text-muted-foreground">Login de Usuário</p>
                 </div>
                 <!-- Formulário de Cadastro -->
-                <form action="/login" method="POST" class="space-y-8" id="loginForm">
+                <form class="space-y-8" id="loginForm">
                     <div class="space-y-4">
                         <%-include('input', {
                             id: 'userEmail',
@@ -64,6 +64,7 @@
             </div>
         </div>
     </div>
-    <script src="./javascripts/errorMessage.js"></script>
+    <script src="./javascripts/validaToken.js"></script>
+
 </body>
 </html>
