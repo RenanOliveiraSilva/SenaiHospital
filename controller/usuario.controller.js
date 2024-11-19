@@ -7,46 +7,6 @@ const jwt = require('jsonwebtoken');
 require('dotenv').config();
 const SECRET_KEY = process.env.SECRET_KEY;
 
-//Renderiza Landing
-const renderizaLanding = async (req, res) => {
-    try {
-       res.render('./landing/index')
-
-    } catch (err) {
-        res.status(404).send('Rota não encontrada');
-    }
-}
-
-//Renderiza Landing
-const renderizaMedico = async (req, res) => {
-    try {
-       res.render('./home/cadastrar_medico')
-
-    } catch (err) {
-        res.status(404).send('Rota não encontrada');
-    }
-}
-
-
-const renderizaUser = async (req, res) => {
-    try {
-       res.render('./home/cadastrar_user')
-
-    } catch (err) {
-        res.status(404).send('Rota não encontrada');
-    }
-}
-
-//Renderiza Landing
-const renderizaHome = async (req, res) => {
-    try {
-       res.render('./home/index')
-
-    } catch (err) {
-        res.status(404).send('Rota não encontrada');
-    }
-}
-
 //Renderiza Home
 const renderizaFormLogin = async (req, res) => {
     try {
@@ -103,12 +63,19 @@ const logarUsuario = async (req, res) => {
                 redirectTo: "/Medico/index",
             });
 
-        } else if (data.mapa == "A") {
+        } else if (data.mapa == "R") {
             //Sucesso
             return res.status(200).json({
                 message: "Autenticado com sucesso!",
                 token,
                 redirectTo: "/homeRecepcionista/index",
+            });
+        } else if (data.mapa == "A") {
+            //Sucesso
+            return res.status(200).json({
+                message: "Autenticado com sucesso!",
+                token,
+                redirectTo: "/home/home-administrador",
             });
         }
 
@@ -163,9 +130,5 @@ const inserirUsuarios = async (req, res) => {
 module.exports = {
     logarUsuario,
     inserirUsuarios,
-    renderizaFormLogin,
-    renderizaHome,
-    renderizaLanding,
-    renderizaMedico,
-    renderizaUser
+    renderizaFormLogin
 };
