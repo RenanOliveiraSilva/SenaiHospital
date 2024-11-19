@@ -734,8 +734,12 @@ video {
   margin-top: 0.25rem;
 }
 
-.mt-10 {
-  margin-top: 2.5rem;
+.mt-14 {
+  margin-top: 3.5rem;
+}
+
+.mt-16 {
+  margin-top: 4rem;
 }
 
 .mt-2 {
@@ -752,18 +756,6 @@ video {
 
 .mt-5 {
   margin-top: 1.25rem;
-}
-
-.mt-40 {
-  margin-top: 10rem;
-}
-
-.mt-16 {
-  margin-top: 4rem;
-}
-
-.mt-14 {
-  margin-top: 3.5rem;
 }
 
 .mt-8 {
@@ -969,10 +961,6 @@ video {
 
 .grid-cols-12 {
   grid-template-columns: repeat(12, minmax(0, 1fr));
-}
-
-.grid-cols-2 {
-  grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 
 .flex-row {
@@ -1183,29 +1171,16 @@ video {
   background-image: url('/images/fundo-funcionario.png');
 }
 
-
 .bg-\[url\(\'\/images\/fundo-paciente\.png\'\)\] {
   background-image: url('/images/fundo-paciente.png');
-}
-
-.bg-\[url\(\'\/images\/home-rec\.png\'\)\] {
-  background-image: url('/images/home-rec.png');
-}
-
-.bg-\[url\(\'\/images\/home-administrador\.png\'\)\] {
-  background-image: url('/images/home-administrador.png');
 }
 
 .bg-\[url\(\'\/images\/home-adm\.png\'\)\] {
   background-image: url('/images/home-adm.png');
 }
 
-.bg-\[url\(\'\/images\/home\'\)\] {
-  background-image: url('/images/home');
-
-.bg-\[url\(\'\/images\/fundo-paciente\.png\'\)\] {
-  background-image: url('/images/fundo-paciente.png');
-
+.bg-\[url\(\'\/images\/home-rec\.png\'\)\] {
+  background-image: url('/images/home-rec.png');
 }
 
 .bg-cover {
@@ -1261,14 +1236,6 @@ video {
 
 .p-8 {
   padding: 2rem;
-}
-
-.p-16 {
-  padding: 4rem;
-}
-
-.p-20 {
-  padding: 5rem;
 }
 
 .px-1 {
