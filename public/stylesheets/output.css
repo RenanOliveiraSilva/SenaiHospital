@@ -1183,6 +1183,7 @@ video {
   background-image: url('/images/fundo-funcionario.png');
 }
 
+
 .bg-\[url\(\'\/images\/fundo-paciente\.png\'\)\] {
   background-image: url('/images/fundo-paciente.png');
 }
@@ -1201,6 +1202,10 @@ video {
 
 .bg-\[url\(\'\/images\/home\'\)\] {
   background-image: url('/images/home');
+
+.bg-\[url\(\'\/images\/fundo-paciente\.png\'\)\] {
+  background-image: url('/images/fundo-paciente.png');
+
 }
 
 .bg-cover {
