@@ -16,62 +16,58 @@
     <div class="min-h-screen grid md:grid-cols-2">
         <div class="p-6 md:p-8 lg:p-12 flex flex-col justify-center items-center bg-[#D0C7B6]">
             <div class="max-w-md mx-auto w-full">
-                <div class="mb-8 text-center">
+                <div class="mb-4 text-center">
                     <div class="flex justify-center items-center">
-                        <img src="/images/PediCare+.png" alt="logo" class="w-40 h-40 object-contain">
                     </div>
-                    <p class="text-muted-foreground text-[#2C5545]">Cadastro de Usuário</p>
                 </div>
                 <!-- Formulário de Cadastro -->
-                <form action="/cadastrar" method="POST" class="space-y-6">
-                    <div class="space-y-2 flex flex-col items-center">
+                <form action="/cadastrar" method="POST" class="space-y-3 mb-16">
+                    <div class="space-y-2 flex flex-col items-center text-lg" >
+                        <img src="/images/Pedicare+.svg" alt="logo" class="w-36 h-36 object-contain">
+                        <p class="font-semibold text-[#465C47]">Cadastro de Usuário</p>
                         <label for="fullName" class="text-sm font-medium"></label>
-                        <input type="text" id="fullName" name="fullName" placeholder="Nome Completo" class="input-field text-sm rounded-lg shadow-xl p-4 w-full md:w-96 h-12" required>
+                        <input type="text" id="fullName" name="fullName" placeholder="Nome Completo" class="input-field text-sm rounded-lg shadow-lg p-4 w-full md:w-96 h-12" required>
                     </div>
                     <div class="space-y-2 flex flex-col items-center">
                         <label for="cpf" class="text-sm font-medium"></label>
-                        <input type="text" id="cpf" name="cpf" placeholder="CPF" class="input-field text-sm rounded-lg shadow-xl p-3 w-full md:w-96 h-12" required>
+                        <input type="text" id="cpf" name="cpf" placeholder="CPF" class="input-field text-sm rounded-lg shadow-lg p-3 w-full md:w-96 h-12" required>
                     </div>
                     <div class="space-y-2 flex flex-col items-center">
                         <label for="address" class="text-sm font-medium"></label>
-                        <input type="text" id="address" name="address" placeholder="Endereço" class="input-field text-sm rounded-lg shadow-xl p-3 w-full md:w-96 h-12" required>
+                        <input type="text" id="address" name="address" placeholder="Endereço" class="input-field text-sm rounded-lg shadow-lg p-3 w-full md:w-96 h-12" required>
                     </div>
                     <div class="flex justify-center space-x-4">
                         <div class="space-y-2 flex flex-col items-center">
                             <label for="number" class="text-sm font-medium"></label>
-                            <input type="text" id="number" name="number" placeholder="Número" class="input-field text-sm rounded-lg shadow-xl p-3 w-full md:w-20 h-12" required>
+                            <input type="text" id="number" name="number" placeholder="Número" class="input-field text-sm rounded-lg shadow-lg p-3 w-full md:w-20 h-12" required>
                         </div>
                         <div class="space-y-2 flex flex-col items-center">
                             <label for="neighborhood" class="text-sm font-medium"></label>
-                            <input type="text" id="neighborhood" name="neighborhood" placeholder="Bairro" class="input-field text-sm rounded-lg shadow-xl p-3 w-full md:w-72 h-12" required>
+                            <input type="text" id="neighborhood" name="neighborhood" placeholder="Bairro" class="input-field text-sm rounded-lg shadow-lg p-3 w-full md:w-72 h-12" required>
                         </div>
                     </div>
                     <div class="space-y-2 flex flex-col items-center">
                         <label for="city" class="text-sm font-medium"></label>
-                        <input type="text" id="city" name="city" placeholder="Cidade" class="input-field text-sm rounded-lg shadow-xl p-3 w-full md:w-96 h-12" required>
+                        <input type="text" id="city" name="city" placeholder="Cidade" class="input-field text-sm rounded-lg shadow-lg p-3 w-full md:w-96 h-12" required>
                     </div>
                     <div class="space-y-2 flex flex-col items-center">
                         <label for="phone" class="text-sm font-medium"></label>
-                        <input type="text" id="phone" name="phone" placeholder="Telefone" class="input-field text-sm rounded-lg shadow-xl p-3 w-full md:w-96 h-12" required>
+                        <input type="text" id="phone" name="phone" placeholder="Telefone" class="input-field text-sm rounded-lg shadow-lg p-3 w-full md:w-96 h-12" required>
                     </div>
                     <div class="space-y-2 flex flex-col items-center">
                         <label for="email" class="text-sm font-medium"></label>
-                        <input type="email" id="email" name="email" placeholder="E-mail" class="input-field text-sm rounded-lg shadow-xl p-3 w-full md:w-96 h-12" required>
+                        <input type="email" id="email" name="email" placeholder="E-mail" class="input-field text-sm rounded-lg shadow-lg p-3 w-full md:w-96 h-12" required>
                     </div>
                     <div class="space-y-2 flex flex-col items-center">
                         <label for="password" class="text-sm font-medium"></label>
-                        <input type="password" id="password" name="password" placeholder="Digite a senha" class="input-field text-sm rounded-lg shadow-xl p-3 w-full md:w-96 h-12" required>
+                        <input type="password" id="password" name="password" placeholder="Digite a senha" class="input-field text-sm rounded-lg shadow-lg p-3 w-full md:w-96 h-12" required>
                     </div>
                     <div class="space-y-2 flex flex-col items-center">
                         <label for="confirmPassword" class="text-sm font-medium"></label>
-                        <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Confirme a senha" class="input-field text-sm rounded-lg shadow-xl p-3 w-full md:w-96 h-12" required>
-                    </div>
-                    <div class="flex justify-center items-center space-x-2">
-                        <input type="checkbox" id="terms" name="terms" required>
-                        <label for="terms" class="text-sm text-muted-foreground text-[#465C47]">Aceito para cadastro</label>
+                        <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Confirme a senha" class="input-field text-sm rounded-lg shadow-lg p-3 w-full md:w-96 h-12" required>
                     </div>
                     <div class="flex justify-center items-center mt-4">
-                        <button type="submit" class="bg-[#F0E8D9] hover:bg-[#F5F2EC] text-[#465C47] font-extrabold py-4 px-6 rounded-lg w-full md:w-40 h-12 flex justify-center items-center">
+                        <button type="submit" class="bg-[#465C47] hover:bg-[#547655] text-[#ffff] font-medium py-4 px-6 rounded-lg w-full md:w-40 h-12 flex justify-center items-center mt-2">
                             CADASTRAR
                         </button>
                     </div>
@@ -80,13 +76,14 @@
         </div>
     
         <div class="hidden md:block bg-cover bg-center relative" 
-        style="background-image: url('./images/cad_user.png'); 
+        style="background-image: url('./images/fundo-cad.jpg'); 
+                background-color: #D0C7B6;
                background-position: center;
                background-size: cover;
                filter: brightness(0.9);">
 
        <!-- Camada de sobreposição -->
-       <div class="absolute inset-0 bg-[#D0C7B6] opacity-45"></div> 
+       <div class="absolute inset-0 bg-[#D0C7B6] opacity-40"></div> 
        <div class="relative z-10"> 
        </div>
    </div>

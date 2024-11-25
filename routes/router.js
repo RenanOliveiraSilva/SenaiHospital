@@ -29,4 +29,13 @@ router
 router.get('/homeRecepcionista/index', recepcionistaController.renderizaIndex, authMiddleware)
       .get('/homeRecepcionista/cadastro_paciente', recepcionistaController.renderizaFormPaciente);
 
+router.get('/teste', async (req, res) => {
+    try {
+        res.render('./home/lista_medicos')
+
+    } catch (err) {
+        res.status(404).send('Rota não encontrada');
+    }
+} )
+
 module.exports = router;
