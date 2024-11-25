@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="./stylesheets/output.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Asap&display=swap" rel="stylesheet">
+    <title>Prontuário</title>
+</head>
+<body>
+    <header class="bg-[#D0C7B6] h-16 shadow-xl flex items-center">
+        <img src="/images/logo-branco.png" alt="logo" class="w-32 h-32 object-contain ml-5">
+    </header>
+    <div class="bg-[#F0E8D9]  min-h-screen flex items-center justify-center">
+    <div class="max-w-4xl mx-auto p-6 bg-white shadow-lg border border-gray-300 rounded-lg">
+        <!-- Cabeçalho -->
+        <div class="text-center">
+          <h1 class="text-xl font-extrabold">PediCare+</h1>
+          <p class="text-sm">Clínica Pediátrica PediCare+<br>Rua Juarez de Paula, 123 - Centro - Guará - SP</p>
+          <h2 class="text-lg font-bold mt-4">FICHA MÉDICA E PRONTUÁRIO</h2>
+        </div>
+        
+        <!-- Informações Pessoais -->
+        <div class="mt-6">
+          <h3 class="text-lg font-bold mb-4">Informações Pessoais</h3>
+          <div class="grid grid-cols-2 gap-4">
+            <div>
+              <label class="block text-sm font-medium">Ficha Médica:</label>
+              <input type="text" placeholder="Digite o nome do paciente" class="w-full border border-gray-300 rounded px-3 py-1 text-sm">
+            </div>
+            <div>
+              <label class="block text-sm font-medium">Sexo:</label>
+              <div class="flex items-center gap-4">
+                <label><input type="radio" name="gender" value="male" class="mr-1"> Masculino</label>
+                <label><input type="radio" name="gender" value="female" class="mr-1"> Feminino</label>
+              </div>
+            </div>
+            <div>
+              <label class="block text-sm font-medium">Data de Nascimento:</label>
+              <input type="date" class="w-full border border-gray-300 rounded px-3 py-1 text-sm">
+            </div>
+            <div>
+              <label class="block text-sm font-medium">Número de Registro:</label>
+              <input type="text" placeholder="Digite o número de registro" class="w-full border border-gray-300 rounded px-3 py-1 text-sm">
+            </div>
+          </div>
+        </div>
+      
+        <!-- Histórico Médico -->
+        <div class="mt-6">
+          <h3 class="text-lg font-bold mb-4">Histórico Médico</h3>
+          <div class="grid grid-cols-2 gap-4">
+            <div>
+              <label class="block text-sm font-medium">Condições Pré-Existentes:</label>
+              <textarea placeholder="Descreva as condições..." class="w-full border border-gray-300 rounded px-3 py-1 text-sm"></textarea>
+            </div>
+            <div>
+              <label class="block text-sm font-medium">Alergias:</label>
+              <textarea placeholder="Descreva as alergias..." class="w-full border border-gray-300 rounded px-3 py-1 text-sm"></textarea>
+            </div>
+          </div>
+        </div>
+      
+        <!-- Exame Físico -->
+        <div class="mt-6">
+          <h3 class="text-lg font-bold mb-4">Exame Físico</h3>
+          <div class="grid grid-cols-4 gap-4">
+            <div>
+              <label class="block text-sm font-medium">Peso:</label>
+              <input type="text" placeholder="Ex: 25 kg" class="w-full border border-gray-300 rounded px-3 py-1 text-sm">
+            </div>
+            <div>
+              <label class="block text-sm font-medium">Altura:</label>
+              <input type="text" placeholder="Ex: 1,20 m" class="w-full border border-gray-300 rounded px-3 py-1 text-sm">
+            </div>
+            <div>
+              <label class="block text-sm font-medium">Pressão Arterial:</label>
+              <input type="text" placeholder="Ex: 120/80 mmHg" class="w-full border border-gray-300 rounded px-3 py-1 text-sm">
+            </div>
+            <div>
+              <label class="block text-sm font-medium">Temperatura:</label>
+              <input type="text" placeholder="Ex: 36,5 ºC" class="w-full border border-gray-300 rounded px-3 py-1 text-sm">
+            </div>
+          </div>
+        </div>
+      
+        <!-- Diagnóstico e Tratamento -->
+        <div class="mt-6">
+          <div class="grid grid-cols-2 gap-4">
+            <div>
+              <label class="block text-sm font-medium">Diagnóstico:</label>
+              <textarea placeholder="Descreva o diagnóstico..." class="w-full border border-gray-300 rounded px-3 py-1 text-sm"></textarea>
+            </div>
+            <div>
+              <label class="block text-sm font-medium">Tratamento:</label>
+              <textarea placeholder="Descreva o tratamento..." class="w-full border border-gray-300 rounded px-3 py-1 text-sm"></textarea>
+            </div>
+          </div>
+        </div>
+      
+        <!-- Assinatura -->
+        <div class="mt-6 text-center">
+          <p class="text-sm font-medium">______________________________</p>
+          <p class="text-sm">Assinatura do Médico</p>
+        </div>
+      </div>
+    </div>
+    <div class="bg-[#F0E8D9] flex items-center justify-center">
+    <div class="flex justify-center mt-6 ">
+        <button type="button" class="bg-[#D0C7B6] text-white px-6 py-2 rounded hover:bg-[#BFBFBF] mr-4">
+            Enviar
+        </button>
+        <button type="button" onclick="window.print()" class="bg-[#D0C7B6] text-white px-6 py-2 rounded hover:bg-[#BFBFBF]">
+            Imprimir
+        </button>
+    </div>
+</body>
+</html>
