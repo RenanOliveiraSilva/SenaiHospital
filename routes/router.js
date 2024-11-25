@@ -32,5 +32,4 @@ router.get('/homeRecepcionista/index', recepcionistaController.renderizaIndex, a
       .get('/homeRecepcionista/cadastro_paciente', recepcionistaController.renderizaFormPaciente);
 
 
-
 module.exports = router;
