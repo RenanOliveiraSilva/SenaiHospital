@@ -30,8 +30,8 @@ const getUsuarioByEmail = async (email) => {
     }
 };
 
-// Inserir usuário no Banco de Dados
-const postUsuario = async (userData) => {
+// Inserir usuário no banco de dados
+const createUsuario = async (userData) => {
     const { 
         nome, 
         cpf, 
@@ -42,25 +42,28 @@ const postUsuario = async (userData) => {
         numero_casa, 
         rua, 
         bairro, 
-        cidade
+        cidade, 
+        data_nasc 
     } = userData;
 
+    console.log("Data: ", userData);
+    
     try {
         const result = await pool.query(
-            "INSERT INTO USUARIOS (nome, cpf, email, senha, mapa, contato, numero_casa, rua, bairro, cidade) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING *",
-            [nome, cpf, email, senha, mapa, contato, numero_casa, rua, bairro, cidade]
+            "INSERT INTO usuarios (nome, cpf, email, senha, mapa, contato, numero_casa, rua, bairro, cidade, data_nasc) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11) RETURNING *",
+            [nome, cpf, email, senha, mapa, contato, numero_casa, rua, bairro, cidade, data_nasc]
         );
-
         return result.rows[0];
-
     } catch (err) {
-        console.error('Erro ao inserir dados:', err);
+        console.error("Erro ao inserir usuário:", err);
         throw err;
     }
 };
 
+module.exports = { createUsuario };
+
 module.exports = {
     getTodosUsuarios,
     getUsuarioByEmail,
-    postUsuario
+    createUsuario
 };

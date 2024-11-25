@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="/stylesheets/output.css" rel="stylesheet">
+    <title>Listagem de Usuários - PediCare+</title>
+</head>
+<body class="bg-[#F0E8D9] font-sans leading-normal tracking-normal text-[#465C47]">
+    <header class="bg-[#2C5545] shadow-md p-4 flex items-center justify-between">
+        <h1 class="text-white text-2xl font-bold">PediCare+ - Listagem de Usuários</h1>
+        <a href="/home/cadastro_user" class="bg-secondary hover:bg-[#938b7b] text-white font-semibold px-6 py-3 rounded-md">
+            + Novo Usuário
+        </a>
+    </header>
+    <main class="max-w-5xl mx-auto p-6">
+        <div class="bg-white shadow-md rounded-lg p-6">
+            <h2 class="text-xl font-semibold text-[#2C5545] mb-4">Usuários Cadastrados</h2>
+            <div class="overflow-x-auto">
+                <table class="w-full table-auto border-collapse bg-white">
+                    <thead class="bg-[#E5E0D5]">
+                        <tr>
+                            <th class="px-4 py-2 text-left font-medium">Nome</th>
+                            <th class="px-4 py-2 text-left font-medium">Email</th>
+                            <th class="px-4 py-2 text-left font-medium">CPF</th>
+                            <th class="px-4 py-2 text-left font-medium">Cidade</th>
+                            <th class="px-4 py-2 text-left font-medium">Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% usuarios.forEach((usuario) => { %>
+                            <tr class="border-b last:border-none">
+                                <td class="px-4 py-3"><%= usuario.nome %></td>
+                                <td class="px-4 py-3"><%= usuario.email %></td>
+                                <td class="px-4 py-3"><%= usuario.cpf %></td>
+                                <td class="px-4 py-3"><%= usuario.cidade %></td>
+                                <td class="px-4 py-3">
+                                    <div class="flex space-x-2">
+                                        <a href="/usuarios/<%= usuario.id %>/editar" class="bg-[#2C5545] hover:bg-[#234536] text-white px-4 py-2 rounded-md">Editar</a>
+                                        <form action="/usuarios/<%= usuario.id %>?_method=DELETE" method="POST">
+                                            <button type="submit" class="bg-[#E74C3C] hover:bg-[#C0392B] text-white px-4 py-2 rounded-md">Excluir</button>
+                                        </form>
+                                    </div>
+                                </td>
+                            </tr>
+                        <% }) %>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </main>
+</body>
+</html>

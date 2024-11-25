@@ -52,7 +52,7 @@ const logarUsuario = async (req, res) => {
             return res.status(200).json({
                 message: "Autenticado com sucesso!",
                 token,
-                redirectTo: "/homeUsuario/index",
+                redirectTo: "/homeUsuario/home-paciente",
             });
 
         } else if (data.mapa == "M") {
@@ -85,50 +85,66 @@ const logarUsuario = async (req, res) => {
     }
 }
 
-// Inserir usuário no banco de dados
-const inserirUsuarios = async (req, res) => {
-    const { 
-        nome, 
-        cpf, 
-        email, 
-        senha, 
-        mapa, 
-        contato, 
-        numero_casa, 
-        rua, 
-        bairro, 
-        cidade
-    } = req.body;
+//Inserção de usuário no banco de dados
+const criarUsuario = async (req, res) => {
+    const { nomeCompleto, cpf, endereco, numero, bairro, cidade, telefone, email, senha, confirmarSenha, data_nasc, tipoUsuario } = req.body;
+
+    // Validações de campos em branco
+    if (!nomeCompleto || !cpf || !endereco || !numero || !bairro || !cidade || !telefone || !email || !senha || !confirmarSenha || !tipoUsuario) {
+        return res.status(400).json({ message: "Preencha todos os campos!" });
+    }
+
+    // Verifica se as senhas coincidem
+    if (senha !== confirmarSenha) {
+        return res.status(400).json({ message: "As senhas não coincidem!" });
+    }
+
+    // Formata o telefone
+    const telefoneFormatado = telefone.replace(/\D/g, "");
+
+    // Criptografa a senha
+    const senhaCriptografada = await bcrypt.hash(senha, 10);
+
+    let mapaT;
+
+    if (tipoUsuario == "medico") {
+        mapaT = "M";
+    } else if (tipoUsuario == "recepcionista") {
+        mapaT = "R";
+    } else if (tipoUsuario == "adm") {
+        mapaT = "M";
+    } else {
+        mapaT = "U";
+    }
 
     try {
-        // Hash da senha
-        const hashedPass = await bcrypt.hash(senha, 10);
-
-        // Inserir no banco de dados chamando o model
-        const usuario = await usuarioModel.postUsuario({
-            nome, 
-            cpf, 
-            email, 
-            senha: hashedPass,
-            mapa, 
-            contato, 
-            numero_casa, 
-            rua, 
-            bairro, 
-            cidade
+        const novoUsuario = await usuarioModel.createUsuario({
+            nome: nomeCompleto,
+            cpf,
+            email,
+            senha: senhaCriptografada,
+            mapa: mapaT,
+            contato: telefoneFormatado,
+            numero_casa: numero,
+            rua: endereco,
+            bairro,
+            cidade,
+            data_nasc
         });
 
-        // Responder ao cliente com o usuário inserido
-        res.status(201).json(usuario);
+        if (!novoUsuario) {
+            return res.status(400).json({ message: "Erro ao cadastrar usuário" });
+        }
 
-    } catch (err) {
-        console.error('Erro ao inserir dados:', err);
-        res.status(500).send('Erro ao inserir dados');
+        res.redirect("/home/home-administrador");
+    } catch (error) {
+        res.status(500).json({ error: error.message });
     }
 };
 
+
 module.exports = {
     logarUsuario,
-    inserirUsuarios,
-    renderizaFormLogin
+    renderizaFormLogin,
+    criarUsuario
 };

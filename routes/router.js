@@ -20,13 +20,17 @@ router
 //Rotas do ADM
 router
     .get('/home/home-administrador', admController.renderizaHome, authMiddleware)
+    .get('/home/gerenciar_user', admController.renderizaGerenciarUser)
     .get('/home/cadastro_medico', admController.renderizaCadMedico)
     .get('/home/cadastro_user', admController.renderizaCadUser)
     .get('/home/cadastro_paciente', admController.renderizaCadPaciente)
-    .post('/cad_user', usuarioController.inserirUsuarios);
+    .post('/home/cadastro_user', usuarioController.criarUsuario
+);
 
 //Rotas do Recepcionista
 router.get('/homeRecepcionista/index', recepcionistaController.renderizaIndex, authMiddleware)
       .get('/homeRecepcionista/cadastro_paciente', recepcionistaController.renderizaFormPaciente);
+
+
 
 module.exports = router;
