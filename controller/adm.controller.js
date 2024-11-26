@@ -1,12 +1,18 @@
 const pool = require('../db/conn');
 const userModel = require('../model/usuario.model');
 const medicoModel = require('../model/medicos.model');
+const admModel = require('../model/adm.model');
 
 
 //Renderiza Cadastro_medico
 const renderizaCadMedico = async (req, res) => {
     try {
-       res.render('./home/cadastrar_medico')
+        const usuarios = await userModel.getTodosUsuarios();
+        const funcionarios = await admModel.getTodosFuncionarios();
+
+        console.log(usuarios, funcionarios)
+
+       res.render('./home/cadastrar_medico', { usuarios, funcionarios })
 
     } catch (err) {
         res.status(404).send('Rota não encontrada');
@@ -57,8 +63,9 @@ const renderizaGerenciarUser = async (req, res) => {
 //Renderiza home administrador
 const renderizaListaMed = async (req, res) => {
     try {
-    const medicos = await medicoModel.getTodosMedicos();
-       res.render('./home/gerenciar_medicos', { medicos })
+        const medicos = await medicoModel.getTodosMedicos();
+        
+        res.render('./home/gerenciar_medicos', { medicos })
 
     } catch (err) {
         res.status(404).send('Rota não encontrada');

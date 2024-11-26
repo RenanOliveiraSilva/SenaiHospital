@@ -25,6 +25,7 @@ const getTodosMedicos = async () => {
                 USUARIOS u ON f.id_usuario = u.id
         `;
         const result = await pool.query(query);
+        
         return result.rows;
     } catch (error) {
         console.error('Erro ao buscar médicos com nomes de usuários:', error);

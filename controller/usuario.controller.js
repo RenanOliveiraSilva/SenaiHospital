@@ -43,8 +43,6 @@ const logarUsuario = async (req, res) => {
             SECRET_KEY, // Chave secreta
             { expiresIn: '1h' } // Duração do token
         );
-        
-        console.log(data.mapa)
 
         //Verifiacar qual o tipo de acesso
         if (data.mapa == "U") {
