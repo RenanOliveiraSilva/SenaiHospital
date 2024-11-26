@@ -1,8 +1,7 @@
 const pool = require('../db/conn');
-const admModel = require('../model/adm.model');
 const userModel = require('../model/usuario.model');
-const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken');
+const medicoModel = require('../model/medicos.model');
+
 
 //Renderiza Cadastro_medico
 const renderizaCadMedico = async (req, res) => {
@@ -55,10 +54,23 @@ const renderizaGerenciarUser = async (req, res) => {
     }
 }
 
+//Renderiza home administrador
+const renderizaListaMed = async (req, res) => {
+    try {
+    const medicos = await medicoModel.getTodosMedicos();
+       res.render('./home/gerenciar_medicos', { medicos })
+
+    } catch (err) {
+        res.status(404).send('Rota não encontrada');
+    }
+}
+
+
 module.exports = {
     renderizaCadMedico,
     renderizaCadUser,
     renderizaHome,
     renderizaCadPaciente,
-    renderizaGerenciarUser
+    renderizaGerenciarUser,
+    renderizaListaMed
 };

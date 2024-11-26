@@ -9,6 +9,10 @@ const PORT = 3000;
 // Importando rotas
 const mainRouter = require("./routes/router");
 
+//Configuração do método override
+const methodOverride = require('method-override');
+app.use(methodOverride('_method'));
+
 // Configurando o arquivo app
 app.use(express.static(path.join(__dirname, 'public')));
 
