@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="./stylesheets/output.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Asap&display=swap" rel="stylesheet">
+    <title>Receita Médica</title>
+</head>
+<body class="bg-[#F0E8D9]">
+    <header class="bg-[#D0C7B6] h-16 flex items-center">
+        <img src="/images/logo-branco.png" alt="logo" class="w-32 h-32 object-contain ml-5">
+    </header>
+
+    <div class="max-w-4xl mx-auto p-6 bg-white shadow-lg border border-gray-300 rounded-lg mt-10">
+        <div class="text-center">
+            <h1 class="text-xl font-extrabold">Receituário Controle Especial</h1>
+            <h2 class="text-lg font-bold mt-4">1ª VIA FARMÁCIA | 2ª VIA PACIENTE</h2>
+        </div>
+
+        <!-- Identificação do Emitente -->
+        <div class="mt-6">
+            <h3 class="text-lg font-bold mb-4">Identificação do Emitente</h3>
+            <div class="grid grid-cols-2 gap-4">
+                <div>
+                    <label class="block text-sm font-medium">Nome Completo:</label>
+                    <input type="text" placeholder="Digite o nome do emitente" class="w-full border border-gray-300 rounded px-3 py-1 text-sm">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium">CRM/UF:</label>
+                    <input type="text" placeholder="Ex: CRM 12345 / SP" class="w-full border border-gray-300 rounded px-3 py-1 text-sm">
+                </div>
+            </div>
+            <div class="mt-4">
+                <label class="block text-sm font-medium">Endereço Completo e Telefone:</label>
+                <input type="text" placeholder="Digite o endereço e telefone" class="w-full border border-gray-300 rounded px-3 py-1 text-sm">
+            </div>
+            <div class="mt-4">
+                <label class="block text-sm font-medium">Cidade/UF:</label>
+                <input type="text" placeholder="Ex: São Paulo/SP" class="w-full border border-gray-300 rounded px-3 py-1 text-sm">
+            </div>
+        </div>
+
+        <!-- Identificação do Paciente -->
+        <div class="mt-6">
+            <h3 class="text-lg font-bold mb-4">Identificação do Paciente</h3>
+            <div class="grid grid-cols-2 gap-4">
+                <div>
+                    <label class="block text-sm font-medium">Nome do Paciente:</label>
+                    <input type="text" placeholder="Digite o nome do paciente" class="w-full border border-gray-300 rounded px-3 py-1 text-sm">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium">Endereço:</label>
+                    <input type="text" placeholder="Digite o endereço do paciente" class="w-full border border-gray-300 rounded px-3 py-1 text-sm">
+                </div>
+            </div>
+            <div class="mt-4">
+                <label class="block text-sm font-medium">Prescrição:</label>
+                <textarea placeholder="Descreva a prescrição médica" class="w-full border border-gray-300 rounded px-3 py-1 text-sm"></textarea>
+            </div>
+        </div>
+
+        <!-- Identificação do Comprador e Fornecedor -->
+        <div class="mt-6">
+            <h3 class="text-lg font-bold mb-4">Identificação do Comprador e Fornecedor</h3>
+            <div class="grid grid-cols-2 gap-4">
+                <div>
+                    <label class="block text-sm font-medium">Nome do Comprador:</label>
+                    <input type="text" placeholder="Nome do comprador" class="w-full border border-gray-300 rounded px-3 py-1 text-sm">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium">Identificação do Comprador:</label>
+                    <input type="text" placeholder="Identificação do comprador" class="w-full border border-gray-300 rounded px-3 py-1 text-sm">
+                </div>
+            </div>
+            <div class="mt-4">
+                <label class="block text-sm font-medium">Nome do Fornecedor:</label>
+                <input type="text" placeholder="Nome do fornecedor" class="w-full border border-gray-300 rounded px-3 py-1 text-sm">
+            </div>
+            <div class="mt-4">
+                <label class="block text-sm font-medium">Identificação do Fornecedor:</label>
+                <input type="text" placeholder="Identificação do fornecedor" class="w-full border border-gray-300 rounded px-3 py-1 text-sm">
+            </div>
+        </div>
+
+        <!-- Assinatura -->
+        <div class="mt-6 text-center">
+            <p class="text-sm font-medium">____________________________________</p>
+            <p class="text-sm">Assinatura do Farmacêutico</p>
+        </div>
+    </div>
+
+    <!-- Botões -->
+    <div class="flex justify-center mt-6">
+        <button type="button" class="bg-[#D0C7B6] text-white px-6 py-2 rounded hover:bg-[#BFBFBF] mr-4">
+            Enviar
+        </button>
+        <button type="button" onclick="window.print()" class="bg-[#D0C7B6] text-white px-6 py-2 rounded hover:bg-[#BFBFBF]">
+            Imprimir
+        </button>
+    </div>
+</body>
+</html>
