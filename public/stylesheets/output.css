@@ -1203,6 +1203,11 @@ video {
   border-color: rgb(209 213 219 / var(--tw-border-opacity));
 }
 
+.bg-\[\#2C5545\] {
+  --tw-bg-opacity: 1;
+  background-color: rgb(44 85 69 / var(--tw-bg-opacity));
+}
+
 .bg-\[\#465C47\] {
   --tw-bg-opacity: 1;
   background-color: rgb(70 92 71 / var(--tw-bg-opacity));
@@ -1271,22 +1276,6 @@ video {
 .bg-white {
   --tw-bg-opacity: 1;
   background-color: rgb(255 255 255 / var(--tw-bg-opacity));
-}
-
-.bg-opacity-0 {
-  --tw-bg-opacity: 0;
-}
-
-.bg-\[url\(\'\/images\/fundo-2\.png\'\)\] {
-  background-image: url('/images/fundo-2.png');
-}
-
-.bg-\[url\(\'\/images\/fundo-3\.png\'\)\] {
-  background-image: url('/images/fundo-3.png');
-}
-
-.bg-\[url\(\'\/images\/fundo-4\.png\'\)\] {
-  background-image: url('/images/fundo-4.png');
 }
 
 .bg-\[url\(\'\/images\/fundo-8\.png\'\)\] {
@@ -1384,11 +1373,6 @@ video {
   padding-right: 7rem;
 }
 
-.px-3 {
-  padding-left: 0.75rem;
-  padding-right: 0.75rem;
-}
-
 .px-4 {
   padding-left: 1rem;
   padding-right: 1rem;
@@ -1458,6 +1442,7 @@ video {
   padding-top: 2.25rem;
   padding-bottom: 2.25rem;
 }
+
 
 .pb-6 {
   padding-bottom: 1.5rem;
@@ -1729,11 +1714,6 @@ html {
 .hover\:bg-\[\#547655\]:hover {
   --tw-bg-opacity: 1;
   background-color: rgb(84 118 85 / var(--tw-bg-opacity));
-}
-
-.hover\:bg-\[\#BFBFBF\]:hover {
-  --tw-bg-opacity: 1;
-  background-color: rgb(191 191 191 / var(--tw-bg-opacity));
 }
 
 .hover\:bg-\[\#D0C7B6\]:hover {
