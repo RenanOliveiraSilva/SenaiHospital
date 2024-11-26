@@ -12,7 +12,7 @@ const getTodosMedicos = async () => {
                 m.universidade_grad,
                 m.ano_conclusao,
                 m.disponibilidade,
-								u.mapa AS usuario_mapa,
+                u.mapa AS usuario_mapa,
                 u.nome AS usuario_nome,
                 u.email AS usuario_email,
                 u.cpf AS usuario_cpf,
