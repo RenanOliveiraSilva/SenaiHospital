@@ -37,19 +37,11 @@ const logarUsuario = async (req, res) => {
             return res.status(400).send('Usuário ou Senha incorreta');
         }
 
-         // Login bem-sucedido: Gerar um token JWT
-        const token = jwt.sign(
-            { id: data.id, email: data.email }, // Dados para incluir no token
-            SECRET_KEY, // Chave secreta
-            { expiresIn: '1h' } // Duração do token
-        );
-
         //Verifiacar qual o tipo de acesso
         if (data.mapa == "U") {
             //Sucesso
             return res.status(200).json({
                 message: "Autenticado com sucesso!",
-                token,
                 redirectTo: "/homeUsuario/home-paciente",
             });
 
@@ -57,7 +49,6 @@ const logarUsuario = async (req, res) => {
             //Sucesso
             return res.status(200).json({
                 message: "Autenticado com sucesso!",
-                token,
                 redirectTo: "/Medico/index",
             });
 
@@ -65,14 +56,12 @@ const logarUsuario = async (req, res) => {
             //Sucesso
             return res.status(200).json({
                 message: "Autenticado com sucesso!",
-                token,
                 redirectTo: "/homeRecepcionista/index",
             });
         } else if (data.mapa == "A") {
             //Sucesso
             return res.status(200).json({
                 message: "Autenticado com sucesso!",
-                token,
                 redirectTo: "/home/home-administrador",
             });
         }

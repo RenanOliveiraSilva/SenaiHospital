@@ -34,8 +34,6 @@ const getUsuarioByEmail = async (email) => {
     }
 };
 
-
-
 // Inserir usuário no banco de dados
 const createUsuario = async (userData) => {
     const { 
@@ -51,7 +49,6 @@ const createUsuario = async (userData) => {
         cidade, 
         data_nasc 
     } = userData;
-
     
     try {
         const result = await pool.query(

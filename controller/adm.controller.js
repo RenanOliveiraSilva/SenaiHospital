@@ -7,12 +7,9 @@ const admModel = require('../model/adm.model');
 //Renderiza Cadastro_medico
 const renderizaCadMedico = async (req, res) => {
     try {
-        const usuarios = await userModel.getTodosUsuarios();
-        const funcionarios = await admModel.getTodosFuncionarios();
+        const funcionarios = await admModel.getFuncinariosMedicos();
 
-        console.log(usuarios, funcionarios)
-
-       res.render('./home/cadastrar_medico', { usuarios, funcionarios })
+       res.render('./home/cadastrar_medico', { funcionarios })
 
     } catch (err) {
         res.status(404).send('Rota não encontrada');
@@ -64,7 +61,6 @@ const renderizaGerenciarUser = async (req, res) => {
 const renderizaListaMed = async (req, res) => {
     try {
         const medicos = await medicoModel.getTodosMedicos();
-        
         res.render('./home/gerenciar_medicos', { medicos })
 
     } catch (err) {

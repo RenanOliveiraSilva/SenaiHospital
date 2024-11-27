@@ -26,8 +26,10 @@ router
     .get('/usuarios/editar/:id', usuarioController.getEditarUsuario)
     .get('/home/gerenciar_medicos', admController.renderizaListaMed)
     .post('/home/cadastro_user', usuarioController.criarUsuario)
+    .post('/home/cadastro_medico', medicoController.postMedico)
     .put('/usuarios/editar/:id', usuarioController.postEditarUsuario)
-    .delete('/usuarios/:id', usuarioController.excluirUsuario
+    .delete('/usuarios/:id', usuarioController.excluirUsuario)
+    .delete('/medicos/:id', medicoController.excluirMedico
 );
 
 //Rotas do Recepcionista

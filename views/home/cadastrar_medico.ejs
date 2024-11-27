@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="/stylesheets/output.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Asap&display=swap" rel="stylesheet">
-    <title>Cadastro de Usuário - PediCare+</title>
+    <title>Cadastro de Médico - PediCare+</title>
     <style>
         body {
             font-family: 'Asap', sans-serif;
@@ -21,73 +21,70 @@
     </header>
 
     <!-- Container -->
-    <div class="container mx-auto my-10 max-w-4xl p-6 bg-white rounded-lg shadow-lg">
-        <h2 class="text-2xl font-bold text-[#2C5545] text-center mb-8">Cadastro de Usuário - PediCare+</h2>
+    <div class="container mx-auto my-10 max-w-3xl p-6 bg-white rounded-lg shadow-lg">
+        <h2 class="text-2xl font-bold text-[#2C5545] text-center mb-8">Cadastro de Médico - PediCare+</h2>
 
         <!-- Formulário de Cadastro -->
-        <form action="/cadastrar" method="POST" class="space-y-6">
-            <!-- Nome Completo -->
+        <form action="/home/cadastro_medico" method="POST" id="cadastroForm" class="space-y-6">
+            <!-- Selecionar Funcionário -->
             <div class="form-group">
-                <label for="fullName" class="block text-sm font-medium text-[#2C5545] mb-2">Nome Completo:</label>
-                <input type="text" id="fullName" name="nome" placeholder="Digite o nome completo"
+                <label for="funcionario" class="block text-sm font-medium text-[#2C5545] mb-2">Funcionário:</label>
+                <select id="funcionario" name="funcionario" class="w-full p-3 border-2 border-gray-300 rounded-lg focus:border-[#2C5545] focus:ring focus:ring-[#2C5545] focus:ring-opacity-50 transition duration-200" required>
+                    <option value="" disabled selected>Selecione um funcionário</option>
+                    <% funcionarios.forEach(funcionario => { %>
+                        <option value="<%= funcionario.id %>"><%= funcionario.nome %></option>
+                    <% }) %>
+                </select>
+            </div>
+
+            <!-- CRM, Especialidade, Subespecialidade -->
+            <div class="form-group">
+                <label for="crm" class="block text-sm font-medium text-[#2C5545] mb-2">CRM:</label>
+                <input type="text" id="crm" name="crm" placeholder="Informe o CRM"
                     class="w-full p-3 border-2 border-gray-300 rounded-lg focus:border-[#2C5545] focus:ring focus:ring-[#2C5545] focus:ring-opacity-50 transition duration-200" required>
             </div>
+            <div class="form-group">
+                <label for="especialidade" class="block text-sm font-medium text-[#2C5545] mb-2">Especialidade:</label>
+                <input type="text" id="especialidade" name="especialidade" placeholder="Digite a especialidade"
+                    class="w-full p-3 border-2 border-gray-300 rounded-lg focus:border-[#2C5545] focus:ring focus:ring-[#2C5545] focus:ring-opacity-50 transition duration-200" required>
+            </div>
+            <div class="form-group">
+                <label for="subespecialidade" class="block text-sm font-medium text-[#2C5545] mb-2">Subespecialidade:</label>
+                <input type="text" id="subespecialidade" name="subespecialidade" placeholder="Digite a subespecialidade"
+                    class="w-full p-3 border-2 border-gray-300 rounded-lg focus:border-[#2C5545] focus:ring focus:ring-[#2C5545] focus:ring-opacity-50 transition duration-200">
+            </div>
 
-            <!-- CPF, Email, Senha -->
+            <!-- Universidade, Ano de Conclusão -->
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div class="form-group">
-                    <label for="cpf" class="block text-sm font-medium text-[#2C5545] mb-2">CPF:</label>
-                    <input type="text" id="cpf" name="cpf" placeholder="Digite o CPF"
+                    <label for="universidade" class="block text-sm font-medium text-[#2C5545] mb-2">Universidade de Graduação:</label>
+                    <input type="text" id="universidade" name="universidade_graduacao" placeholder="Informe a universidade de graduação"
                         class="w-full p-3 border-2 border-gray-300 rounded-lg focus:border-[#2C5545] focus:ring focus:ring-[#2C5545] focus:ring-opacity-50 transition duration-200" required>
                 </div>
                 <div class="form-group">
-                    <label for="email" class="block text-sm font-medium text-[#2C5545] mb-2">E-mail:</label>
-                    <input type="email" id="email" name="email" placeholder="Digite o e-mail"
-                        class="w-full p-3 border-2 border-gray-300 rounded-lg focus:border-[#2C5545] focus:ring focus:ring-[#2C5545] focus:ring-opacity-50 transition duration-200" required>
-                </div>
-                <div class="form-group col-span-full">
-                    <label for="senha" class="block text-sm font-medium text-[#2C5545] mb-2">Senha:</label>
-                    <input type="password" id="senha" name="senha" placeholder="Digite a senha"
+                    <label for="anoConclusao" class="block text-sm font-medium text-[#2C5545] mb-2">Ano de Conclusão:</label>
+                    <input type="date" id="anoConclusao" name="ano_conclusao" placeholder="Informe o ano de conclusão"
                         class="w-full p-3 border-2 border-gray-300 rounded-lg focus:border-[#2C5545] focus:ring focus:ring-[#2C5545] focus:ring-opacity-50 transition duration-200" required>
                 </div>
             </div>
 
-            <!-- Data de Nascimento, Contato -->
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div class="form-group">
-                    <label for="birthDate" class="block text-sm font-medium text-[#2C5545] mb-2">Data de Nascimento:</label>
-                    <input type="date" id="birthDate" name="data_nasc"
-                        class="w-full p-3 border-2 border-gray-300 rounded-lg focus:border-[#2C5545] focus:ring focus:ring-[#2C5545] focus:ring-opacity-50 transition duration-200" required>
-                </div>
-                <div class="form-group">
-                    <label for="contact" class="block text-sm font-medium text-[#2C5545] mb-2">Contato:</label>
-                    <input type="text" id="contact" name="contato" placeholder="Digite o telefone para contato"
-                        class="w-full p-3 border-2 border-gray-300 rounded-lg focus:border-[#2C5545] focus:ring focus:ring-[#2C5545] focus:ring-opacity-50 transition duration-200" required>
-                </div>
+            <!-- Disponibilidade -->
+            <div class="form-group">
+                <label for="disponibilidade" class="block text-sm font-medium text-[#2C5545] mb-2">Disponibilidade:</label>
+                <select id="disponibilidade" name="disponibilidade"
+                    class="w-full p-3 border-2 border-gray-300 rounded-lg focus:border-[#2C5545] focus:ring focus:ring-[#2C5545] focus:ring-opacity-50 transition duration-200" required>
+                    <option value="Segunda-feira">Segunda-feira</option>
+                    <option value="Terça-feira">Terça-feira</option>
+                    <option value="Quarta-feira">Quarta-feira</option>
+                    <option value="Quinta-feira">Quinta-feira</option>
+                    <option value="Sexta-feira">Sexta-feira</option>
+                    <option value="Sábado">Sábado</option>
+                    <option value="Domingo">Domingo</option>
+                </select>
             </div>
 
-            <!-- Endereço, Número, Bairro, Cidade -->
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div class="form-group">
-                    <label for="address" class="block text-sm font-medium text-[#2C5545] mb-2">Endereço:</label>
-                    <input type="text" id="address" name="rua" placeholder="Digite o endereço"
-                        class="w-full p-3 border-2 border-gray-300 rounded-lg focus:border-[#2C5545] focus:ring focus:ring-[#2C5545] focus:ring-opacity-50 transition duration-200" required>
-                </div>
-                <div class="form-group">
-                    <label for="number" class="block text-sm font-medium text-[#2C5545] mb-2">Número:</label>
-                    <input type="text" id="number" name="numero_casa" placeholder="Número"
-                        class="w-full p-3 border-2 border-gray-300 rounded-lg focus:border-[#2C5545] focus:ring focus:ring-[#2C5545] focus:ring-opacity-50 transition duration-200" required>
-                </div>
-                <div class="form-group">
-                    <label for="neighborhood" class="block text-sm font-medium text-[#2C5545] mb-2">Bairro:</label>
-                    <input type="text" id="neighborhood" name="bairro" placeholder="Digite o bairro"
-                        class="w-full p-3 border-2 border-gray-300 rounded-lg focus:border-[#2C5545] focus:ring focus:ring-[#2C5545] focus:ring-opacity-50 transition duration-200" required>
-                </div>
-                <div class="form-group">
-                    <label for="city" class="block text-sm font-medium text-[#2C5545] mb-2">Cidade:</label>
-                    <input type="text" id="city" name="cidade" placeholder="Digite a cidade"
-                        class="w-full p-3 border-2 border-gray-300 rounded-lg focus:border-[#2C5545] focus:ring focus:ring-[#2C5545] focus:ring-opacity-50 transition duration-200" required>
-                </div>
+            <div class="py-6 box-border">
+                <div id="mensagemErro" class="text-red-600 text-sm font-semibold text-center hidden p-0 m-0"></div>
             </div>
 
             <!-- Botão de Cadastro -->
@@ -100,5 +97,53 @@
         </form>
     </div>
 </body>
+
+<script>
+    document.getElementById("cadastroForm").addEventListener("submit", async function(event) {
+        event.preventDefault(); // Impede o envio padrão do formulário
+
+        // Captura os dados do formulário
+        const formData = new FormData(event.target);
+        const data = {};
+        formData.forEach((value, key) => (data[key] = value));
+
+        try {
+            // Envia a solicitação para o servidor
+            const response = await fetch(event.target.action, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(data),
+            });
+
+            // Verifica se a resposta foi bem-sucedida
+            const mensagemErro = document.getElementById("mensagemErro");
+            if (!response.ok) {
+                const errorData = await response.json();
+                
+                // Exibe mensagem de erro específica
+                if (errorData.message) {
+                    mensagemErro.textContent = errorData.message;
+                } else {
+                    mensagemErro.textContent = "Erro desconhecido. Por favor, tente novamente.";
+                }
+
+                mensagemErro.classList.remove("hidden"); // Mostra a mensagem de erro
+                return;
+            }
+
+            // Redireciona caso seja bem-sucedido
+            window.location.href = "/home/home-administrador";
+
+        } catch (error) {
+            console.error("Erro ao enviar o formulário:", error);
+            const mensagemErro = document.getElementById("mensagemErro");
+            mensagemErro.textContent = "Erro ao enviar o formulário. Tente novamente.";
+            mensagemErro.classList.remove("hidden");
+        }
+    });
+</script>
+
 
 </html>

@@ -33,7 +33,46 @@ const getTodosMedicos = async () => {
     }
 };
 
+const getMedicoByCrm = async (crm) => {
+    try {
+        const result = await pool.query('SELECT * FROM MEDICOS WHERE CRM = $1', [crm]);
+        return result.rows[0];
+
+    } catch (error) {
+        console.error('Erro ao buscar funcionário por CRM:', error);
+        throw error;
+    }
+}
+
+const createMedico = async (medicoData) => {
+    const { funcionario, crm, especialidade, subespecialidade, universidade_graduacao, ano_conclusao, disponibilidade } = medicoData;
+
+    try {
+        const result = await pool.query(
+            "INSERT INTO MEDICOS (id_funcionario, crm, especialidade, subespecialidade, universidade_grad, ano_conclusao, disponibilidade) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *",
+            [funcionario, crm, especialidade, subespecialidade, universidade_graduacao, ano_conclusao, disponibilidade]
+        );
+        return result.rows[0];
+    } catch (err) {
+        console.error("Erro ao inserir médico:", err);
+        throw err;
+    }
+}
+
+// Modelo para excluir um médico no banco de dados
+const deleteMedico = async (medicoId) => {
+    try {
+        const result = await pool.query('DELETE FROM MEDICOS WHERE id = $1 RETURNING *', [medicoId]);
+        return result.rows[0];
+    } catch (error) {
+        throw error;
+    }
+};
+
 
 module.exports = {
-    getTodosMedicos
+    getTodosMedicos,
+    getMedicoByCrm,
+    createMedico,
+    deleteMedico
 };
