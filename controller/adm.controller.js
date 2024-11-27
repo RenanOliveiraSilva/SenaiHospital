@@ -1,13 +1,13 @@
 const pool = require('../db/conn');
 const userModel = require('../model/usuario.model');
 const medicoModel = require('../model/medicos.model');
-const admModel = require('../model/adm.model');
+const funcModel = require('../model/funcionarios.model');
 
 
 //Renderiza Cadastro_medico
 const renderizaCadMedico = async (req, res) => {
     try {
-        const funcionarios = await admModel.getFuncinariosMedicos();
+        const funcionarios = await funcModel.getFuncinariosMedicos();
 
        res.render('./home/cadastrar_medico', { funcionarios })
 
@@ -68,6 +68,28 @@ const renderizaListaMed = async (req, res) => {
     }
 }
 
+//Renderiza tela de listagem de funcionarios
+const renderizaListaFunc = async (req, res) => {
+    try {
+        const funcionarios = await funcModel.getAllFuncionarios();
+        console.log(funcionarios)
+        res.render('./home/gerenciar_funcionario', { funcionarios })
+
+    } catch (err) {
+        res.status(404).send('Rota não encontrada');
+    }
+}
+
+//Renderiza tela de cadastrar funcionario
+const renderizaCadFunc = async (req, res) => {
+    try {
+        const users = await userModel.getTodosUsuarios();
+        res.render('./home/cadastrar_funcionarios')
+
+    } catch (err) {
+        res.status(404).send('Rota não encontrada');
+    }
+}
 
 module.exports = {
     renderizaCadMedico,
@@ -75,5 +97,6 @@ module.exports = {
     renderizaHome,
     renderizaCadPaciente,
     renderizaGerenciarUser,
-    renderizaListaMed
+    renderizaListaMed,
+    renderizaListaFunc
 };

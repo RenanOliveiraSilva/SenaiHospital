@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="/stylesheets/output.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Asap&display=swap" rel="stylesheet">
+    <title>Gerenciar Funcionários - PediCare+</title>
+    <style>
+        body {
+            font-family: 'Asap', sans-serif;
+        }
+    </style>
+</head>
+
+<body class="bg-[#F0E8D9]">
+
+    <!-- Header -->
+    <header class="bg-[#2C5545] p-6 shadow-md flex justify-between items-center">
+        <h1 class="text-white text-2xl font-bold">Gerenciar Funcionários - PediCare+</h1>
+        <a href="/home/cadastro_funcionario" class="bg-[#CAC2B5] hover:bg-[#938b7b] text-white font-semibold py-2 px-4 rounded-md transition">
+            + Novo Funcionário
+        </a>
+    </header>
+
+    <!-- Lista de Funcionários -->
+    <div class="container mx-auto mt-8 p-6">
+        <h2 class="text-2xl font-bold text-[#2C5545] mb-6">Funcionários Cadastrados</h2>
+        <% if (funcionarios.length === 0) { %>
+            <!-- Mensagem caso não existam médicos cadastrados -->
+            <div class="text-center text-[#465C47] mt-8">
+                <p class="text-lg font-semibold">Nenhum funcionario cadastrado no momento.</p>
+                <p>Por favor, clique no botão acima para adicionar um novo funcionario.</p>
+            </div>
+        <% } else { %>
+            <!-- Tabela -->
+            <div class="bg-white shadow-md rounded-lg overflow-hidden">
+                <table class="min-w-full divide-y divide-gray-200">
+                    <thead class="bg-[#E5E0D5] text-[#465C47]">
+                        <tr>
+                            <th class="py-3 px-6 text-center font-medium">Nome</th>
+                            <th class="py-3 px-6 text-center font-medium">Salario</th>
+                            <th class="py-3 px-6 text-center font-medium">Ano de Admissão</th>
+                            <th class="py-3 px-6 text-center font-medium">Cargo</th>
+                            <th class="py-3 px-6 text-center font-medium">Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody class="bg-white divide-y divide-gray-200">
+                        <% funcionarios.forEach((funcionario) => { %>
+                            <tr>
+                                <td class="py-4 px-6 text-center"><%= funcionario.id_usuario %></td>
+                                <td class="py-4 px-6 text-center"><%= funcionario.salario %></td>
+                                <td class="py-4 px-6 text-center"><%= new Date(funcionario.data_admissao).getFullYear() %></td>
+                                <td class="py-4 px-6 text-center"><%= funcionario.cargo %></td>
+                                <td class="py-4 px-6 flex justify-center gap-4">
+                                    <a href="/funcionarios/editar/<%= funcionario.id %>" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg transition">Editar</a>
+                                    <form action="/funcionarios/<%= funcionario.id %>?_method=DELETE" method="POST">
+                                        <button type="submit" class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg transition">Excluir</button>
+                                    </form>
+                                </td>
+                            </tr>
+                        <% }) %>
+                      
+                    </tbody>
+                </table>
+            </div>
+        <% } %>
+    </div>
+
+</body>
+
+</html>

@@ -5,6 +5,7 @@ const admController = require('../controller/adm.controller');
 const usuarioController = require('../controller/usuario.controller');
 const recepcionistaController = require('../controller/recepcionista.controller');
 const medicoController = require('../controller/medico.controller');
+const funcionarioController = require('../controller/funcionario.controller');
 
 const router = express.Router();
 
@@ -20,18 +21,21 @@ router
 router
     .get('/home/home-administrador', admController.renderizaHome)
     .get('/home/gerenciar_user', admController.renderizaGerenciarUser)
+    .get('/home/gerenciar_medicos', admController.renderizaListaMed)
+    .get('/home/gerenciar_funcionarios', admController.renderizaListaFunc)
     .get('/home/cadastro_medico', admController.renderizaCadMedico)
     .get('/home/cadastro_user', admController.renderizaCadUser)
     .get('/home/cadastro_paciente', admController.renderizaCadPaciente)
     .get('/usuarios/editar/:id', usuarioController.getEditarUsuario)
     .get('/medicos/editar/:id', medicoController.getEditarMedico)
-    .get('/home/gerenciar_medicos', admController.renderizaListaMed)
     .post('/home/cadastro_user', usuarioController.criarUsuario)
     .post('/home/cadastro_medico', medicoController.postMedico)
+    .post('/home/funcionarios', funcionarioController.postCreateFuncionario)
     .put('/usuarios/editar/:id', usuarioController.postEditarUsuario)
     .put('/medicos/editar/:id', medicoController.postEditarMedico)
     .delete('/usuarios/:id', usuarioController.excluirUsuario)
-    .delete('/medicos/:id', medicoController.excluirMedico
+    .delete('/medicos/:id', medicoController.excluirMedico)
+    .delete('/funcionarios/:id', funcionarioController.deleteFuncionario
 );
 
 //Rotas do Recepcionista
