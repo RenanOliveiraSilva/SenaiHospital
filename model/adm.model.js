@@ -43,7 +43,32 @@ const createFuncionario = async (funcionarioData) => {
 };
 
 
+// Função para buscar um funcionário pelo ID
+const getFuncionarioById = async (id) => {
+    try {
+        const result = await pool.query(`
+        SELECT
+            f.id, u.nome
+        FROM 
+            funcionarios f
+        INNER JOIN 
+            usuarios u ON f.id_usuario = u.id
+        WHERE
+            f.id = $1;
+        `, [id]);
+        
+        return result.rows[0];
+
+
+    } catch (error) {
+        console.error('Erro ao buscar funcionário pelo ID:', error);
+        throw error; // Lança o erro para ser tratado pela lógica do controlador
+    }
+};
+
+
 module.exports = {
     getFuncinariosMedicos,
-    createFuncionario
+    createFuncionario,
+    getFuncionarioById
 }

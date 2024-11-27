@@ -44,6 +44,17 @@ const getMedicoByCrm = async (crm) => {
     }
 }
 
+const getMedicoById = async (medicoId) => {
+    try {
+        const result = await pool.query('SELECT * FROM MEDICOS WHERE id = $1', [medicoId]);
+        return result.rows[0];
+
+    } catch (error) {
+        console.error('Erro ao buscar funcionário por ID:', error);
+        throw error;
+    }
+}
+
 const createMedico = async (medicoData) => {
     const { funcionario, crm, especialidade, subespecialidade, universidade_graduacao, ano_conclusao, disponibilidade } = medicoData;
 
@@ -55,6 +66,21 @@ const createMedico = async (medicoData) => {
         return result.rows[0];
     } catch (err) {
         console.error("Erro ao inserir médico:", err);
+        throw err;
+    }
+}
+
+const editMedico = async (medicoId, medicoData) => {
+    const { funcionario, crm, especialidade, subespecialidade, universidade_graduacao, ano_conclusao, disponibilidade } = medicoData;
+
+    try {
+        const result = await pool.query(
+            "UPDATE MEDICOS SET id_funcionario = $1, crm = $2, especialidade = $3, subespecialidade = $4, universidade_grad = $5, ano_conclusao = $6, disponibilidade = $7 WHERE id = $8 RETURNING *",
+            [funcionario, crm, especialidade, subespecialidade, universidade_graduacao, ano_conclusao, disponibilidade, medicoId]
+        );
+        return result.rows[0];
+    } catch (err) {
+        console.error("Erro ao editar médico:", err);
         throw err;
     }
 }
@@ -74,5 +100,7 @@ module.exports = {
     getTodosMedicos,
     getMedicoByCrm,
     createMedico,
-    deleteMedico
+    deleteMedico,
+    getMedicoById,
+    editMedico
 };

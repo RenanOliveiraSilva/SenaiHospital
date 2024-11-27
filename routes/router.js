@@ -24,10 +24,12 @@ router
     .get('/home/cadastro_user', admController.renderizaCadUser)
     .get('/home/cadastro_paciente', admController.renderizaCadPaciente)
     .get('/usuarios/editar/:id', usuarioController.getEditarUsuario)
+    .get('/medicos/editar/:id', medicoController.getEditarMedico)
     .get('/home/gerenciar_medicos', admController.renderizaListaMed)
     .post('/home/cadastro_user', usuarioController.criarUsuario)
     .post('/home/cadastro_medico', medicoController.postMedico)
     .put('/usuarios/editar/:id', usuarioController.postEditarUsuario)
+    .put('/medicos/editar/:id', medicoController.postEditarMedico)
     .delete('/usuarios/:id', usuarioController.excluirUsuario)
     .delete('/medicos/:id', medicoController.excluirMedico
 );

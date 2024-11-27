@@ -26,7 +26,25 @@
 
         <!-- Formulário de Edição -->
         <form action="/medicos/editar/<%= medico.id %>?_method=PUT" method="POST" id="editarForm" class="space-y-6">
-            
+            <!-- Input para ID_funcionario -->
+            <input type="hidden" id="funcionario" name="funcionario" value="<%= funcionario.id %>">
+            <!-- Input para crm -->
+            <input type="hidden" id="crm" name="crm" value="<%= medico.crm %>">
+
+            <!-- Selecionar Funcionário -->
+            <div class="form-group">
+                <label for="funcionario" class="block text-sm font-medium text-[#2C5545] mb-2">Funcionário:</label>
+                <select id="funcionario" name="funcionario"  class="w-full p-3 border-2 border-gray-300 rounded-lg focus:border-[#2C5545] focus:ring focus:ring-[#2C5545] focus:ring-opacity-50 transition duration-200" disabled>
+                    <option selected><%= funcionario.nome %></option>
+                </select>
+            </div>
+
+            <!-- CRM, Especialidade, Subespecialidade -->
+            <div class="form-group">
+                <label for="crm" class="block text-sm font-medium text-[#2C5545] mb-2">CRM:</label>
+                <input type="text" id="crm" name="crm" placeholder="Informe o CRM" value="<%= medico.crm %>" disabled
+                    class="w-full p-3 border-2 border-gray-300 rounded-lg focus:border-[#2C5545] focus:ring focus:ring-[#2C5545] focus:ring-opacity-50 transition duration-200" required>
+            </div>
             <!-- Especialidade, Subespecialidade -->
             <div class="form-group">
                 <label for="especialidade" class="block text-sm font-medium text-[#2C5545] mb-2">Especialidade:</label>
@@ -43,12 +61,12 @@
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div class="form-group">
                     <label for="universidade" class="block text-sm font-medium text-[#2C5545] mb-2">Universidade de Graduação:</label>
-                    <input type="text" id="universidade" name="universidade_graduacao" value="<%= medico.universidade_graduacao %>" 
+                    <input type="text" id="universidade" name="universidade_graduacao" value="<%= medico.universidade_grad %>" 
                         class="w-full p-3 border-2 border-gray-300 rounded-lg focus:border-[#2C5545] focus:ring focus:ring-[#2C5545] focus:ring-opacity-50 transition duration-200" required>
                 </div>
                 <div class="form-group">
                     <label for="anoConclusao" class="block text-sm font-medium text-[#2C5545] mb-2">Ano de Conclusão:</label>
-                    <input type="date" id="anoConclusao" name="ano_conclusao" value="<%= medico.ano_conclusao %>" 
+                    <input type="date" id="anoConclusao" name="ano_conclusao" value="<%= medico.ano_conclusao.toISOString().split('T')[0] %>" 
                         class="w-full p-3 border-2 border-gray-300 rounded-lg focus:border-[#2C5545] focus:ring focus:ring-[#2C5545] focus:ring-opacity-50 transition duration-200" required>
                 </div>
             </div>
@@ -82,5 +100,52 @@
         </form>
     </div>
 </body>
+<script>
+    document.getElementById("editarForm").addEventListener("submit", async function(event) {
+        event.preventDefault(); // Impede o envio padrão do formulário
+
+        // Captura os dados do formulário
+        const formData = new FormData(event.target);
+        const data = {};
+        formData.forEach((value, key) => (data[key] = value));
+
+        try {
+            // Envia a solicitação para o servidor
+            const response = await fetch(event.target.action, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(data),
+            });
+
+            // Verifica se a resposta foi bem-sucedida
+            const mensagemErro = document.getElementById("mensagemErro");
+            if (!response.ok) {
+                const errorData = await response.json();
+                
+                // Exibe mensagem de erro específica
+                if (errorData.message) {
+                    mensagemErro.textContent = errorData.message;
+                } else {
+                    mensagemErro.textContent = "Erro desconhecido. Por favor, tente novamente.";
+                }
+
+                mensagemErro.classList.remove("hidden"); // Mostra a mensagem de erro
+                return;
+            }
+
+            // Redireciona caso seja bem-sucedido
+            window.location.href = "/home/home-administrador";
+
+        } catch (error) {
+            console.error("Erro ao enviar o formulário:", error);
+            const mensagemErro = document.getElementById("mensagemErro");
+            mensagemErro.textContent = "Erro ao enviar o formulário. Tente novamente.";
+            mensagemErro.classList.remove("hidden");
+        }
+    });
+</script>
+
 
 </html>

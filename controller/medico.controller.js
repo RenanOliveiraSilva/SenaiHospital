@@ -1,9 +1,5 @@
-const pool = require('../db/conn');
-const pacienteModel = require('../model/usuario.model');
-const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken');
-
 const medicoModel = require('../model/medicos.model');
+const admModel = require('../model/adm.model');
 
 // Inserção de médico no banco de dados
 const postMedico = async (req, res) => {
@@ -44,6 +40,64 @@ const postMedico = async (req, res) => {
     }
 };
 
+// Função para renderizar a página de edição do usuário
+const getEditarMedico = async (req, res) => {
+    
+    try {
+        const medicoId = req.params.id;
+        const medico = await medicoModel.getMedicoById(medicoId);
+        const funcionario = await admModel.getFuncionarioById(medico.id_funcionario);
+
+        if (!medico) {
+            return res.status(404).send('Médico não encontrado');
+        }
+
+        // Renderiza a view de edição do usuário com os dados do usuário atual
+        res.render('home/editar_medico', { medico, funcionario });
+
+    } catch (error) {
+        console.error('Erro ao buscar medico:', error);
+        res.status(500).send('Erro ao buscar medico');
+    }
+};
+
+const postEditarMedico = async (req, res) => {
+    const { funcionario, crm, especialidade, subespecialidade, universidade_graduacao, ano_conclusao, disponibilidade } = req.body;
+    const medicoId = req.params.id;
+
+    console.log(req.body);
+
+    // Validações de campos em branco
+    if (!funcionario || !crm || !especialidade || !universidade_graduacao || !ano_conclusao || !disponibilidade) {
+        return res.status(400).json({ message: "Preencha todos os campos!" });
+    }
+
+    try {
+        
+        // Cria o médico
+        const editMedico = await medicoModel.editMedico(medicoId,{
+            funcionario,
+            crm,
+            especialidade,
+            subespecialidade,
+            universidade_graduacao,
+            ano_conclusao,
+            disponibilidade
+        });
+
+        if (!editMedico) {
+            return res.status(400).json({ message: "Erro ao editar médico" });
+        }
+
+        // Redireciona após o editar
+        res.redirect("/home/home-administrador");
+    } catch (error) {
+        console.error('Erro ao editar:', error);
+        res.status(500).json({ error: error.message });
+    }
+}
+
+
 // Exclusão de médico no banco de dados
 const excluirMedico = async (req, res) => {
     try {
@@ -67,5 +121,7 @@ const excluirMedico = async (req, res) => {
 
 module.exports = {
     postMedico,
-    excluirMedico
+    excluirMedico,
+    getEditarMedico,
+    postEditarMedico
 };
