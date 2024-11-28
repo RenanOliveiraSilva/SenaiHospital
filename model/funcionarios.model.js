@@ -27,7 +27,7 @@ const getFuncinariosMedicos = async () => {
 };
 
 // Função para buscar um funcionário pelo ID
-const getFuncionarioById = async (id) => {
+const getFuncionarioByIdUser = async (id) => {
     try {
         const result = await pool.query(`
         SELECT
@@ -52,12 +52,14 @@ const getFuncionarioById = async (id) => {
 // Cria um novo funcionário
 const createFuncionario = async (funcionarioData) => {
     try {
-        const { nome, cpf, cargo, salario, data_admissao, id_usuario } = funcionarioData;
+        const { cargo, salario, data_admissao, id_usuario } = funcionarioData;
+
         const result = await pool.query(`
-            INSERT INTO funcionarios (nome, cpf, cargo, salario, data_admissao, id_usuario)
-            VALUES ($1, $2, $3, $4, $5, $6)
+            INSERT INTO funcionarios (cargo, salario, data_admissao, id_usuario)
+            VALUES ($1, $2, $3, $4)
             RETURNING *;
-        `, [nome, cpf, cargo, salario, data_admissao, id_usuario]);
+        `, [cargo, salario, data_admissao, id_usuario]);
+
         return result.rows[0];
     } catch (error) {
         console.error('Erro ao criar funcionário:', error);
@@ -68,7 +70,15 @@ const createFuncionario = async (funcionarioData) => {
 // Obtém todos os funcionários
 const getAllFuncionarios = async () => {
     try {
-        const result = await pool.query('SELECT * FROM funcionarios');
+        const result = await pool.query(`
+            SELECT 
+                f.*, 
+                u.nome AS nome_usuario
+            FROM 
+                funcionarios f
+            INNER JOIN 
+                usuarios u ON f.id_usuario = u.id
+        `);
         return result.rows;
     } catch (error) {
         console.error('Erro ao buscar funcionários:', error);
@@ -79,17 +89,27 @@ const getAllFuncionarios = async () => {
 // Atualiza um funcionário
 const updateFuncionario = async (id, funcionarioData) => {
     try {
-        const { nome, cpf, cargo, salario, data_admissao } = funcionarioData;
+        // Desestrutura os dados que queremos atualizar do objeto 'funcionarioData'
+        const { cargo, salario, data_admissao } = funcionarioData;
+
+        // Executa a consulta SQL para atualizar o funcionário
         const result = await pool.query(`
             UPDATE funcionarios
-            SET nome = $1, cpf = $2, cargo = $3, salario = $4, data_admissao = $5
-            WHERE id = $6
+            SET 
+                cargo = $1,
+                salario = $2,
+                data_admissao = $3
+            WHERE 
+                id = $4
             RETURNING *;
-        `, [nome, cpf, cargo, salario, data_admissao, id]);
+        `, [cargo, salario, data_admissao, id]);
+
+        // Retorna os dados do funcionário atualizado
         return result.rows[0];
-    } catch (error) {
-        console.error('Erro ao atualizar funcionário:', error);
-        throw error;
+
+    } catch (err) {
+        console.error('Erro ao atualizar funcionário:', err);
+        throw err;
     }
 };
 
@@ -106,10 +126,45 @@ const deleteFuncionario = async (id) => {
     }
 };
 
+// Modelo para buscar um funcionário pelo ID
+const getFuncionarioById = async (id) => {
+    try {
+        // Query para buscar os detalhes do funcionário pelo ID
+        const result = await pool.query(`
+            SELECT 
+                f.id AS funcionario_id, 
+                f.cargo, 
+                f.salario, 
+                f.data_admissao, 
+                f.id_usuario, 
+                u.nome
+            FROM 
+                funcionarios f
+            INNER JOIN 
+                usuarios u ON f.id_usuario = u.id
+            WHERE 
+                f.id = $1
+        `, [id]);
+
+        // Se não encontrar o funcionário, lançar um erro
+        if (result.rows.length === 0) {
+            throw new Error(`Funcionário com o ID ${id} não encontrado.`);
+        }
+
+        // Retornar os dados do funcionário encontrado
+        return result.rows[0];
+
+    } catch (err) {
+        console.error('Erro ao buscar funcionário pelo ID:', err);
+        throw err;
+    }
+};
+
 
 module.exports = {
     getFuncinariosMedicos,
     createFuncionario,
+    getFuncionarioByIdUser,
     getFuncionarioById,
     getAllFuncionarios,
     updateFuncionario,

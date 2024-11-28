@@ -83,8 +83,8 @@ const renderizaListaFunc = async (req, res) => {
 //Renderiza tela de cadastrar funcionario
 const renderizaCadFunc = async (req, res) => {
     try {
-        const users = await userModel.getTodosUsuarios();
-        res.render('./home/cadastrar_funcionarios')
+        const usuarios = await userModel.getUsuariosSemFuncionario();
+        res.render('./home/cadastrar_funcionario', { usuarios })
 
     } catch (err) {
         res.status(404).send('Rota não encontrada');
@@ -94,8 +94,9 @@ const renderizaCadFunc = async (req, res) => {
 module.exports = {
     renderizaCadMedico,
     renderizaCadUser,
-    renderizaHome,
+    renderizaCadFunc,
     renderizaCadPaciente,
+    renderizaHome,
     renderizaGerenciarUser,
     renderizaListaMed,
     renderizaListaFunc

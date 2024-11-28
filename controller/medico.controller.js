@@ -46,7 +46,7 @@ const getEditarMedico = async (req, res) => {
     try {
         const medicoId = req.params.id;
         const medico = await medicoModel.getMedicoById(medicoId);
-        const funcionario = await funcModel.getFuncionarioById(medico.id_funcionario);
+        const funcionario = await funcModel.getFuncionarioByIdUser(medico.id_funcionario);
 
         if (!medico) {
             return res.status(404).send('Médico não encontrado');

@@ -12,6 +12,32 @@ const getTodosUsuarios = async () => {
     }
 };
 
+// Listagem de Usuários que Não Estão na Tabela Funcionários
+const getUsuariosSemFuncionario = async () => {
+    try {
+        const result = await pool.query(`
+            SELECT 
+                u.id AS usuario_id, 
+                u.nome, 
+                u.email,
+                u.cpf,
+                f.id AS funcionario_id
+            FROM usuarios u
+            LEFT JOIN funcionarios f ON u.id = f.id_usuario
+            WHERE f.id_usuario IS NULL
+            AND u.mapa <> 'A'
+        `);
+
+        console.log(result.rows);
+
+        return result.rows;
+    } catch (err) {
+        console.error('Erro ao buscar usuários sem vínculo na tabela funcionários:', err);
+        throw err;
+    }
+};
+
+
 // Model para buscar usuário pelo CPF
 const getUsuarioByCpf = async (cpf) => {
     try {
@@ -118,6 +144,7 @@ const deleteUsuario = async (usuarioId) => {
 module.exports = {
     getTodosUsuarios,
     getUsuarioByEmail,
+    getUsuariosSemFuncionario,
     createUsuario,
     getUsuarioById,
     updateUsuario,

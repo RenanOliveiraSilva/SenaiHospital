@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="/stylesheets/output.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Asap&display=swap" rel="stylesheet">
-    <title>Cadastro de Funcionários - PediCare+</title>
+    <title>Editar Funcionário - PediCare+</title>
     <style>
         body {
             font-family: 'Asap', sans-serif;
@@ -42,19 +42,16 @@
 
     <!-- Container -->
     <div class="bg-white max-w-4xl mx-auto my-10 p-8 rounded-lg shadow-lg">
-        <h2 class="text-3xl font-bold text-center text-[#2C5545] mb-8">Cadastro de Funcionário</h2>
+        <h2 class="text-3xl font-bold text-center text-[#2C5545] mb-8">Editar Funcionário</h2>
 
-        <!-- Formulário de Cadastro -->
-        <form action="/home/cadastro_funcionario" method="POST" class="space-y-6">
+        <!-- Formulário de Edição -->
+        <form action="/funcionarios/editar/<%= funcionario.funcionario_id %>?_method=PUT" method="POST" class="space-y-6">
 
-            <!-- Selecionar Usuário Existente -->
+            <!-- Selecionar Usuário Existente (não editável) -->
             <div class="form-group">
                 <label for="usuario" class="block text-sm font-medium text-[#2C5545] mb-2">Usuário:</label>
-                <select id="usuario" name="id_usuario" class="input-field text-sm border border-gray-300 rounded-lg p-4 w-full focus:border-[#2C5545] focus:ring-[#2C5545] focus:outline-none transition ease-in-out" required>
-                    <option value="" disabled selected>Selecione um usuário</option>
-                    <% usuarios.forEach(usuario => { %>
-                        <option value="<%= usuario.usuario_id %>"><%= usuario.nome %></option>
-                    <% }) %>
+                <select id="usuario" name="id_usuario" class="input-field text-sm border border-gray-300 rounded-lg p-4 w-full focus:border-[#2C5545] focus:ring-[#2C5545] focus:outline-none transition ease-in-out" disabled>
+                    <option value="<%= funcionario.id_usuario %>" selected><%= funcionario.nome %></option>
                 </select>
             </div>
 
@@ -64,11 +61,11 @@
                 <div class="space-y-4">
                     <div class="form-group">
                         <label for="salary" class="block text-sm font-medium text-[#2C5545] mb-2">Salário:</label>
-                        <input type="text" id="salary" name="salario" placeholder="Informe o salário" class="input-field text-sm border border-gray-300 rounded-lg p-4 w-full focus:border-[#2C5545] focus:ring-[#2C5545] focus:outline-none transition ease-in-out" required>
+                        <input type="text" id="salary" name="salario" value="<%= funcionario.salario %>" class="input-field text-sm border border-gray-300 rounded-lg p-4 w-full focus:border-[#2C5545] focus:ring-[#2C5545] focus:outline-none transition ease-in-out" required>
                     </div>
                     <div class="form-group">
                         <label for="admission" class="block text-sm font-medium text-[#2C5545] mb-2">Data de Admissão:</label>
-                        <input type="date" id="admission" name="data_admissao" class="input-field text-sm border border-gray-300 rounded-lg p-4 w-full focus:border-[#2C5545] focus:ring-[#2C5545] focus:outline-none transition ease-in-out" required>
+                        <input type="date" id="admission" name="data_admissao" value="<%= funcionario.data_admissao.toISOString().split('T')[0] %>" class="input-field text-sm border border-gray-300 rounded-lg p-4 w-full focus:border-[#2C5545] focus:ring-[#2C5545] focus:outline-none transition ease-in-out" required>
                     </div>
                 </div>
 
@@ -77,21 +74,21 @@
                     <legend class="text-sm font-medium text-[#2C5545]">Cargo</legend>
                     <div class="radio-group space-y-2 mt-4">
                         <div class="form-group flex items-center">
-                            <input type="radio" id="cargoMedico" name="cargo" value="M" required>
+                            <input type="radio" id="cargoMedico" name="cargo" value="M" <%= funcionario.cargo === 'M' ? 'checked' : '' %> required>
                             <label for="cargoMedico" class="radio-option ml-2 text-sm font-medium text-[#2C5545]">Médico</label>
                         </div>
                         <div class="form-group flex items-center">
-                            <input type="radio" id="cargoRecepcionista" name="cargo" value="R" required>
+                            <input type="radio" id="cargoRecepcionista" name="cargo" value="R" <%= funcionario.cargo === 'R' ? 'checked' : '' %> required>
                             <label for="cargoRecepcionista" class="radio-option ml-2 text-sm font-medium text-[#2C5545]">Recepcionista</label>
                         </div>
                     </div>
                 </fieldset>
             </div>
 
-            <!-- Botão de Cadastro -->
+            <!-- Botão de Edição -->
             <div class="flex justify-center mt-8">
                 <button type="submit" class="bg-[#2C5545] hover:bg-[#234536] text-white font-bold py-4 px-8 rounded-lg shadow-md transition duration-300 ease-in-out hover:shadow-lg">
-                    CADASTRAR
+                    SALVAR ALTERAÇÕES
                 </button>
             </div>
         </form>
