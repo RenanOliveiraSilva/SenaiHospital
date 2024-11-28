@@ -45,7 +45,7 @@
         <h2 class="text-3xl font-bold text-center text-[#2C5545] mb-8">Cadastro de Funcionário</h2>
 
         <!-- Formulário de Cadastro -->
-        <form action="/home/cadastro_funcionario" method="POST" class="space-y-6">
+        <form action="/home/cadastro_funcionario" method="POST" class="space-y-6" id="cadastroForm">
 
             <!-- Selecionar Usuário Existente -->
             <div class="form-group">
@@ -88,6 +88,10 @@
                 </fieldset>
             </div>
 
+            <div class="py-6 box-border">
+                <div id="mensagemErro" class="text-red-600 text-sm font-semibold text-center hidden p-0 m-0"></div>
+            </div>
+
             <!-- Botão de Cadastro -->
             <div class="flex justify-center mt-8">
                 <button type="submit" class="bg-[#2C5545] hover:bg-[#234536] text-white font-bold py-4 px-8 rounded-lg shadow-md transition duration-300 ease-in-out hover:shadow-lg">
@@ -98,5 +102,53 @@
     </div>
 
 </body>
+
+<script>
+    document.getElementById("cadastroForm").addEventListener("submit", async function(event) {
+        event.preventDefault(); // Impede o envio padrão do formulário
+
+        // Captura os dados do formulário
+        const formData = new FormData(event.target);
+        const data = {};
+        formData.forEach((value, key) => (data[key] = value));
+
+        try {
+            // Envia a solicitação para o servidor
+            const response = await fetch(event.target.action, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(data),
+            });
+
+            // Verifica se a resposta foi bem-sucedida
+            const mensagemErro = document.getElementById("mensagemErro");
+            if (!response.ok) {
+                const errorData = await response.json();
+                
+                // Exibe mensagem de erro específica
+                if (errorData.message) {
+                    mensagemErro.textContent = errorData.message;
+                } else {
+                    mensagemErro.textContent = "Erro desconhecido. Por favor, tente novamente.";
+                }
+
+                mensagemErro.classList.remove("hidden"); // Mostra a mensagem de erro
+                return;
+            }
+
+            // Redireciona caso seja bem-sucedido
+            window.location.href = "/home/home-administrador";
+
+        } catch (error) {
+            console.error("Erro ao enviar o formulário:", error);
+            const mensagemErro = document.getElementById("mensagemErro");
+            mensagemErro.textContent = "Erro ao enviar o formulário. Tente novamente.";
+            mensagemErro.classList.remove("hidden");
+        }
+    });
+</script>
+
 
 </html>

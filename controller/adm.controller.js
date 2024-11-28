@@ -1,8 +1,7 @@
-const pool = require('../db/conn');
 const userModel = require('../model/usuario.model');
 const medicoModel = require('../model/medicos.model');
 const funcModel = require('../model/funcionarios.model');
-
+const PacienteModel = require('../model/paciente.model');
 
 //Renderiza Cadastro_medico
 const renderizaCadMedico = async (req, res) => {
@@ -91,6 +90,17 @@ const renderizaCadFunc = async (req, res) => {
     }
 }
 
+// Renderizar Página de Lista de Pacientes
+const renderizaListaPacientes = async (req, res) => {
+    try {
+        const pacientes = await PacienteModel.getAllPacientes();
+        res.render('gerenciar_pacientes', { pacientes });
+    } catch (err) {
+        console.error('Erro ao renderizar a lista de pacientes:', err);
+        res.status(500).send('Erro ao renderizar a lista de pacientes');
+    }
+};
+
 module.exports = {
     renderizaCadMedico,
     renderizaCadUser,
@@ -99,5 +109,6 @@ module.exports = {
     renderizaHome,
     renderizaGerenciarUser,
     renderizaListaMed,
-    renderizaListaFunc
+    renderizaListaFunc,
+    renderizaListaPacientes
 };

@@ -3,7 +3,6 @@ var express = require('express');
 const controller = require('../controller/controller');
 const admController = require('../controller/adm.controller');
 const usuarioController = require('../controller/usuario.controller');
-const recepcionistaController = require('../controller/recepcionista.controller');
 const medicoController = require('../controller/medico.controller');
 const funcionarioController = require('../controller/funcionario.controller');
 
@@ -23,6 +22,7 @@ router
     .get('/home/gerenciar_user', admController.renderizaGerenciarUser)
     .get('/home/gerenciar_medicos', admController.renderizaListaMed)
     .get('/home/gerenciar_funcionarios', admController.renderizaListaFunc)
+    .get('/home/gerenciar_pacientes', admController.renderizaListaPacientes)
     .get('/home/cadastro_medico', admController.renderizaCadMedico)
     .get('/home/cadastro_user', admController.renderizaCadUser)
     .get('/home/cadastro_paciente', admController.renderizaCadPaciente)
@@ -41,8 +41,5 @@ router
     .delete('/funcionarios/:id', funcionarioController.deleteFuncionario
 );
 
-//Rotas do Recepcionista
-router.get('/homeRecepcionista/index', recepcionistaController.renderizaIndex)
-      .get('/homeRecepcionista/cadastro_paciente', recepcionistaController.renderizaFormPaciente);
 
 module.exports = router;

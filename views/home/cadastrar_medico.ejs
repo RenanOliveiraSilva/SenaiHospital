@@ -11,25 +11,46 @@
         body {
             font-family: 'Asap', sans-serif;
         }
+
+        input.field, select {
+            font-family: 'Asap', sans-serif;
+        }
+
+        .radio-group label {
+            cursor: pointer;
+        }
+
+        .radio-option {
+            margin-right: 1rem;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            transition: background-color 0.3s ease;
+        }
+
+        input[type="radio"]:checked + label {
+            background-color: #2C5545;
+            color: white;
+        }
     </style>
 </head>
 
-<body class="bg-gray-100">
-    <!-- Header -->
+<body class="bg-gray-100 min-h-screen">
+
     <header class="bg-[#2C5545] h-20 shadow-lg flex items-center p-4">
         <img src="/images/logo-branco.png" alt="logo" class="h-12">
     </header>
 
     <!-- Container -->
-    <div class="container mx-auto my-10 max-w-3xl p-6 bg-white rounded-lg shadow-lg">
-        <h2 class="text-2xl font-bold text-[#2C5545] text-center mb-8">Cadastro de Médico - PediCare+</h2>
+    <div class="bg-white max-w-4xl mx-auto my-10 p-8 rounded-lg shadow-lg">
+        <h2 class="text-3xl font-bold text-center text-[#2C5545] mb-8">Cadastro de Médico - PediCare+</h2>
 
         <!-- Formulário de Cadastro -->
         <form action="/home/cadastro_medico" method="POST" id="cadastroForm" class="space-y-6">
-            <!-- Selecionar Funcionário -->
+
+            <!-- Selecionar Funcionário Existente -->
             <div class="form-group">
                 <label for="funcionario" class="block text-sm font-medium text-[#2C5545] mb-2">Funcionário:</label>
-                <select id="funcionario" name="funcionario" class="w-full p-3 border-2 border-gray-300 rounded-lg focus:border-[#2C5545] focus:ring focus:ring-[#2C5545] focus:ring-opacity-50 transition duration-200" required>
+                <select id="funcionario" name="funcionario" class="input-field text-sm border border-gray-300 rounded-lg p-4 w-full focus:border-[#2C5545] focus:ring-[#2C5545] focus:outline-none transition ease-in-out" required>
                     <option value="" disabled selected>Selecione um funcionário</option>
                     <% funcionarios.forEach(funcionario => { %>
                         <option value="<%= funcionario.id %>"><%= funcionario.nome %></option>
@@ -38,20 +59,22 @@
             </div>
 
             <!-- CRM, Especialidade, Subespecialidade -->
-            <div class="form-group">
-                <label for="crm" class="block text-sm font-medium text-[#2C5545] mb-2">CRM:</label>
-                <input type="text" id="crm" name="crm" placeholder="Informe o CRM"
-                    class="w-full p-3 border-2 border-gray-300 rounded-lg focus:border-[#2C5545] focus:ring focus:ring-[#2C5545] focus:ring-opacity-50 transition duration-200" required>
-            </div>
-            <div class="form-group">
-                <label for="especialidade" class="block text-sm font-medium text-[#2C5545] mb-2">Especialidade:</label>
-                <input type="text" id="especialidade" name="especialidade" placeholder="Digite a especialidade"
-                    class="w-full p-3 border-2 border-gray-300 rounded-lg focus:border-[#2C5545] focus:ring focus:ring-[#2C5545] focus:ring-opacity-50 transition duration-200" required>
-            </div>
-            <div class="form-group">
-                <label for="subespecialidade" class="block text-sm font-medium text-[#2C5545] mb-2">Subespecialidade:</label>
-                <input type="text" id="subespecialidade" name="subespecialidade" placeholder="Digite a subespecialidade"
-                    class="w-full p-3 border-2 border-gray-300 rounded-lg focus:border-[#2C5545] focus:ring focus:ring-[#2C5545] focus:ring-opacity-50 transition duration-200">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="form-group">
+                    <label for="crm" class="block text-sm font-medium text-[#2C5545] mb-2">CRM:</label>
+                    <input type="text" id="crm" name="crm" placeholder="Informe o CRM"
+                        class="input-field text-sm border border-gray-300 rounded-lg p-4 w-full focus:border-[#2C5545] focus:ring-[#2C5545] focus:outline-none transition ease-in-out" required>
+                </div>
+                <div class="form-group">
+                    <label for="especialidade" class="block text-sm font-medium text-[#2C5545] mb-2">Especialidade:</label>
+                    <input type="text" id="especialidade" name="especialidade" placeholder="Digite a especialidade"
+                        class="input-field text-sm border border-gray-300 rounded-lg p-4 w-full focus:border-[#2C5545] focus:ring-[#2C5545] focus:outline-none transition ease-in-out" required>
+                </div>
+                <div class="form-group">
+                    <label for="subespecialidade" class="block text-sm font-medium text-[#2C5545] mb-2">Subespecialidade:</label>
+                    <input type="text" id="subespecialidade" name="subespecialidade" placeholder="Digite a subespecialidade"
+                        class="input-field text-sm border border-gray-300 rounded-lg p-4 w-full focus:border-[#2C5545] focus:ring-[#2C5545] focus:outline-none transition ease-in-out">
+                </div>
             </div>
 
             <!-- Universidade, Ano de Conclusão -->
@@ -59,15 +82,14 @@
                 <div class="form-group">
                     <label for="universidade" class="block text-sm font-medium text-[#2C5545] mb-2">Universidade de Graduação:</label>
                     <input type="text" id="universidade" name="universidade_graduacao" placeholder="Informe a universidade de graduação"
-                        class="w-full p-3 border-2 border-gray-300 rounded-lg focus:border-[#2C5545] focus:ring focus:ring-[#2C5545] focus:ring-opacity-50 transition duration-200" required>
+                        class="input-field text-sm border border-gray-300 rounded-lg p-4 w-full focus:border-[#2C5545] focus:ring-[#2C5545] focus:outline-none transition ease-in-out" required>
                 </div>
                 <div class="form-group">
                     <label for="anoConclusao" class="block text-sm font-medium text-[#2C5545] mb-2">Ano de Conclusão:</label>
                     <input type="date" id="anoConclusao" name="ano_conclusao" placeholder="Informe o ano de conclusão"
-                        class="w-full p-3 border-2 border-gray-300 rounded-lg focus:border-[#2C5545] focus:ring focus:ring-[#2C5545] focus:ring-opacity-50 transition duration-200" required>
+                        class="input-field text-sm border border-gray-300 rounded-lg p-4 w-full focus:border-[#2C5545] focus:ring-[#2C5545] focus:outline-none transition ease-in-out" required>
                 </div>
             </div>
-
             <!-- Disponibilidade -->
             <div class="form-group">
                 <label for="disponibilidade" class="block text-sm font-medium text-[#2C5545] mb-2">Disponibilidade:</label>
@@ -88,14 +110,14 @@
             </div>
 
             <!-- Botão de Cadastro -->
-            <div class="flex justify-center items-center mt-8">
-                <button type="submit"
-                    class="w-full md:w-1/3 p-4 text-white font-bold rounded-lg bg-[#2C5545] hover:bg-[#234536] transition-all duration-300 shadow-md hover:shadow-lg">
+            <div class="flex justify-center mt-8">
+                <button type="submit" class="bg-[#2C5545] hover:bg-[#234536] text-white font-bold py-4 px-8 rounded-lg shadow-md transition duration-300 ease-in-out hover:shadow-lg">
                     CADASTRAR
                 </button>
             </div>
         </form>
     </div>
+
 </body>
 
 <script>
@@ -144,6 +166,5 @@
         }
     });
 </script>
-
 
 </html>
