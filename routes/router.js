@@ -5,6 +5,7 @@ const admController = require('../controller/adm.controller');
 const usuarioController = require('../controller/usuario.controller');
 const medicoController = require('../controller/medico.controller');
 const funcionarioController = require('../controller/funcionario.controller');
+const pacienteController = require('../controller/paciente.controller');
 
 const router = express.Router();
 
@@ -30,15 +31,19 @@ router
     .get('/usuarios/editar/:id', usuarioController.getEditarUsuario)
     .get('/medicos/editar/:id', medicoController.getEditarMedico)
     .get('/funcionarios/editar/:id', funcionarioController.getEditarFuncionario)
+    .get('/pacientes/editar/:id', pacienteController.getEditarPaciente)
     .post('/home/cadastro_user', usuarioController.criarUsuario)
     .post('/home/cadastro_medico', medicoController.postMedico)
     .post('/home/cadastro_funcionario', funcionarioController.postCreateFuncionario)
+    .post('/home/cadastro_paciente', pacienteController.postPaciente)
     .put('/usuarios/editar/:id', usuarioController.postEditarUsuario)
     .put('/medicos/editar/:id', medicoController.postEditarMedico)
     .put('/funcionarios/editar/:id', funcionarioController.putUpdateFuncionario)
+    .put('/pacientes/editar/:id', pacienteController.putPaciente)
     .delete('/usuarios/:id', usuarioController.excluirUsuario)
     .delete('/medicos/:id', medicoController.excluirMedico)
-    .delete('/funcionarios/:id', funcionarioController.deleteFuncionario
+    .delete('/funcionarios/:id', funcionarioController.deleteFuncionario)
+    .delete('/pacientes/:id', pacienteController.deletePaciente
 );
 
 

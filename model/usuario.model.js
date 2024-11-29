@@ -99,6 +99,28 @@ const getUsuarioById = async (id) => {
     }
 };
 
+//Função para buscar um usuário sem pacientes
+const getUsuarioSemPaciente = async () => {
+    try {
+        const result = await pool.query(`
+            SELECT 
+                u.id AS usuario_id, 
+                u.nome, 
+                u.email,
+                u.cpf,
+                p.id AS paciente_id
+            FROM usuarios u
+            LEFT JOIN pacientes p ON u.id = p.id_usuario
+            WHERE p.id_usuario IS NULL
+        `);
+
+        return result.rows;
+    } catch (error) {
+        console.error('Erro ao buscar usuário sem paciente:', error);
+        throw error;
+    }
+};
+
 // Função para atualizar os dados do usuário no banco de dados
 const updateUsuario = async (usuarioId, dadosUsuario) => {
     const {
@@ -149,5 +171,6 @@ module.exports = {
     getUsuarioById,
     updateUsuario,
     getUsuarioByCpf,
-    deleteUsuario
+    deleteUsuario,
+    getUsuarioSemPaciente
 };

@@ -1,15 +1,38 @@
 const pool = require('../db/conn');
 
-// Adicionar Paciente
+// Função para adicionar um paciente ao banco de dados
 const addPaciente = async (pacienteData) => {
-    const { nome, cpf, data_nascimento, contato, endereco } = pacienteData;
+    const {
+        id_usuario,
+        nome,
+        idade,
+        cpf,
+        data_nasc,
+        genero,
+        relacao_paciente,
+        medicamentos_paciente,
+        alergias,
+        doencas_existentes,
+    } = pacienteData;
 
     try {
         const result = await pool.query(`
-            INSERT INTO pacientes (nome, cpf, data_nascimento, contato, endereco)
-            VALUES ($1, $2, $3, $4, $5)
+            INSERT INTO PACIENTES (
+                id_usuario, nome, idade, cpf, data_nasc, genero, relacao_paciente, medicamentos_paciente, alergias, doencas_existentes
+            ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)
             RETURNING *;
-        `, [nome, cpf, data_nascimento, contato, endereco]);
+        `, [
+            id_usuario,
+            nome,
+            idade,
+            cpf,
+            data_nasc,
+            genero,
+            relacao_paciente,
+            medicamentos_paciente,
+            alergias,
+            doencas_existentes,
+        ]);
 
         return result.rows[0];
     } catch (err) {
@@ -29,10 +52,16 @@ const getAllPacientes = async () => {
     }
 };
 
-// Obter paciente por ID
+// Função para obter um paciente pelo ID do usuário
 const getPacienteById = async (id) => {
     try {
-        const result = await pool.query('SELECT * FROM pacientes WHERE id = $1', [id]);
+        const result = await pool.query(`
+            SELECT p.*, u.nome AS usuario_nome 
+            FROM PACIENTES p
+            INNER JOIN USUARIOS u ON p.id_usuario = u.id
+            WHERE p.id = $1;
+        `, [id]);
+
         return result.rows[0];
     } catch (err) {
         console.error('Erro ao buscar paciente pelo ID:', err);
@@ -40,17 +69,49 @@ const getPacienteById = async (id) => {
     }
 };
 
-// Atualizar Paciente
+// Função para atualizar um paciente no banco de dados
 const updatePaciente = async (id, pacienteData) => {
-    const { nome, cpf, data_nascimento, contato, endereco } = pacienteData;
+    const {
+        id_usuario,
+        nome,
+        idade,
+        cpf,
+        data_nasc,
+        genero,
+        relacao_paciente,
+        medicamentos_paciente,
+        alergias,
+        doencas_existentes,
+    } = pacienteData;
 
     try {
         const result = await pool.query(`
-            UPDATE pacientes
-            SET nome = $1, cpf = $2, data_nascimento = $3, contato = $4, endereco = $5
-            WHERE id = $6
+            UPDATE PACIENTES SET
+                id_usuario = $1,
+                nome = $2,
+                idade = $3,
+                cpf = $4,
+                data_nasc = $5,
+                genero = $6,
+                relacao_paciente = $7,
+                medicamentos_paciente = $8,
+                alergias = $9,
+                doencas_existentes = $10
+            WHERE id = $11
             RETURNING *;
-        `, [nome, cpf, data_nascimento, contato, endereco, id]);
+        `, [
+            id_usuario,
+            nome,
+            idade,
+            cpf,
+            data_nasc,
+            genero,
+            relacao_paciente,
+            medicamentos_paciente,
+            alergias,
+            doencas_existentes,
+            id,
+        ]);
 
         return result.rows[0];
     } catch (err) {
@@ -69,10 +130,21 @@ const deletePaciente = async (id) => {
     }
 };
 
+const getPacienteByCpf = async (cpf) => {
+    try {
+        const result = await pool.query('SELECT * FROM pacientes WHERE cpf = $1', [cpf]);
+        return result.rows[0];
+    } catch (err) {
+        console.error('Erro ao buscar paciente pelo CPF:', err);
+        throw err;
+    }
+}
+
 module.exports = {
     addPaciente,
     getAllPacientes,
     getPacienteById,
     updatePaciente,
-    deletePaciente
+    deletePaciente,
+    getPacienteByCpf
 };

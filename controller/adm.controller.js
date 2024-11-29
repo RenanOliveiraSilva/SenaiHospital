@@ -38,7 +38,8 @@ const renderizaHome = async (req, res) => {
 //Renderiza home administrador
 const renderizaCadPaciente = async (req, res) => {
     try {
-       res.render('./home/cadastrar_paciente')
+        const usuarios = await userModel.getUsuarioSemPaciente();
+       res.render('./home/cadastrar_paciente', { usuarios })
 
     } catch (err) {
         res.status(404).send('Rota não encontrada');
@@ -71,7 +72,6 @@ const renderizaListaMed = async (req, res) => {
 const renderizaListaFunc = async (req, res) => {
     try {
         const funcionarios = await funcModel.getAllFuncionarios();
-        console.log(funcionarios)
         res.render('./home/gerenciar_funcionario', { funcionarios })
 
     } catch (err) {
@@ -94,7 +94,8 @@ const renderizaCadFunc = async (req, res) => {
 const renderizaListaPacientes = async (req, res) => {
     try {
         const pacientes = await PacienteModel.getAllPacientes();
-        res.render('gerenciar_pacientes', { pacientes });
+        console.log(pacientes);
+        res.render('./home/gerenciar_pacientes', { pacientes });
     } catch (err) {
         console.error('Erro ao renderizar a lista de pacientes:', err);
         res.status(500).send('Erro ao renderizar a lista de pacientes');
