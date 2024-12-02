@@ -6,72 +6,87 @@
     <link href="/stylesheets/output.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Asap&display=swap" rel="stylesheet">
     <title>Cadastro de Usuário - PediCare+</title>
+    <style>
+        body {
+            font-family: 'Asap', sans-serif;
+            background-color: #F0E8D9;
+        }
+        .input-field {
+            font-family: 'Asap', sans-serif;
+        }
+        .input-field:focus {
+            border-color: #2C5545;
+            box-shadow: 0 0 0 3px rgba(44, 85, 69, 0.2);
+            outline: none;
+        }
+    </style>
 </head>
-<style>
-    .input-field {
-        font-family: 'Asap', sans-serif;
-    }
-</style>
 <body>
     <div class="min-h-screen grid md:grid-cols-2">
+        <!-- Formulário de Cadastro -->
         <div class="p-6 md:p-8 lg:p-12 flex flex-col justify-center items-center bg-[#D0C7B6]">
             <div class="max-w-md mx-auto w-full">
-                <div class="mb-8 text-center">
+                <div class="mb-2 text-center">
                     <div class="flex justify-center items-center">
-                        <img src="/images/PediCare+.png" alt="logo" class="w-40 h-40 object-contain">
+                        <img src="/images/PediCare+.png" alt="logo" class="w-32 h-32 object-contain">
                     </div>
-                    <p class="text-muted-foreground text-[#2C5545]">Cadastro de Usuário</p>
+                    <h1 class="text-xl font-bold text-[#2C5545] mt-4">Cadastro de Usuário</h1>
                 </div>
-                <!-- Formulário de Cadastro -->
-                <form action="/cadastrar" method="POST" class="space-y-6">
+                <form id="cadastroForm" action="/home/cadastro_user" method="POST" class="space-y-6">
+                    <!-- Campos de Entrada -->
                     <div class="space-y-2 flex flex-col items-center">
-                        <label for="fullName" class="text-sm font-medium"></label>
-                        <input type="text" id="fullName" name="fullName" placeholder="Nome Completo" class="input-field text-sm rounded-lg shadow-xl p-4 w-full md:w-96 h-12" required>
+                        <input type="text" id="nomeCompleto" name="nomeCompleto" placeholder="Nome Completo" class="input-field text-sm rounded-lg shadow-md p-4 w-full md:w-96 h-12 border border-gray-300" required>
                     </div>
                     <div class="space-y-2 flex flex-col items-center">
-                        <label for="cpf" class="text-sm font-medium"></label>
-                        <input type="text" id="cpf" name="cpf" placeholder="CPF" class="input-field text-sm rounded-lg shadow-xl p-3 w-full md:w-96 h-12" required>
+                        <input type="text" id="cpf" name="cpf" placeholder="CPF" class="input-field text-sm rounded-lg shadow-md p-4 w-full md:w-96 h-12 border border-gray-300" required>
                     </div>
                     <div class="space-y-2 flex flex-col items-center">
-                        <label for="address" class="text-sm font-medium"></label>
-                        <input type="text" id="address" name="address" placeholder="Endereço" class="input-field text-sm rounded-lg shadow-xl p-3 w-full md:w-96 h-12" required>
+                        <input type="text" id="endereco" name="endereco" placeholder="Endereço" class="input-field text-sm rounded-lg shadow-md p-4 w-full md:w-96 h-12 border border-gray-300" required>
                     </div>
                     <div class="flex justify-center space-x-4">
                         <div class="space-y-2 flex flex-col items-center">
-                            <label for="number" class="text-sm font-medium"></label>
-                            <input type="text" id="number" name="number" placeholder="Número" class="input-field text-sm rounded-lg shadow-xl p-3 w-full md:w-20 h-12" required>
+                            <input type="text" id="numero" name="numero" placeholder="Número" class="input-field text-sm rounded-lg shadow-md p-4 w-full md:w-20 h-12 border border-gray-300" required>
                         </div>
                         <div class="space-y-2 flex flex-col items-center">
-                            <label for="neighborhood" class="text-sm font-medium"></label>
-                            <input type="text" id="neighborhood" name="neighborhood" placeholder="Bairro" class="input-field text-sm rounded-lg shadow-xl p-3 w-full md:w-72 h-12" required>
+                            <input type="text" id="bairro" name="bairro" placeholder="Bairro" class="input-field text-sm rounded-lg shadow-md p-4 w-full md:w-72 h-12 border border-gray-300" required>
                         </div>
                     </div>
                     <div class="space-y-2 flex flex-col items-center">
-                        <label for="city" class="text-sm font-medium"></label>
-                        <input type="text" id="city" name="city" placeholder="Cidade" class="input-field text-sm rounded-lg shadow-xl p-3 w-full md:w-96 h-12" required>
+                        <input type="text" id="cidade" name="cidade" placeholder="Cidade" class="input-field text-sm rounded-lg shadow-md p-4 w-full md:w-96 h-12 border border-gray-300" required>
                     </div>
                     <div class="space-y-2 flex flex-col items-center">
-                        <label for="phone" class="text-sm font-medium"></label>
-                        <input type="text" id="phone" name="phone" placeholder="Telefone" class="input-field text-sm rounded-lg shadow-xl p-3 w-full md:w-96 h-12" required>
+                        <input type="text" id="telefone" name="telefone" placeholder="Telefone" class="input-field text-sm rounded-lg shadow-md p-4 w-full md:w-96 h-12 border border-gray-300" required>
                     </div>
                     <div class="space-y-2 flex flex-col items-center">
-                        <label for="email" class="text-sm font-medium"></label>
-                        <input type="email" id="email" name="email" placeholder="E-mail" class="input-field text-sm rounded-lg shadow-xl p-3 w-full md:w-96 h-12" required>
+                        <input type="email" id="email" name="email" placeholder="E-mail" class="input-field text-sm rounded-lg shadow-md p-4 w-full md:w-96 h-12 border border-gray-300" required>
                     </div>
                     <div class="space-y-2 flex flex-col items-center">
-                        <label for="password" class="text-sm font-medium"></label>
-                        <input type="password" id="password" name="password" placeholder="Digite a senha" class="input-field text-sm rounded-lg shadow-xl p-3 w-full md:w-96 h-12" required>
+                        <input type="password" id="senha" name="senha" placeholder="Digite a senha" class="input-field text-sm rounded-lg shadow-md p-4 w-full md:w-96 h-12 border border-gray-300" required>
                     </div>
                     <div class="space-y-2 flex flex-col items-center">
-                        <label for="confirmPassword" class="text-sm font-medium"></label>
-                        <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Confirme a senha" class="input-field text-sm rounded-lg shadow-xl p-3 w-full md:w-96 h-12" required>
+                        <input type="password" id="confirmarSenha" name="confirmarSenha" placeholder="Confirme a senha" class="input-field text-sm rounded-lg shadow-md p-4 w-full md:w-96 h-12 border border-gray-300" required>
                     </div>
-                    <div class="flex justify-center items-center space-x-2">
-                        <input type="checkbox" id="terms" name="terms" required>
-                        <label for="terms" class="text-sm text-muted-foreground text-[#465C47]">Aceito para cadastro</label>
+                    <div class="space-y-2 flex flex-col items-center">
+                        <input type="date" id="data_nasc" name="data_nasc" class="input-field text-sm rounded-lg shadow-md p-4 w-full md:w-96 h-12 border border-gray-300" required>
                     </div>
+                    <div class="space-y-2 flex flex-col items-center">
+                        <select id="tipoUsuario" name="tipoUsuario" class="input-field text-sm rounded-lg shadow-md p-4 w-full md:w-96 h-12 border border-gray-300" required>
+                            <option value="" disabled selected>Selecione o tipo de usuário</option>
+                            <option value="adm">Administrador</option>
+                            <option value="medico">Médico</option>
+                            <option value="recepcionista">Recepcionista</option>
+                            <option value="usuario">Usuário</option>
+                        </select>   
+                    </div>
+                    
+                    <!-- Mensagem de Erro -->
+                    <div class="py-6 box-border">
+                        <div id="mensagemErro" class="text-red-600 text-sm font-semibold text-center hidden p-0 m-0"></div>
+                    </div>
+                    
                     <div class="flex justify-center items-center mt-4">
-                        <button type="submit" class="bg-[#F0E8D9] hover:bg-[#F5F2EC] text-[#465C47] font-extrabold py-4 px-6 rounded-lg w-full md:w-40 h-12 flex justify-center items-center">
+                        
+                        <button type="submit" class="bg-[#2C5545] hover:bg-[#234536] text-white font-extrabold py-4 px-6 rounded-lg w-full md:w-40 h-12 flex justify-center items-center shadow-md">
                             CADASTRAR
                         </button>
                     </div>
@@ -79,6 +94,7 @@
             </div>
         </div>
     
+        <!-- Imagem de Fundo -->
         <div class="hidden md:block bg-cover bg-center relative" 
         style="background-image: url('/images/cad_user.png'); 
                background-position: center;
@@ -87,9 +103,57 @@
 
        <!-- Camada de sobreposição -->
        <div class="absolute inset-0 bg-[#D0C7B6] opacity-45"></div> 
-       <div class="relative z-10"> 
-       </div>
    </div>
     </div>
+
+   
+
+<script>
+    document.getElementById("cadastroForm").addEventListener("submit", async function(event) {
+        event.preventDefault(); // Impede o envio padrão do formulário
+
+        // Captura os dados do formulário
+        const formData = new FormData(event.target);
+        const data = {};
+        formData.forEach((value, key) => (data[key] = value));
+
+        try {
+            // Envia a solicitação para o servidor
+            const response = await fetch(event.target.action, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(data),
+            });
+
+            // Verifica se a resposta foi bem-sucedida
+            const mensagemErro = document.getElementById("mensagemErro");
+            if (!response.ok) {
+                const errorData = await response.json();
+                
+                // Exibe mensagem de erro específica
+                if (errorData.message) {
+                    mensagemErro.textContent = errorData.message;
+                } else {
+                    mensagemErro.textContent = "Erro desconhecido. Por favor, tente novamente.";
+                }
+
+                mensagemErro.classList.remove("hidden"); // Mostra a mensagem de erro
+                return;
+            }
+
+            // Redireciona caso seja bem-sucedido
+            window.location.href = "/home/home-administrador";
+
+        } catch (error) {
+            console.error("Erro ao enviar o formulário:", error);
+            const mensagemErro = document.getElementById("mensagemErro");
+            mensagemErro.textContent = "Erro ao enviar o formulário. Tente novamente.";
+            mensagemErro.classList.remove("hidden");
+        }
+    });
+</script>
+
 </body>
 </html>
