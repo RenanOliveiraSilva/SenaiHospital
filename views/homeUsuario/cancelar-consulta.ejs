@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/stylesheets/output.css" />
+    <title>Cancelar Consulta</title>
+    <style>
+      .selected {
+        border: 2px solid #2a9d8f !important;
+        background-color: #a1cdcd !important;
+      }
+    </style>
+  </head>
+  <body class="bg-[#F9F8F3] font-sans h-screen flex flex-col">
+    <!-- Cabeçalho -->
+    <header class="bg-[#EAE5DA] p-4 shadow-md w-full fixed top-0 left-0">
+      <h1 class="text-3xl font-bold text-[#465C47] text-center">PediCare+</h1>
+    </header>
+
+    <!-- Corpo -->
+    <div class="flex-1 flex items-center justify-center mt-20">
+      <div class="flex justify-between gap-8 w-4/5">
+        <!-- Consultas Agendadas -->
+        <div class="flex-1 bg-[#FAF3E9] rounded-md shadow-md p-6">
+          <h2 class="text-2xl font-semibold text-[#465C47] mb-4">
+            Consultas Agendadas
+          </h2>
+          <div id="consultas-container" class="space-y-4">
+            <!-- Consultas serão injetadas aqui -->
+          </div>
+        </div>
+
+        <!-- Solicitação de Cancelamento -->
+        <div class="flex-1 bg-[#FAF3E9] rounded-md shadow-md p-6">
+          <h2 class="text-2xl font-semibold text-[#465C47] mb-4">
+            Cancelar ou Reagendar
+          </h2>
+          <!-- Seleção de consulta -->
+          <div class="mb-4">
+            <label for="consulta" class="block font-medium text-[#465C47] mb-2"
+              >Selecione a consulta agendada:</label
+            >
+            <select id="consulta" class="p-2 border rounded-md w-full bg-white">
+              <!-- Opções serão injetadas aqui -->
+            </select>
+          </div>
+
+          <!-- Solicitação de Cancelamento -->
+          <div class="mb-4">
+            <label
+              for="motivo-cancelamento"
+              class="block font-medium text-[#465C47] mb-2"
+              >Motivo do cancelamento:</label
+            >
+            <textarea
+              id="motivo-cancelamento"
+              class="p-2 border rounded-md w-full bg-white resize-none"
+              rows="3"
+              placeholder="Digite o motivo do cancelamento"
+            ></textarea>
+          </div>
+
+          <button
+            class="bg-red-600 text-white font-semibold py-2 px-4 rounded-md w-full hover:bg-red-700 transition duration-200"
+            onclick="cancelarConsulta()"
+          >
+            Cancelar Consulta
+          </button>
+
+          <!-- Solicitação de Reagendamento -->
+          <div class="mt-6">
+            <label for="nova-data" class="block font-medium text-[#465C47] mb-2"
+              >Nova Data:</label
+            >
+            <input
+              type="date"
+              id="nova-data"
+              class="p-2 border rounded-md bg-white w-40 mb-4"
+            />
+
+            <label class="block font-medium text-[#465C47] mb-2"
+              >Selecione o novo horário:</label
+            >
+            <div
+              id="horarios-container"
+              class="grid grid-cols-4 gap-4 justify-items-center"
+            >
+              <!-- Horários serão injetados aqui -->
+            </div>
+          </div>
+          <button
+            class="bg-green-600 text-white font-semibold py-2 px-4 rounded-md w-full mt-4 hover:bg-green-700 transition duration-200"
+            onclick="reagendarConsulta()"
+          >
+            Reagendar Consulta
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      // Simulação de dados como se fossem do banco de dados
+      const consultas = [
+        {
+          id: 1,
+          medico: "Dr. Marcelo Rosa",
+          especialidade: "Pediatria Geral",
+          data: "23/10/2024",
+          hora: "15:00",
+        },
+        {
+          id: 2,
+          medico: "Dr. Luis Otávio",
+          especialidade: "Dermatologista",
+          data: "24/10/2024",
+          hora: "16:30",
+        },
+      ];
+
+      const horariosDisponiveis = ["09:00", "10:30", "13:00", "15:00"];
+
+      let selectedHorario = "";
+
+      // Injetar consultas na lista de agendadas e no dropdown
+      const consultasContainer = document.getElementById("consultas-container");
+      const consultaDropdown = document.getElementById("consulta");
+
+      consultas.forEach((consulta) => {
+        // Card de consulta
+        const card = document.createElement("div");
+        card.className = "bg-white p-4 rounded-md shadow-md";
+        card.innerHTML = `
+          <p class="font-semibold text-[#465C47]">${consulta.medico} - ${consulta.especialidade}</p>
+          <p class="text-gray-500">${consulta.data}, ${consulta.hora}</p>
+        `;
+        consultasContainer.appendChild(card);
+
+        // Opção no dropdown
+        const option = document.createElement("option");
+        option.value = consulta.id;
+        option.textContent = `${consulta.medico} - ${consulta.data}, ${consulta.hora}`;
+        consultaDropdown.appendChild(option);
+      });
+
+      // Injetar horários disponíveis
+      const horariosContainer = document.getElementById("horarios-container");
+      horariosDisponiveis.forEach((horario) => {
+        const button = document.createElement("button");
+        button.className =
+          "bg-[#2A9D8F] text-white font-medium p-2 w-20 text-center rounded-md shadow-md cursor-pointer hover:bg-[#21867A] transition duration-200 text-sm";
+        button.innerText = horario;
+        button.onclick = () => toggleHorarioSelection(button, horario);
+        horariosContainer.appendChild(button);
+      });
+
+      // Alternar seleção de horário
+      function toggleHorarioSelection(button, horario) {
+        if (button.classList.contains("selected")) {
+          button.classList.remove("selected");
+          selectedHorario = "";
+        } else {
+          document
+            .querySelectorAll("#horarios-container button")
+            .forEach((btn) => btn.classList.remove("selected"));
+          button.classList.add("selected");
+          selectedHorario = horario;
+        }
+      }
+
+      // Ações de cancelamento e reagendamento
+      function cancelarConsulta() {
+        const consultaId = consultaDropdown.value;
+        const motivo = document.getElementById("motivo-cancelamento").value;
+
+        if (!motivo) {
+          alert("Por favor, insira o motivo do cancelamento.");
+          return;
+        }
+
+        alert(`Consulta ${consultaId} cancelada com sucesso!`);
+      }
+
+      function reagendarConsulta() {
+        const novaData = document.getElementById("nova-data").value;
+
+        if (!novaData || !selectedHorario) {
+          alert("Por favor, insira a nova data e selecione o horário.");
+          return;
+        }
+
+        alert(
+          `Consulta reagendada para ${novaData} às ${selectedHorario} com sucesso!`
+        );
+      }
+    </script>
+  </body>
+</html>

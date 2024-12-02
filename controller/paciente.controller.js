@@ -188,6 +188,50 @@ const renderizaHomePaciente = async (req, res) => {
     }
 };
 
+// Renderizar a página de agendamento de consulta
+const renderizarAgendamentoConsulta = (req, res) => {
+    res.render('./homeUsuario/agendar-consulta');
+};
+
+// Função para obter médicos disponíveis em uma data específica
+const getMedicosDisponiveis = async (req, res) => {
+    const { data } = req.query;
+
+    try {
+        const medicos = await PacienteModel.getMedicosDisponiveis(data);
+        res.status(200).json(medicos);
+    } catch (error) {
+        console.error('Erro ao buscar médicos disponíveis:', error);
+        res.status(500).json({ message: 'Erro ao buscar médicos disponíveis' });
+    }
+};
+
+// Função para obter horários disponíveis para um médico específico
+const getHorariosDisponiveis = async (req, res) => {
+    const { data, medicoId } = req.query;
+
+    try {
+        const horarios = await PacienteModel.getHorariosDisponiveis(data, medicoId);
+        res.status(200).json(horarios);
+    } catch (error) {
+        console.error('Erro ao buscar horários disponíveis:', error);
+        res.status(500).json({ message: 'Erro ao buscar horários disponíveis' });
+    }
+};
+
+// Função para agendar uma consulta
+const agendarConsulta = async (req, res) => {
+    const consultaData = req.body;
+
+    try {
+        const consulta = await PacienteModel.agendarConsulta(consultaData);
+        res.status(200).json(consulta);
+    } catch (error) {
+        console.error('Erro ao agendar consulta:', error);
+        res.status(500).json({ message: 'Erro ao agendar consulta' });
+    }
+};
+
 module.exports = {
     postPaciente,
     getPacientes,
@@ -195,5 +239,9 @@ module.exports = {
     putPaciente,
     deletePaciente,
     getEditarPaciente,
-    renderizaHomePaciente
+    renderizaHomePaciente,
+    renderizarAgendamentoConsulta,
+    getMedicosDisponiveis,
+    getHorariosDisponiveis,
+    agendarConsulta
 };

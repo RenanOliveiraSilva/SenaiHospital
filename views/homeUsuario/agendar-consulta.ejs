@@ -10,6 +10,10 @@
             border: 2px solid #465c47 !important;
             background-color: #f4f4f4 !important;
         }
+        .disabled {
+            background-color: #d3d3d3 !important;
+            cursor: not-allowed !important;
+        }
     </style>
 </head>
 <body class="bg-[#F9F8F3] font-sans">
@@ -84,12 +88,13 @@
         function selectLocal(localId) {
             clearSelected("polo");
             selectedPolo = localId;
-            document.querySelectorAll("#locais-container div").forEach((local, index) => {
-                local.classList.remove("selected");
-                if (index + 1 === localId) {
-                    local.classList.add("selected");
+            const locais = document.querySelectorAll("#locais-container div");
+            locais.forEach(local => {
+                if (local.onclick) {
+                    local.classList.remove("selected");
                 }
             });
+            locais[localId - 1].classList.add("selected");
             updateMedicos();
         }
 
@@ -121,6 +126,32 @@
             }
         }
 
+        // Buscar horários disponíveis para um médico específico
+        async function updateHorarios(medicoId) {
+            const data = document.getElementById("data-consulta").value;
+            const horariosContainer = document.getElementById("horarios-container");
+            horariosContainer.innerHTML = "";
+
+            if (data && medicoId) {
+                try {
+                    const response = await fetch(`/horarios-disponiveis?data=${data}&medicoId=${medicoId}`);
+                    const horarios = await response.json();
+
+                    horarios.forEach((horario) => {
+                        const button = document.createElement("button");
+                        button.className =
+                            "bg-[#FAF3E9] p-2 w-20 text-center rounded-md shadow-md text-[#465C47] font-medium cursor-pointer hover:bg-[#EAE5DA] transition duration-200 text-sm";
+                        button.innerText = `${horario}:00`;
+                        button.onclick = () => toggleSelection(button, "horario", horario);
+                        horariosContainer.appendChild(button);
+                    });
+                } catch (error) {
+                    console.error('Erro ao buscar horários:', error);
+                    horariosContainer.innerHTML = `<p class="text-gray-500 col-span-full">Erro ao carregar horários.</p>`;
+                }
+            }
+        }
+
         // Alternar seleção
         function toggleSelection(element, type, value) {
             if (element.classList.contains("selected")) {
@@ -133,7 +164,10 @@
                 element.classList.add("selected");
                 if (type === "polo") selectedPolo = value;
                 if (type === "horario") selectedHorario = value;
-                if (type === "medico") selectedMedico = value;
+                if (type === "medico") {
+                    selectedMedico = value;
+                    updateHorarios(value); // Atualizar horários ao selecionar um médico
+                }
             }
             updateConfirmButton();
         }
@@ -190,10 +224,6 @@
             }
         }
 
-        // Inicialização
-        document.addEventListener("DOMContentLoaded", () => {
-            updateMedicos();
-        });
     </script>
 </body>
 </html>

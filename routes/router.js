@@ -52,7 +52,12 @@ router
 
 // //Rotas Paciente
 router
-    .get('/home/home-paciente', pacienteController.renderizaHomePaciente);
+    .get('/home/home-paciente', pacienteController.renderizaHomePaciente)
+    .get('/home/agendar-consulta', pacienteController.renderizarAgendamentoConsulta)
+    .get('/medicos-disponiveis', pacienteController.getMedicosDisponiveis)
+    .get('/horarios-disponiveis', pacienteController.getHorariosDisponiveis)
+    .post('/agendar-consulta', pacienteController.agendarConsulta);
+
 
 //Rotas Funcionário
 router
@@ -60,8 +65,10 @@ router
     .post('/enviar-notificacao', funcionarioController.enviarNotificacao);
 
 
-router.get('/teste', (req, res) => {
+    router.get('/teste', (req, res) => {
         res.render('homeMedico/consulta-medico'); // Caminho correto para a tela
     });
+
+
 
 module.exports = router;
