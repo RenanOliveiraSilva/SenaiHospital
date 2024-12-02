@@ -1,4 +1,7 @@
 const funcionarioModel = require('../model/funcionarios.model');
+const nodemailer = require('nodemailer');
+
+require('dotenv').config();
 
 // Cria um novo funcionário
 const postCreateFuncionario = async (req, res) => {
@@ -22,6 +25,14 @@ const postCreateFuncionario = async (req, res) => {
         res.status(500).json({ message: 'Erro ao criar funcionário.' });
     }
 };
+
+const renderizaHomeFuncionario = async (req, res) => {
+    try {
+        res.render('./homeRecepcionista/home-recepcionista');
+    } catch (err) {
+        res.status(404).send('Rota não encontrada');
+    }
+}
 
 // Obtém todos os funcionários
 const getFuncionarios = async (req, res) => {
@@ -119,6 +130,42 @@ const deleteFuncionario = async (req, res) => {
     }
 };
 
+// Função para enviar e-mail
+const enviarNotificacao = async (req, res) => {
+    const { email, mensagem } = req.body;
+
+    if (!email || !mensagem) {
+        return res.status(400).json({ message: "Por favor, preencha todos os campos." });
+    }
+
+    try {
+        // Configurar o transporte do e-mail
+        let transporter = nodemailer.createTransport({
+            service: 'gmail',
+            auth: {
+                user: process.env.EMAIL_USER,
+                pass: process.env.EMAIL_PASS,
+            },
+        });
+
+        // Configurar os detalhes do e-mail
+        let mailOptions = {
+            from: process.env.EMAIL_USER,
+            to: email,
+            subject: 'Notificação - PediCare+',
+            text: mensagem,
+        };
+
+        // Enviar o e-mail
+        await transporter.sendMail(mailOptions);
+
+        res.status(200).json({ message: "Notificação enviada com sucesso!" });
+    } catch (error) {
+        console.error('Erro ao enviar e-mail:', error);
+        res.status(500).json({ message: "Erro ao enviar o e-mail." });
+    }
+};
+
 module.exports = {
     postCreateFuncionario,
     getFuncionarios,
@@ -126,4 +173,6 @@ module.exports = {
     getEditarFuncionario,
     putUpdateFuncionario,
     deleteFuncionario,
+    renderizaHomeFuncionario,
+    enviarNotificacao
 };

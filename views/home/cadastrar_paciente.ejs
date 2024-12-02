@@ -26,7 +26,7 @@
         <h2 class="text-3xl font-bold text-center text-[#2C5545] mb-8">Cadastro de Paciente</h2>
 
         <!-- Formulário de Cadastro -->
-        <form action="/home/cadastro_paciente" method="POST" class="space-y-6" id="cadastroForm">
+        <form action="/home/cadastro_paciente/<%= t %>" method="POST" class="space-y-6" id="cadastroForm">
             <!-- Selecionar Usuário Existente -->
             <div class="form-group">
                 <label for="usuario" class="block text-sm font-medium text-[#2C5545] mb-2">Usuário:</label>
@@ -142,8 +142,10 @@
                 return;
             }
 
-            // Redireciona caso seja bem-sucedido
-            window.location.href = "/home/home-administrador";
+            const responseData = await response.json();
+            if (responseData.redirect) {
+                window.location.href = responseData.redirect; // Redireciona conforme a resposta do servidor
+            }
 
         } catch (error) {
             console.error("Erro ao enviar o formulário:", error);

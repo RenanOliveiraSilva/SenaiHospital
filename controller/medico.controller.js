@@ -118,10 +118,21 @@ const excluirMedico = async (req, res) => {
     }
 };
 
+const renderizaHomeMedico = (req, res) => {
+    try {
+        // Renderiza a home do médico
+        res.render('./homeMedico/home-medico');
+    } catch (error) {
+        console.error('Erro ao renderizar home do médico:', error);
+        res.status(500).send('Erro ao renderizar home do médico');
+    }
+};
+
 
 module.exports = {
     postMedico,
     excluirMedico,
     getEditarMedico,
-    postEditarMedico
+    postEditarMedico,
+    renderizaHomeMedico
 };

@@ -15,6 +15,9 @@ const postPaciente = async (req, res) => {
         doencas_existentes,
     } = req.body;
 
+    const t  = req.params.t;
+    console.log(t)
+
     // Validações de campos em branco
     if (
         !id_usuario ||
@@ -53,11 +56,16 @@ const postPaciente = async (req, res) => {
         });
 
         if (!novoPaciente) {
-            return res.status(400).json({ message: 'Erro ao cadastrar paciente' });
+            return res.status(500).json({ message: 'Erro ao cadastrar paciente' });
         }
 
-        // Redireciona após o cadastro
-        res.redirect('/home/home-administrador');
+        if (t == 1) {
+            res.status(200).json({ redirect: "/home/home-administrador" });
+        } else {
+            // Redireciona após o cadastro
+            res.status(200).json({ redirect: "/home/home-funcionario" });
+        }
+
     } catch (error) {
         console.error('Erro ao cadastrar paciente:', error);
         res.status(500).json({ error: error.message });
@@ -170,11 +178,22 @@ const deletePaciente = async (req, res) => {
     }
 };
 
+const renderizaHomePaciente = async (req, res) => {
+    try {
+
+        res.render('./homeUsuario/home-paciente');
+
+    } catch (err) {
+        res.status(500).json({ error: 'Erro ao renderizar página' });
+    }
+};
+
 module.exports = {
     postPaciente,
     getPacientes,
     getPaciente,
     putPaciente,
     deletePaciente,
-    getEditarPaciente
+    getEditarPaciente,
+    renderizaHomePaciente
 };

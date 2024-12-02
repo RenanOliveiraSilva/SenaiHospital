@@ -32,7 +32,7 @@
                     </div>
                     <h1 class="text-xl font-bold text-[#2C5545] mt-4">Cadastro de Usuário</h1>
                 </div>
-                <form id="cadastroForm" action="/home/cadastro_user" method="POST" class="space-y-6">
+                <form id="cadastroForm" action="/home/cadastro_user/<%= t %>" method="POST" class="space-y-6">
                     <!-- Campos de Entrada -->
                     <div class="space-y-2 flex flex-col items-center">
                         <input type="text" id="nomeCompleto" name="nomeCompleto" placeholder="Nome Completo" class="input-field text-sm rounded-lg shadow-md p-4 w-full md:w-96 h-12 border border-gray-300" required>
@@ -106,8 +106,6 @@
    </div>
     </div>
 
-   
-
 <script>
     document.getElementById("cadastroForm").addEventListener("submit", async function(event) {
         event.preventDefault(); // Impede o envio padrão do formulário
@@ -143,8 +141,10 @@
                 return;
             }
 
-            // Redireciona caso seja bem-sucedido
-            window.location.href = "/home/home-administrador";
+            const responseData = await response.json();
+            if (responseData.redirect) {
+                window.location.href = responseData.redirect; // Redireciona conforme a resposta do servidor
+            }
 
         } catch (error) {
             console.error("Erro ao enviar o formulário:", error);

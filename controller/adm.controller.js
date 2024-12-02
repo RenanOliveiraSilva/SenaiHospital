@@ -18,7 +18,8 @@ const renderizaCadMedico = async (req, res) => {
 //Renderiza Cadastro_User
 const renderizaCadUser = async (req, res) => {
     try {
-       res.render('./home/cadastrar_user')
+        const { t } = req.params;
+       res.render('./home/cadastrar_user', { t })
 
     } catch (err) {
         res.status(404).send('Rota não encontrada');
@@ -39,7 +40,8 @@ const renderizaHome = async (req, res) => {
 const renderizaCadPaciente = async (req, res) => {
     try {
         const usuarios = await userModel.getUsuarioSemPaciente();
-       res.render('./home/cadastrar_paciente', { usuarios })
+        const { t } = req.params;
+       res.render('./home/cadastrar_paciente', { usuarios, t })
 
     } catch (err) {
         res.status(404).send('Rota não encontrada');

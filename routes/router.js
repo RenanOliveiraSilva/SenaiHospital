@@ -25,17 +25,17 @@ router
     .get('/home/gerenciar_funcionarios', admController.renderizaListaFunc)
     .get('/home/gerenciar_pacientes', admController.renderizaListaPacientes)
     .get('/home/cadastro_medico', admController.renderizaCadMedico)
-    .get('/home/cadastro_user', admController.renderizaCadUser)
-    .get('/home/cadastro_paciente', admController.renderizaCadPaciente)
+    .get('/home/cadastro_user/:t', admController.renderizaCadUser)
+    .get('/home/cadastro_paciente/:t', admController.renderizaCadPaciente)
     .get('/home/cadastro_funcionario', admController.renderizaCadFunc)
     .get('/usuarios/editar/:id', usuarioController.getEditarUsuario)
     .get('/medicos/editar/:id', medicoController.getEditarMedico)
     .get('/funcionarios/editar/:id', funcionarioController.getEditarFuncionario)
     .get('/pacientes/editar/:id', pacienteController.getEditarPaciente)
-    .post('/home/cadastro_user', usuarioController.criarUsuario)
+    .post('/home/cadastro_user/:t', usuarioController.criarUsuario)
     .post('/home/cadastro_medico', medicoController.postMedico)
     .post('/home/cadastro_funcionario', funcionarioController.postCreateFuncionario)
-    .post('/home/cadastro_paciente', pacienteController.postPaciente)
+    .post('/home/cadastro_paciente/:t', pacienteController.postPaciente)
     .put('/usuarios/editar/:id', usuarioController.postEditarUsuario)
     .put('/medicos/editar/:id', medicoController.postEditarMedico)
     .put('/funcionarios/editar/:id', funcionarioController.putUpdateFuncionario)
@@ -45,6 +45,19 @@ router
     .delete('/funcionarios/:id', funcionarioController.deleteFuncionario)
     .delete('/pacientes/:id', pacienteController.deletePaciente
 );
+
+// //Rotas Médico
+router
+    .get('/home/home-medico', medicoController.renderizaHomeMedico);
+
+// //Rotas Paciente
+router
+    .get('/home/home-paciente', pacienteController.renderizaHomePaciente);
+
+//Rotas Funcionário
+router
+    .get('/home/home-funcionario', funcionarioController.renderizaHomeFuncionario)
+    .post('/enviar-notificacao', funcionarioController.enviarNotificacao);
 
 
 module.exports = router;
