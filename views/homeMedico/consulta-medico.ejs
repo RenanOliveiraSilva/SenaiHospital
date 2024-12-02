@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="./stylesheets/output.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Asap&display=swap" rel="stylesheet">
+    <title>Consultas Agendadas</title>
+</head>
+<body class="font-sans bg-[#F0E8D9] m-0 p-0">
+    <header class="bg-[#F0E8D9] h-14 shadow-xl flex items-center m-0 p-0">
+        <img src="/images/PediCare+.png" alt="logo" class="w-32 h-auto object-contain ml-5">
+    </header>
+
+    <!-- Contêiner do calendário com fundo -->
+    <div class="relative bg-[url('/images/fundo-6.png')] bg-cover bg-center h-screen pt-14">
+        <div class="grid grid-cols-7 gap-2 mx-auto max-w-[350px] mt-10" id="calendar">
+            <!-- O calendário será renderizado aqui -->
+        </div>
+        <div id="consultation-info" class="mt-5 text-center text-lg font-semibold text-[#465C47] hidden">
+            <p>Consultas agendadas para este dia:</p>
+            <ul id="appointments-list">
+                <!-- As consultas agendadas aparecerão aqui -->
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        function generateCalendar() {
+            const calendarContainer = document.getElementById("calendar");
+            calendarContainer.innerHTML = ""; // Limpa o calendário para recriação
+
+            const today = new Date();
+            const currentYear = today.getFullYear();
+            const currentMonth = today.getMonth();
+
+            const daysInMonth = new Date(
+                currentYear,
+                currentMonth + 1,
+                0
+            ).getDate();
+            const firstDayOfMonth = new Date(currentYear, currentMonth, 1).getDay();
+
+            // Dias da semana
+            const daysOfWeek = ["Dom", "Seg", "Ter", "Qua", "Qui", "Sex", "Sáb"];
+            
+            // Criando as células de título dos dias da semana
+            daysOfWeek.forEach((day) => {
+                const dayElement = document.createElement("div");
+                dayElement.classList.add("font-bold", "text-center", "bg-[#F0E8D9]", "text-md","rounded-md", "text-[#465C47]");
+                dayElement.innerText = day;
+                calendarContainer.appendChild(dayElement);
+            });
+
+            // Espaço inicial para alinhar o primeiro dia do mês
+            for (let i = 0; i < firstDayOfMonth; i++) {
+                const emptyCell = document.createElement("div");
+                calendarContainer.appendChild(emptyCell);
+            }
+
+            // Dias do mês
+            for (let day = 1; day <= daysInMonth; day++) {
+                const dayElement = document.createElement("div");
+                dayElement.innerText = day;
+                dayElement.classList.add("p-3", "text-center", "bg-[#F5F5F5]", "rounded-lg", "hover:bg-[#F0E8D9]");
+                dayElement.dataset.day = day; // Adiciona um atributo de dados para identificar o dia
+
+                // Destaque para o dia atual
+                if (day === today.getDate()) {
+                    dayElement.classList.add("bg-[#D0C7B6]", "text-[#D0C7B6]", "font-bold");
+                }
+
+                // Evento de clique para seleção do dia
+                dayElement.addEventListener("click", function() {
+                    highlightDay(day);
+                    showAppointments(day);
+                });
+
+                calendarContainer.appendChild(dayElement);
+            }
+        }
+
+        // Função para destacar o dia selecionado
+        function highlightDay(day) {
+            const allDays = document.querySelectorAll("#calendar div");
+            allDays.forEach((el) => {
+                el.classList.remove("text-[#D0C7B6]", "font-bold");
+            });
+
+            const selectedDay = Array.from(allDays).find(el => el.dataset.day == day);
+            selectedDay.classList.add("text-[#D0C7B6]", "font-bold");
+        }
+
+        // Função para exibir as consultas agendadas para o dia selecionado
+        function showAppointments(day) {
+            const infoContainer = document.getElementById("consultation-info");
+            const appointmentsList = document.getElementById("appointments-list");
+            appointmentsList.innerHTML = ""; // Limpa a lista antes de adicionar novas consultas
+
+            // Simulação de consultas agendadas para o dia selecionado
+            const appointments = [
+                { time: "09:00", patient: "João da Silva" },
+                { time: "14:30", patient: "Maria Oliveira" }
+            ];
+
+            appointments.forEach((appointment) => {
+                const listItem = document.createElement("li");
+                listItem.classList.add("text-[#465C47]"); // 
+                listItem.innerText = `Hora: ${appointment.time} - Paciente: ${appointment.patient}`;
+                appointmentsList.appendChild(listItem);
+            });
+
+            // Exibe o container de informações
+            infoContainer.classList.remove("hidden");
+        }
+
+        document.addEventListener("DOMContentLoaded", generateCalendar);
+    </script>
+</body>
+</html>

@@ -60,4 +60,8 @@ router
     .post('/enviar-notificacao', funcionarioController.enviarNotificacao);
 
 
+router.get('/teste', (req, res) => {
+        res.render('homeMedico/consulta-medico'); // Caminho correto para a tela
+    });
+
 module.exports = router;
