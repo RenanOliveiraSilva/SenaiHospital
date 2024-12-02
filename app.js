@@ -2,12 +2,17 @@
 const express = require('express');
 var path = require('path');
 const bodyParser = require('body-parser');
+const cors = require('cors');
 
 const app = express();
 const PORT = 3000;
 
 // Importando rotas
 const mainRouter = require("./routes/router");
+
+//Configurando o cors
+app.use(cors());
+app.use(express.json())
 
 //Configuração do método override
 const methodOverride = require('method-override');

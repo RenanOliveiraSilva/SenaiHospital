@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="/stylesheets/output.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Asap&display=swap" rel="stylesheet">
+    <title>Editar Funcionário - PediCare+</title>
+    <style>
+        body {
+            font-family: 'Asap', sans-serif;
+        }
+
+        input.field, select {
+            font-family: 'Asap', sans-serif;
+        }
+
+        .radio-group label {
+            cursor: pointer;
+        }
+        
+        .radio-option {
+            margin-right: 1rem;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            transition: background-color 0.3s ease;
+        }
+
+        input[type="radio"]:checked + label {
+            background-color: #2C5545;
+            color: white;
+        }
+    </style>
+</head>
+
+<body class="bg-gray-100 min-h-screen">
+
+    <header class="bg-[#2C5545] h-20 shadow-lg flex items-center p-4">
+        <img src="/images/logo-branco.png" alt="logo" class="h-12">
+    </header>
+
+    <!-- Container -->
+    <div class="bg-white max-w-4xl mx-auto my-10 p-8 rounded-lg shadow-lg">
+        <h2 class="text-3xl font-bold text-center text-[#2C5545] mb-8">Editar Funcionário</h2>
+
+        <!-- Formulário de Edição -->
+        <form action="/funcionarios/editar/<%= funcionario.funcionario_id %>?_method=PUT" method="POST" class="space-y-6">
+
+            <!-- Selecionar Usuário Existente (não editável) -->
+            <div class="form-group">
+                <label for="usuario" class="block text-sm font-medium text-[#2C5545] mb-2">Usuário:</label>
+                <select id="usuario" name="id_usuario" class="input-field text-sm border border-gray-300 rounded-lg p-4 w-full focus:border-[#2C5545] focus:ring-[#2C5545] focus:outline-none transition ease-in-out" disabled>
+                    <option value="<%= funcionario.id_usuario %>" selected><%= funcionario.nome %></option>
+                </select>
+            </div>
+
+            <!-- Salário, Data de Admissão e Cargo -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6">
+                <!-- Salário e Data de Admissão à Esquerda -->
+                <div class="space-y-4">
+                    <div class="form-group">
+                        <label for="salary" class="block text-sm font-medium text-[#2C5545] mb-2">Salário:</label>
+                        <input type="text" id="salary" name="salario" value="<%= funcionario.salario %>" class="input-field text-sm border border-gray-300 rounded-lg p-4 w-full focus:border-[#2C5545] focus:ring-[#2C5545] focus:outline-none transition ease-in-out" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="admission" class="block text-sm font-medium text-[#2C5545] mb-2">Data de Admissão:</label>
+                        <input type="date" id="admission" name="data_admissao" value="<%= funcionario.data_admissao.toISOString().split('T')[0] %>" class="input-field text-sm border border-gray-300 rounded-lg p-4 w-full focus:border-[#2C5545] focus:ring-[#2C5545] focus:outline-none transition ease-in-out" required>
+                    </div>
+                </div>
+
+                <!-- Cargo à Direita em um Fieldset -->
+                <fieldset class="border border-gray-300 p-4 rounded-lg shadow-md h-full">
+                    <legend class="text-sm font-medium text-[#2C5545]">Cargo</legend>
+                    <div class="radio-group space-y-2 mt-4">
+                        <div class="form-group flex items-center">
+                            <input type="radio" id="cargoMedico" name="cargo" value="M" <%= funcionario.cargo === 'M' ? 'checked' : '' %> required>
+                            <label for="cargoMedico" class="radio-option ml-2 text-sm font-medium text-[#2C5545]">Médico</label>
+                        </div>
+                        <div class="form-group flex items-center">
+                            <input type="radio" id="cargoRecepcionista" name="cargo" value="R" <%= funcionario.cargo === 'R' ? 'checked' : '' %> required>
+                            <label for="cargoRecepcionista" class="radio-option ml-2 text-sm font-medium text-[#2C5545]">Recepcionista</label>
+                        </div>
+                    </div>
+                </fieldset>
+            </div>
+
+            <!-- Botão de Edição -->
+            <div class="flex justify-center mt-8">
+                <button type="submit" class="bg-[#2C5545] hover:bg-[#234536] text-white font-bold py-4 px-8 rounded-lg shadow-md transition duration-300 ease-in-out hover:shadow-lg">
+                    SALVAR ALTERAÇÕES
+                </button>
+            </div>
+        </form>
+    </div>
+
+</body>
+
+</html>

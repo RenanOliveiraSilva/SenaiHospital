@@ -12,7 +12,7 @@
     <!-- Navbar -->
     <header class="bg-[#2C5545] shadow-md p-4 flex items-center justify-between">
         <h1 class="text-white text-2xl font-bold">PediCare+ - Listagem de Usuários</h1>
-        <a href="/home/cadastro_user" class="bg-[#CAC2B5] hover:bg-[#938b7b] text-white font-semibold px-6 py-3 rounded-md">
+        <a href="/home/cadastro_user/1" class="bg-[#CAC2B5] hover:bg-[#938b7b] text-white font-semibold px-6 py-3 rounded-md">
             + Novo Usuário
         </a>
     </header>
@@ -21,36 +21,44 @@
     <main class="container mx-auto mt-6 p-6">
         <h2 class="text-xl font-bold text-[#2C5545] mb-4">Usuários Cadastrados</h2>
 
-        <!-- Tabela -->
-        <div class="overflow-x-auto bg-white shadow-md rounded-lg">
-            <table class="min-w-full text-left border-collapse">
-                <thead class="bg-[#E5E0D5] text-[#465C47]">
-                    <tr>
-                        <th class="py-3 px-4">Nome</th>
-                        <th class="py-3 px-4">Email</th>
-                        <th class="py-3 px-4">CPF</th>
-                        <th class="py-3 px-4">Cidade</th>
-                        <th class="py-3 px-4 text-center">Ações</th>
-                    </tr>
-                </thead>
-                <tbody class="divide-y divide-gray-200">
-                    <% usuarios.forEach((usuario) => { %>
+        <% if (usuarios.length === 0) { %>
+            <!-- Mensagem caso não existam médicos cadastrados -->
+            <div class="text-center text-[#465C47] mt-8">
+                <p class="text-lg font-semibold">Nenhum usuário cadastrado no momento.</p>
+                <p>Por favor, clique no botão acima para adicionar um novo usuário.</p>
+            </div>
+        <% } else { %>
+            <!-- Tabela -->
+            <div class="overflow-x-auto bg-white shadow-md rounded-lg">
+                <table class="min-w-full text-left border-collapse">
+                    <thead class="bg-[#E5E0D5] text-[#465C47]">
                         <tr>
-                            <td class="py-3 px-4"><%= usuario.nome %></td>
-                            <td class="py-3 px-4"><%= usuario.email %></td>
-                            <td class="py-3 px-4"><%= usuario.cpf %></td>
-                            <td class="py-3 px-4"><%= usuario.cidade %></td>
-                            <td class="py-3 px-4 flex justify-center gap-4">
-                                <a href="/usuarios/editar/<%= usuario.id %>" class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition">Editar</a>
-                                <form action="/usuarios/<%= usuario.id %>?_method=DELETE" method="POST">
-                                    <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition">Excluir</button>
-                                </form>
-                            </td>
+                            <th class="py-3 px-4">Nome</th>
+                            <th class="py-3 px-4">Email</th>
+                            <th class="py-3 px-4">CPF</th>
+                            <th class="py-3 px-4">Cidade</th>
+                            <th class="py-3 px-4 text-center">Ações</th>
                         </tr>
-                    <% }) %>
-                </tbody>
-            </table>
-        </div>
+                    </thead>
+                    <tbody class="divide-y divide-gray-200">
+                        <% usuarios.forEach((usuario) => { %>
+                            <tr>
+                                <td class="py-3 px-4"><%= usuario.nome %></td>
+                                <td class="py-3 px-4"><%= usuario.email %></td>
+                                <td class="py-3 px-4"><%= usuario.cpf %></td>
+                                <td class="py-3 px-4"><%= usuario.cidade %></td>
+                                <td class="py-3 px-4 flex justify-center gap-4">
+                                    <a href="/usuarios/editar/<%= usuario.id %>" class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition">Editar</a>
+                                    <form action="/usuarios/<%= usuario.id %>?_method=DELETE" method="POST">
+                                        <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition">Excluir</button>
+                                    </form>
+                                </td>
+                            </tr>
+                        <% }) %>
+                    </tbody>
+                </table>
+            </div>
+        <% } %>
     </main>
 
 </body>

@@ -16,15 +16,9 @@ async function autenticar(event) {
       
     if (response.ok) {
         const data = await response.json();
-        localStorage.clear();
-
-        // Armazena o token no localStorage
-        localStorage.setItem("authorization", data.token);
-        console.log("A")
 
         // Redireciona para a página do menu do aluno
         window.location.href = data.redirectTo;
-        console.log("B")
 
     } else {
         

@@ -12,6 +12,32 @@ const getTodosUsuarios = async () => {
     }
 };
 
+// Listagem de Usuários que Não Estão na Tabela Funcionários
+const getUsuariosSemFuncionario = async () => {
+    try {
+        const result = await pool.query(`
+            SELECT 
+                u.id AS usuario_id, 
+                u.nome, 
+                u.email,
+                u.cpf,
+                f.id AS funcionario_id
+            FROM usuarios u
+            LEFT JOIN funcionarios f ON u.id = f.id_usuario
+            WHERE f.id_usuario IS NULL
+            AND u.mapa <> 'A'
+        `);
+
+        console.log(result.rows);
+
+        return result.rows;
+    } catch (err) {
+        console.error('Erro ao buscar usuários sem vínculo na tabela funcionários:', err);
+        throw err;
+    }
+};
+
+
 // Model para buscar usuário pelo CPF
 const getUsuarioByCpf = async (cpf) => {
     try {
@@ -34,8 +60,6 @@ const getUsuarioByEmail = async (email) => {
     }
 };
 
-
-
 // Inserir usuário no banco de dados
 const createUsuario = async (userData) => {
     const { 
@@ -51,7 +75,6 @@ const createUsuario = async (userData) => {
         cidade, 
         data_nasc 
     } = userData;
-
     
     try {
         const result = await pool.query(
@@ -72,6 +95,28 @@ const getUsuarioById = async (id) => {
         return result.rows[0];
     } catch (error) {
         console.error('Erro ao buscar usuário por ID:', error);
+        throw error;
+    }
+};
+
+//Função para buscar um usuário sem pacientes
+const getUsuarioSemPaciente = async () => {
+    try {
+        const result = await pool.query(`
+            SELECT 
+                u.id AS usuario_id, 
+                u.nome, 
+                u.email,
+                u.cpf,
+                p.id AS paciente_id
+            FROM usuarios u
+            LEFT JOIN pacientes p ON u.id = p.id_usuario
+            WHERE p.id_usuario IS NULL
+        `);
+
+        return result.rows;
+    } catch (error) {
+        console.error('Erro ao buscar usuário sem paciente:', error);
         throw error;
     }
 };
@@ -121,9 +166,11 @@ const deleteUsuario = async (usuarioId) => {
 module.exports = {
     getTodosUsuarios,
     getUsuarioByEmail,
+    getUsuariosSemFuncionario,
     createUsuario,
     getUsuarioById,
     updateUsuario,
     getUsuarioByCpf,
-    deleteUsuario
+    deleteUsuario,
+    getUsuarioSemPaciente
 };

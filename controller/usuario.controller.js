@@ -1,11 +1,5 @@
-// controllers/exampleController.js
-const pool = require('../db/conn');
 const usuarioModel = require('../model/usuario.model');
 const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken');
-
-require('dotenv').config();
-const SECRET_KEY = process.env.SECRET_KEY;
 
 //Renderiza Home
 const renderizaFormLogin = async (req, res) => {
@@ -37,44 +31,31 @@ const logarUsuario = async (req, res) => {
             return res.status(400).send('Usuário ou Senha incorreta');
         }
 
-         // Login bem-sucedido: Gerar um token JWT
-        const token = jwt.sign(
-            { id: data.id, email: data.email }, // Dados para incluir no token
-            SECRET_KEY, // Chave secreta
-            { expiresIn: '1h' } // Duração do token
-        );
-        
-        console.log(data.mapa)
-
         //Verifiacar qual o tipo de acesso
         if (data.mapa == "U") {
             //Sucesso
             return res.status(200).json({
                 message: "Autenticado com sucesso!",
-                token,
-                redirectTo: "/homeUsuario/home-paciente",
+                redirectTo: "/home/home-paciente",
             });
 
         } else if (data.mapa == "M") {
             //Sucesso
             return res.status(200).json({
                 message: "Autenticado com sucesso!",
-                token,
-                redirectTo: "/Medico/index",
+                redirectTo: "/home/home-medico",
             });
 
         } else if (data.mapa == "R") {
             //Sucesso
             return res.status(200).json({
                 message: "Autenticado com sucesso!",
-                token,
-                redirectTo: "/homeRecepcionista/index",
+                redirectTo: "/homeRecepcionista/home-recepcionista",
             });
         } else if (data.mapa == "A") {
             //Sucesso
             return res.status(200).json({
                 message: "Autenticado com sucesso!",
-                token,
                 redirectTo: "/home/home-administrador",
             });
         }
@@ -88,6 +69,7 @@ const logarUsuario = async (req, res) => {
 //Inserção de usuário no banco de dados
 const criarUsuario = async (req, res) => {
     const { nomeCompleto, cpf, endereco, numero, bairro, cidade, telefone, email, senha, confirmarSenha, data_nasc, tipoUsuario } = req.body;
+    const t = req.params.t;
 
     // Validações de campos em branco
     if (!nomeCompleto || !cpf || !endereco || !numero || !bairro || !cidade || !telefone || !email || !senha || !confirmarSenha || !tipoUsuario) {
@@ -150,8 +132,13 @@ const criarUsuario = async (req, res) => {
             return res.status(400).json({ message: "Erro ao cadastrar usuário" });
         }
 
-        // Redireciona após o cadastro
-        res.redirect("/home/home-administrador");
+        if (t == 1) {
+            res.status(200).json({ redirect: "/home/home-administrador" });
+        } else {
+            // Redireciona após o cadastro
+            res.status(200).json({ redirect: "/home/home-funcionario" });
+        }
+
     } catch (error) {
         console.error('Erro ao criar usuário:', error);
         res.status(500).json({ error: error.message });

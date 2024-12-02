@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="/stylesheets/output.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Asap&display=swap" rel="stylesheet">
-    <title>Cadastro de Paciente - PediCare+</title>
+    <title>Editar Paciente - PediCare+</title>
     <style>
         body {
             font-family: 'Asap', sans-serif;
@@ -22,19 +22,23 @@
     </header>
 
     <!-- Container -->
-    <div class="bg-white max-w-4xl mx-auto my-10 p-8 rounded-lg shadow-lg">
-        <h2 class="text-3xl font-bold text-center text-[#2C5545] mb-8">Cadastro de Paciente</h2>
+    <div class="bg-white bg-opacity-90 max-w-4xl mx-auto my-10 p-8 rounded-lg shadow-lg">
+        <h2 class="text-3xl font-bold text-center text-[#2C5545] mb-8">Editar Paciente</h2>
 
-        <!-- Formulário de Cadastro -->
-        <form action="/home/cadastro_paciente/<%= t %>" method="POST" class="space-y-6" id="cadastroForm">
+        <!-- Formulário de Edição -->
+        <form action="/pacientes/editar/<%= paciente.id %>?_method=PUT" method="POST" class="space-y-6" id="editarForm">
+
+            <!-- Input para ID_usuario -->
+            <input type="hidden" id="usuario" name="id_usuario" value="<%= paciente.id_usuario %>">
+
+            <!-- input para cpf -->
+            <input type="hidden" id="cpf" name="cpf" value="<%= paciente.cpf %>">
+
             <!-- Selecionar Usuário Existente -->
             <div class="form-group">
                 <label for="usuario" class="block text-sm font-medium text-[#2C5545] mb-2">Usuário:</label>
-                <select id="usuario" name="id_usuario" class="input-field text-sm border border-gray-300 rounded-lg p-4 w-full focus:border-[#2C5545] focus:ring-[#2C5545] focus:outline-none transition ease-in-out" required>
-                    <option value="" disabled selected>Selecione um usuário</option>
-                    <% usuarios.forEach(usuario => { %>
-                        <option value="<%= usuario.usuario_id %>"><%= usuario.nome %></option>
-                    <% }) %>
+                <select id="usuario" name="id_usuario" class="input-field text-sm border border-gray-300 rounded-lg p-4 w-full focus:border-[#2C5545] focus:ring-[#2C5545] focus:outline-none transition ease-in-out" disabled>
+                        <option value=""><%= paciente.usuario_nome %></option>
                 </select>
             </div>
 
@@ -42,54 +46,54 @@
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div class="form-group">
                     <label for="nome" class="block text-sm font-medium text-[#2C5545] mb-2">Nome do Paciente:</label>
-                    <input type="text" id="nome" name="nome" placeholder="Digite o nome completo do paciente" class="input-field text-sm border border-gray-300 rounded-lg p-4 w-full focus:border-[#2C5545] focus:ring-[#2C5545] focus:outline-none transition ease-in-out" required>
+                    <input type="text" id="nome" name="nome" value="<%= paciente.nome %>" class="input-field text-sm border border-gray-300 rounded-lg p-4 w-full focus:border-[#2C5545] focus:ring-[#2C5545] focus:outline-none transition ease-in-out" required>
                 </div>
                 <div class="form-group">
                     <label for="idade" class="block text-sm font-medium text-[#2C5545] mb-2">Idade:</label>
-                    <input type="number" id="idade" name="idade" placeholder="Informe a idade" class="input-field text-sm border border-gray-300 rounded-lg p-4 w-full focus:border-[#2C5545] focus:ring-[#2C5545] focus:outline-none transition ease-in-out" required>
+                    <input type="number" id="idade" name="idade" value="<%= paciente.idade %>" class="input-field text-sm border border-gray-300 rounded-lg p-4 w-full focus:border-[#2C5545] focus:ring-[#2C5545] focus:outline-none transition ease-in-out" required>
                 </div>
                 <div class="form-group">
                     <label for="cpf" class="block text-sm font-medium text-[#2C5545] mb-2">CPF:</label>
-                    <input type="text" id="cpf" name="cpf" placeholder="Digite o CPF do paciente" class="input-field text-sm border border-gray-300 rounded-lg p-4 w-full focus:border-[#2C5545] focus:ring-[#2C5545] focus:outline-none transition ease-in-out" required>
+                    <input type="text" id="cpf" name="cpf" value="<%= paciente.cpf %>" class="input-field text-sm border border-gray-300 rounded-lg p-4 w-full focus:border-[#2C5545] focus:ring-[#2C5545] focus:outline-none transition ease-in-out" disabled>
                 </div>
                 <div class="form-group">
                     <label for="data_nasc" class="block text-sm font-medium text-[#2C5545] mb-2">Data de Nascimento:</label>
-                    <input type="date" id="data_nasc" name="data_nasc" class="input-field text-sm border border-gray-300 rounded-lg p-4 w-full focus:border-[#2C5545] focus:ring-[#2C5545] focus:outline-none transition ease-in-out" required>
+                    <input type="date" id="data_nasc" name="data_nasc" value="<%= paciente.data_nasc.toISOString().split('T')[0] %>" class="input-field text-sm border border-gray-300 rounded-lg p-4 w-full focus:border-[#2C5545] focus:ring-[#2C5545] focus:outline-none transition ease-in-out" required>
                 </div>
                 <div class="form-group">
                     <label for="genero" class="block text-sm font-medium text-[#2C5545] mb-2">Gênero:</label>
                     <select id="genero" name="genero" class="input-field text-sm border border-gray-300 rounded-lg p-4 w-full focus:border-[#2C5545] focus:ring-[#2C5545] focus:outline-none transition ease-in-out" required>
-                        <option value="" disabled selected>Selecione o gênero</option>
-                        <option value="M">Masculino</option>
-                        <option value="F">Feminino</option>
-                        <option value="O">Outro</option>
+                        <option value="" disabled>Selecione o gênero</option>
+                        <option value="M" <%= paciente.genero === 'M' ? 'selected' : '' %>>Masculino</option>
+                        <option value="F" <%= paciente.genero === 'F' ? 'selected' : '' %>>Feminino</option>
+                        <option value="O" <%= paciente.genero === 'O' ? 'selected' : '' %>>Outro</option>
                     </select>
                 </div>
                 <!-- Relação com o Paciente -->
-            <div class="form-group">
-                <label for="relacao_paciente" class="block text-sm font-medium text-[#2C5545] mb-2">Relação com o Paciente:</label>
-                <select id="relacao_paciente" name="relacao_paciente" class="input-field text-sm border border-gray-300 rounded-lg p-4 w-full focus:border-[#2C5545] focus:ring-[#2C5545] focus:outline-none transition ease-in-out" required>
-                    <option value="" disabled selected>Selecione a relação</option>
-                    <option value="mae">Mãe</option>
-                    <option value="pai">Pai</option>
-                    <option value="outro">Outro</option>
-                </select>
-            </div>
+                <div class="form-group">
+                    <label for="relacao_paciente" class="block text-sm font-medium text-[#2C5545] mb-2">Relação com o Paciente:</label>
+                    <select id="relacao_paciente" name="relacao_paciente" class="input-field text-sm border border-gray-300 rounded-lg p-4 w-full focus:border-[#2C5545] focus:ring-[#2C5545] focus:outline-none transition ease-in-out" required>
+                        <option value="" disabled>Selecione a relação</option>
+                        <option value="mae" <%= paciente.relacao_paciente === 'mae' ? 'selected' : '' %>>Mãe</option>
+                        <option value="pai" <%= paciente.relacao_paciente === 'pai' ? 'selected' : '' %>>Pai</option>
+                        <option value="outro" <%= paciente.relacao_paciente === 'outro' ? 'selected' : '' %>>Outro</option>
+                    </select>
+                </div>
             </div>
 
-            <!-- Medicamentos, Doenças Existentes -->
+            <!-- Medicamentos, Alergias, Doenças Existentes -->
             <div class="space-y-4">
                 <div class="form-group">
                     <label for="alergias_paciente" class="block text-sm font-medium text-[#2C5545] mb-2">Alergias:</label>
-                    <input type="text" id="alergias_paciente" name="alergias" placeholder="Informe as alergias que o paciente possuí" class="input-field text-sm border border-gray-300 rounded-lg p-4 w-full focus:border-[#2C5545] focus:ring-[#2C5545] focus:outline-none transition ease-in-out" required>
+                    <input type="text" id="alergias_paciente" name="alergias" value="<%= paciente.alergias %>" class="input-field text-sm border border-gray-300 rounded-lg p-4 w-full focus:border-[#2C5545] focus:ring-[#2C5545] focus:outline-none transition ease-in-out" required>
                 </div>
                 <div class="form-group">
                     <label for="medicamentos_paciente" class="block text-sm font-medium text-[#2C5545] mb-2">Medicamentos em Uso:</label>
-                    <input type="text" id="medicamentos_paciente" name="medicamentos_paciente" placeholder="Informe os medicamentos que o paciente faz uso" class="input-field text-sm border border-gray-300 rounded-lg p-4 w-full focus:border-[#2C5545] focus:ring-[#2C5545] focus:outline-none transition ease-in-out" required>
+                    <input type="text" id="medicamentos_paciente" name="medicamentos_paciente" value="<%= paciente.medicamentos_paciente %>" class="input-field text-sm border border-gray-300 rounded-lg p-4 w-full focus:border-[#2C5545] focus:ring-[#2C5545] focus:outline-none transition ease-in-out" required>
                 </div>
                 <div class="form-group">
                     <label for="doencas_existentes" class="block text-sm font-medium text-[#2C5545] mb-2">Doenças Pré-Existentes:</label>
-                    <input type="text" id="doencas_existentes" name="doencas_existentes" placeholder="Informe as doenças pré-existentes do paciente" class="input-field text-sm border border-gray-300 rounded-lg p-4 w-full focus:border-[#2C5545] focus:ring-[#2C5545] focus:outline-none transition ease-in-out" required>
+                    <input type="text" id="doencas_existentes" name="doencas_existentes" value="<%= paciente.doencas_existentes %>" class="input-field text-sm border border-gray-300 rounded-lg p-4 w-full focus:border-[#2C5545] focus:ring-[#2C5545] focus:outline-none transition ease-in-out" required>
                 </div>
             </div>
 
@@ -97,10 +101,10 @@
                 <div id="mensagemErro" class="text-red-600 text-sm font-semibold text-center hidden p-0 m-0"></div>
             </div>
 
-            <!-- Botão de Cadastro -->
+            <!-- Botão de Atualizar -->
             <div class="flex justify-center mt-8">
                 <button type="submit" class="bg-[#2C5545] hover:bg-[#234536] text-white font-bold py-4 px-8 rounded-lg shadow-md transition duration-300 ease-in-out hover:shadow-lg">
-                    CADASTRAR
+                    ATUALIZAR
                 </button>
             </div>
         </form>
@@ -108,7 +112,7 @@
 </body>
 
 <script>
-    document.getElementById("cadastroForm").addEventListener("submit", async function(event) {
+    document.getElementById("editarForm").addEventListener("submit", async function(event) {
         event.preventDefault(); // Impede o envio padrão do formulário
 
         // Captura os dados do formulário
@@ -142,10 +146,8 @@
                 return;
             }
 
-            const responseData = await response.json();
-            if (responseData.redirect) {
-                window.location.href = responseData.redirect; // Redireciona conforme a resposta do servidor
-            }
+            // Redireciona caso seja bem-sucedido
+            window.location.href = "/home/home-administrador";
 
         } catch (error) {
             console.error("Erro ao enviar o formulário:", error);
