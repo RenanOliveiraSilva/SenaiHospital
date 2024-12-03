@@ -43,7 +43,7 @@ const logarUsuario = async (req, res) => {
             //Sucesso
             return res.status(200).json({
                 message: "Autenticado com sucesso!",
-                redirectTo: "/home/home-medico",
+                redirectTo: "/home/home-medico?id=" + data.id,
             });
 
         } else if (data.mapa == "R") {

@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/stylesheets/output.css">
+    <title>PediCare+ - Consultas do Médico</title>
+    <style>
+        .selected {
+            border: 2px solid #465c47 !important;
+            background-color: #f4f4f4 !important;
+        }
+        .disabled {
+            background-color: #d3d3d3 !important;
+            cursor: not-allowed !important;
+        }
+    </style>
+</head>
+<body class="bg-[#F9F8F3] font-sans">
+    <div class="w-3/5 mx-auto p-6">
+        <!-- Cabeçalho -->
+        <header class="bg-[#EAE5DA] p-4 rounded-md shadow-md mb-6 text-center">
+            <h1 class="text-3xl font-bold text-[#465C47]">Consultas do Médico</h1>
+        </header>
+
+        <!-- Seção de seleção da data -->
+        <section class="mb-8">
+            <h2 class="text-xl font-semibold text-[#465C47] mb-4">
+                Escolha a data para ver as consultas
+            </h2>
+            <input type="date" id="data-consulta" class="p-3 border rounded-md text-gray-700 mb-4">
+            <button id="buscar-btn" class="bg-green-500 text-white font-semibold py-2 px-4 rounded-md cursor-pointer" onclick="buscarConsultas()">
+                Buscar Consultas
+            </button>
+        </section>
+
+        <!-- Consultas do Médico -->
+        <section class="mb-8">
+            <h3 class="text-xl font-semibold text-[#465C47] mb-4">
+                Consultas do Dia
+            </h3>
+            <div id="consultas-container" class="flex flex-col gap-4">
+                <p class="text-gray-500">Selecione uma data para ver as consultas do dia.</p>
+            </div>
+        </section>
+    </div>
+
+    <script>
+
+         // Função para pegar o valor de um parâmetro da URL
+         function getQueryParam(param) {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get(param);
+        }
+
+        // Agora, utilize a função para pegar o id do usuário
+        const idUsuario = getQueryParam('id');
+
+        // Buscar consultas do médico para a data selecionada
+        async function buscarConsultas() {
+            const dataConsulta = document.getElementById("data-consulta").value;
+            const consultasContainer = document.getElementById("consultas-container");
+            consultasContainer.innerHTML = "";
+
+            if (dataConsulta) {
+                try {
+                    const response = await fetch(`/consultas-medico?dataConsulta=${dataConsulta}&idMedico=${idUsuario}`);
+                    const consultas = await response.json();
+
+                    if (consultas.length > 0) {
+                        consultas.forEach((consulta) => {
+                            const consultaCard = document.createElement("div");
+                            consultaCard.className = "bg-[#FAF3E9] p-4 rounded-md shadow-md text-[#465C47]";
+                            consultaCard.innerHTML = `
+                                <p><strong>Paciente:</strong> ${consulta.nome_paciente}</p>
+                                <p><strong>Horário:</strong> ${consulta.horario}</p>
+                                <p><strong>Local:</strong> ${consulta.local}</p>
+                            `;
+                            consultasContainer.appendChild(consultaCard);
+                        });
+                    } else {
+                        consultasContainer.innerHTML = `<p class="text-gray-500">Nenhuma consulta encontrada para essa data.</p>`;
+                    }
+                } catch (error) {
+                    console.error('Erro ao buscar consultas:', error);
+                    consultasContainer.innerHTML = `<p class="text-gray-500">Erro ao carregar consultas.</p>`;
+                }
+            } else {
+                consultasContainer.innerHTML = `<p class="text-gray-500">Selecione uma data para ver as consultas do dia.</p>`;
+            }
+        }
+    </script>
+</body>
+</html>

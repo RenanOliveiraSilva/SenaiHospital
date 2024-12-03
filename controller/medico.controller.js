@@ -120,19 +120,54 @@ const excluirMedico = async (req, res) => {
 
 const renderizaHomeMedico = (req, res) => {
     try {
+        const medicoId = req.query.id; // Assumindo que o ID do médico está sendo passado pela URL
+
+
         // Renderiza a home do médico
-        res.render('./homeMedico/home-medico');
+        res.render('./homeMedico/home-medico', { medicoId });
     } catch (error) {
         console.error('Erro ao renderizar home do médico:', error);
         res.status(500).send('Erro ao renderizar home do médico');
     }
 };
 
+// Buscar consultas do médico para a data especificada
+const getConsultasDoDia = async (req, res) => {
+    const medicoId = req.query.idMedico;  // Assumindo que o médico já está autenticado e seu ID está disponível
+    const dataConsulta = req.query.dataConsulta;
+    
+    const medico = await medicoModel.getMedicoById(medicoId);
+    const id = medico.id;
+
+    console.log(medico);
+
+    try {
+        const consultas = await medicoModel.getConsultasDoDia(id, dataConsulta);
+        res.status(200).json(consultas);
+    } catch (err) {
+        console.error('Erro ao buscar consultas do médico:', err);
+        res.status(500).json({ error: 'Erro ao buscar consultas do médico' });
+    }
+};
+
+// Renderizar a página de consultas do médico
+const renderizarConsultasMedico = (req, res) => {
+    const idMedico = req.query.id; // Assumindo que o ID do médico está sendo passado pela URL
+
+    if (!idMedico) {
+        return res.status(400).send('ID do médico não fornecido');
+    }
+
+    // Renderizar a página, passando o ID do médico para o template, se necessário
+    res.render('./homeMedico/gerenciar-consulta', { idMedico });
+};
 
 module.exports = {
     postMedico,
     excluirMedico,
     getEditarMedico,
     postEditarMedico,
-    renderizaHomeMedico
+    renderizaHomeMedico,
+    getConsultasDoDia,
+    renderizarConsultasMedico
 };

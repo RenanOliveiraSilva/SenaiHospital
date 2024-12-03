@@ -95,6 +95,24 @@ const deleteMedico = async (medicoId) => {
     }
 };
 
+// Buscar consultas do médico para a data especificada
+const getConsultasDoDia = async (medicoId, dataConsulta) => {
+    try {
+        const query = `
+            SELECT c.horario_consulta AS horario, p.nome AS nome_paciente
+                FROM consultas c
+            JOIN pacientes p ON c.id_paciente = p.id
+                WHERE c.id_medico = $1 AND c.data_consulta = $2;
+
+        `;
+        const result = await pool.query(query, [medicoId, dataConsulta]);
+        return result.rows;
+    } catch (err) {
+        console.error('Erro ao buscar consultas do médico:', err);
+        throw err;
+    }
+};
+
 
 module.exports = {
     getTodosMedicos,
@@ -102,5 +120,6 @@ module.exports = {
     createMedico,
     deleteMedico,
     getMedicoById,
-    editMedico
+    editMedico,
+    getConsultasDoDia
 };
