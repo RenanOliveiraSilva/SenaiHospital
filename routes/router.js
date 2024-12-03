@@ -52,10 +52,11 @@ router
 
 // //Rotas Paciente
 router
-    .get('/home/home-paciente', pacienteController.renderizaHomePaciente)
+    .get('/home/home-paciente/:id', pacienteController.renderizaHomePaciente)
     .get('/home/agendar-consulta', pacienteController.renderizarAgendamentoConsulta)
     .get('/medicos-disponiveis', pacienteController.getMedicosDisponiveis)
-    .get('/horarios-disponiveis', pacienteController.getHorariosDisponiveis)
+    .get('/dias-disponiveis', pacienteController.getDiasDisponiveis)
+    .get('/horarios-disponiveis', pacienteController.getHorariosDisponiveis) 
     .post('/agendar-consulta', pacienteController.agendarConsulta);
 
 

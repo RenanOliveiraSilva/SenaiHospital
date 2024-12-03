@@ -1,199 +1,46 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="en">
+
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="/stylesheets/output.css" />
-    <title>PediCare+ - Consultas</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="/stylesheets/output.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Asap&display=swap" rel="stylesheet">
+    <title>Home Paciente - PediCare+</title>
     <style>
-        .selected {
-            border: 2px solid #465c47 !important;
-            background-color: #f4f4f4 !important;
+        input.field {
+            font-family: 'Asap', sans-serif;
         }
     </style>
 </head>
-<body class="bg-[#F9F8F3] font-sans">
-    <div class="w-3/5 mx-auto p-6">
-        <!-- Cabeçalho -->
-        <header class="bg-[#EAE5DA] p-4 rounded-md shadow-md mb-6 text-center">
-            <h1 class="text-3xl font-bold text-[#465C47]">PediCare+</h1>
-        </header>
 
-        <!-- Seção de locais -->
-        <section class="mb-8">
-            <h2 class="text-xl font-semibold text-[#465C47] mb-4">
-                Escolha o local da consulta
-            </h2>
-            <div id="locais-container" class="grid grid-cols-1 sm:grid-cols-4 gap-4">
-                <!-- Locais fixos -->
-                <div class="bg-[#FAF3E9] cursor-pointer hover:scale-105 p-4 rounded-md shadow-md text-center text-gray-500 flex flex-col items-center justify-center transform transition duration-200" onclick="selectLocal(1)">
-                    <p class="font-semibold text-[#465C47]">Guará - SP</p>
-                </div>
+<body class="bg-[url('/images/fundo-8.png')] bg-cover bg-center bg-no-repeat min-h-screen flex flex-col items-center justify-center">
+    <div class="w-full max-w-screen-lg">
+        <img src="/images/Pedicare+.svg" alt="logo" class="w-32 h-32 object-contain mx-auto mb-10">
+
+        <div class="flex flex-wrap justify-center gap-10">
+            <div class="flex flex-col items-center gap-10">
+                <a href="/consultar-disponibilidade" class="bg-[#F0E8D9] shadow-md rounded-xl p-10 text-center w-80 hover:shadow-lg hover:bg-cream-light transition">
+                    <h3 class="text-xl font-semibold text-[#465C47] mb-2">Confira a disponibilidade dos nossos médicos</h3>
+                    <p class="text-gray-500">Consulte os dias e horários disponíveis para as especialidades e médicos da nossa clínica</p>
+                </a>
+                <a href="/home/agendar-consulta?<%= id %>" class="bg-[#F0E8D9] shadow-md rounded-xl p-10 text-center w-80 hover:shadow-lg hover:bg-cream-light transition">
+                    <h3 class="text-xl font-semibold text-[#465C47] mb-2">Agende sua consulta em nossa clínica</h3>
+                    <p class="text-gray-500">Escolha a especialidade, o médico e o horário. Estamos prontos para oferecer o melhor cuidado</p>
+                </a>
             </div>
-        </section>
-
-        <!-- Seção de Data e Hora -->
-        <section class="mb-8">
-            <h3 class="text-xl font-semibold text-[#465C47] mb-4">
-                Escolha uma data e horário
-            </h3>
-            <div class="flex gap-4 items-center">
-                <input
-                    type="date"
-                    id="data-consulta"
-                    class="p-3 border rounded-md text-gray-700"
-                    onchange="updateMedicos()"
-                />
-                <div id="horarios-container" class="flex flex-wrap gap-2">
-                    <!-- Horários serão injetados aqui -->
-                </div>
+            <div class="flex flex-col items-center gap-10">
+                <a href="/consultar-historico" class="bg-[#F0E8D9] shadow-md rounded-xl p-10 text-center w-80 hover:shadow-lg hover:bg-cream-light transition">
+                    <h3 class="text-xl font-semibold text-[#465C47] mb-2">Consulte o histórico de saúde do seu filho</h3>
+                    <p class="text-gray-500">Confira exames, receitas, consultas passadas e futuras disponíveis, tudo de forma prática e segura</p>
+                </a>
+                <a href="/visualizar-cancelar-consultas" class="bg-[#F0E8D9] shadow-md rounded-xl p-10 text-center w-80 hover:shadow-lg hover:bg-cream-light transition">
+                    <h3 class="text-xl font-semibold text-[#465C47] mb-2">Visualizar e cancelar consultas</h3>
+                    <p class="text-gray-500">Veja suas consultas antigas e agendadas, realize o cancelamento e reagendamento de consultas</p>
+                </a>
             </div>
-        </section>
-
-        <!-- Médicos Disponíveis -->
-        <section class="mb-8">
-            <h3 class="text-xl font-semibold text-[#465C47] mb-4">
-                Médicos disponíveis
-            </h3>
-            <div id="medicos-container" class="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                <p class="text-gray-500 col-span-full">
-                    Selecione o local e a data para exibir os médicos disponíveis.
-                </p>
-            </div>
-        </section>
-
-        <!-- Botão de Confirmação -->
-        <div class="flex justify-end">
-            <button
-                id="confirmar-btn"
-                class="bg-gray-400 text-white font-semibold py-2 px-4 rounded-md cursor-not-allowed"
-                disabled
-                onclick="confirmarConsulta()"
-            >
-                Confirmar Consulta
-            </button>
         </div>
     </div>
-
-    <script>
-        let selectedPolo = "";
-        let selectedHorario = "";
-        let selectedMedico = "";
-
-        // Função para selecionar o local da consulta
-        function selectLocal(localId) {
-            clearSelected("polo");
-            selectedPolo = localId;
-            document.querySelectorAll("#locais-container div").forEach((local, index) => {
-                local.classList.remove("selected");
-                if (index + 1 === localId) {
-                    local.classList.add("selected");
-                }
-            });
-            updateMedicos();
-        }
-
-        // Atualização de médicos disponíveis
-        async function updateMedicos() {
-            const data = document.getElementById("data-consulta").value;
-            const medicosContainer = document.getElementById("medicos-container");
-            medicosContainer.innerHTML = "";
-
-            if (selectedPolo && data) {
-                try {
-                    const response = await fetch(`/medicos-disponiveis?data=${data}&local=${selectedPolo}`);
-                    const medicos = await response.json();
-
-                    medicos.forEach((medico) => {
-                        const card = document.createElement("div");
-                        card.className =
-                            "bg-[#FAF3E9] p-4 rounded-md shadow-md text-center text-[#465C47] font-medium cursor-pointer hover:bg-[#EAE5DA] transform transition duration-200";
-                        card.innerHTML = `<p>${medico.nome}</p>`;
-                        card.onclick = () => toggleSelection(card, "medico", medico.id);
-                        medicosContainer.appendChild(card);
-                    });
-                } catch (error) {
-                    console.error('Erro ao buscar médicos:', error);
-                    medicosContainer.innerHTML = `<p class="text-gray-500 col-span-full">Erro ao carregar médicos.</p>`;
-                }
-            } else {
-                medicosContainer.innerHTML = `<p class="text-gray-500 col-span-full">Selecione o local e a data para exibir os médicos disponíveis.</p>`;
-            }
-        }
-
-        // Alternar seleção
-        function toggleSelection(element, type, value) {
-            if (element.classList.contains("selected")) {
-                element.classList.remove("selected");
-                if (type === "polo") selectedPolo = "";
-                if (type === "horario") selectedHorario = "";
-                if (type === "medico") selectedMedico = "";
-            } else {
-                clearSelected(type);
-                element.classList.add("selected");
-                if (type === "polo") selectedPolo = value;
-                if (type === "horario") selectedHorario = value;
-                if (type === "medico") selectedMedico = value;
-            }
-            updateConfirmButton();
-        }
-
-        // Limpar seleção anterior
-        function clearSelected(type) {
-            const selector =
-                type === "polo"
-                    ? "#locais-container div"
-                    : type === "horario"
-                    ? "#horarios-container button"
-                    : "#medicos-container div";
-            document.querySelectorAll(selector).forEach((element) => {
-                element.classList.remove("selected");
-            });
-        }
-
-        // Atualização do botão de confirmação
-        function updateConfirmButton() {
-            const btn = document.getElementById("confirmar-btn");
-            btn.disabled = !(selectedPolo && selectedHorario && selectedMedico);
-            btn.classList.toggle("bg-green-800", !btn.disabled);
-            btn.classList.toggle("cursor-pointer", !btn.disabled);
-            btn.classList.toggle("cursor-not-allowed", btn.disabled);
-            btn.classList.toggle("bg-gray-400", btn.disabled);
-        }
-
-        // Confirmação de consulta
-        async function confirmarConsulta() {
-            const data = document.getElementById("data-consulta").value;
-            try {
-                const response = await fetch('/agendar-consulta', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                        data,
-                        horario: selectedHorario,
-                        medicoId: selectedMedico,
-                        localConsulta: selectedPolo,
-                        pacienteId: 1 // Troque pelo ID real do paciente
-                    }),
-                });
-
-                if (!response.ok) {
-                    throw new Error('Erro ao agendar consulta.');
-                }
-
-                alert('Consulta confirmada com sucesso!');
-            } catch (error) {
-                console.error('Erro:', error);
-                alert('Erro ao confirmar consulta. Tente novamente.');
-            }
-        }
-
-        // Inicialização
-        document.addEventListener("DOMContentLoaded", () => {
-            updateMedicos();
-        });
-    </script>
 </body>
+
 </html>

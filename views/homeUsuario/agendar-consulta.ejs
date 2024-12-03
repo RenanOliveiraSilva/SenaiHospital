@@ -14,6 +14,9 @@
             background-color: #d3d3d3 !important;
             cursor: not-allowed !important;
         }
+        .confirm-btn {
+            background-color: #4CAF50 !important;
+        }
     </style>
 </head>
 <body class="bg-[#F9F8F3] font-sans">
@@ -25,66 +28,61 @@
 
         <!-- Seção de locais -->
         <section class="mb-8">
-            <h2 class="text-xl font-semibold text-[#465C47] mb-4">
-                Escolha o local da consulta
-            </h2>
+            <h2 class="text-xl font-semibold text-[#465C47] mb-4">Escolha o local da consulta</h2>
             <div id="locais-container" class="grid grid-cols-1 sm:grid-cols-4 gap-4">
                 <!-- Locais fixos -->
                 <div class="bg-[#FAF3E9] cursor-pointer hover:scale-105 p-4 rounded-md shadow-md text-center text-gray-500 flex flex-col items-center justify-center transform transition duration-200" onclick="selectLocal(1)">
                     <p class="font-semibold text-[#465C47]">Guará - SP</p>
                 </div>
-            </div>
-        </section>
-
-        <!-- Seção de Data e Hora -->
-        <section class="mb-8">
-            <h3 class="text-xl font-semibold text-[#465C47] mb-4">
-                Escolha uma data e horário
-            </h3>
-            <div class="flex gap-4 items-center">
-                <input
-                    type="date"
-                    id="data-consulta"
-                    class="p-3 border rounded-md text-gray-700"
-                    onchange="updateMedicos()"
-                />
-                <div id="horarios-container" class="flex flex-wrap gap-2">
-                    <!-- Horários serão injetados aqui -->
+                <div class="bg-[#FAF3E9] cursor-pointer hover:scale-105 p-4 rounded-md shadow-md text-center text-gray-500 flex flex-col items-center justify-center transform transition duration-200" onclick="selectLocal(2)">
+                    <p class="font-semibold text-[#465C47]">São Joaquim da Barra - SP</p>
+                </div>
+                <div class="bg-[#FAF3E9] cursor-pointer hover:scale-105 p-4 rounded-md shadow-md text-center text-gray-500 flex flex-col items-center justify-center transform transition duration-200" onclick="selectLocal(3)">
+                    <p class="font-semibold text-[#465C47]">Ipuã - SP</p>
+                </div>
+                <div class="bg-[#FAF3E9] cursor-pointer hover:scale-105 p-4 rounded-md shadow-md text-center text-gray-500 flex flex-col items-center justify-center transform transition duration-200" onclick="selectLocal(4)">
+                    <p class="font-semibold text-[#465C47]">Franca - SP</p>
                 </div>
             </div>
         </section>
 
         <!-- Médicos Disponíveis -->
         <section class="mb-8">
-            <h3 class="text-xl font-semibold text-[#465C47] mb-4">
-                Médicos disponíveis
-            </h3>
+            <h3 class="text-xl font-semibold text-[#465C47] mb-4">Escolha o médico</h3>
             <div id="medicos-container" class="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                <p class="text-gray-500 col-span-full">
-                    Selecione o local e a data para exibir os médicos disponíveis.
-                </p>
+                <p class="text-gray-500 col-span-full">Selecione o local para exibir os médicos disponíveis.</p>
+            </div>
+        </section>
+
+        <!-- Dias Disponíveis -->
+        <section class="mb-8">
+            <h3 class="text-xl font-semibold text-[#465C47] mb-4">Dias disponíveis para consulta</h3>
+            <div id="dias-container" class="flex flex-wrap gap-2">
+                <p class="text-gray-500 col-span-full">Selecione o médico para exibir os dias disponíveis.</p>
+            </div>
+        </section>
+
+        <!-- Horários Disponíveis -->
+        <section class="mb-8">
+            <h3 class="text-xl font-semibold text-[#465C47] mb-4">Horários disponíveis</h3>
+            <div id="horarios-container" class="flex flex-wrap gap-2 justify-end">
+                <p class="text-gray-500 col-span-full">Selecione um dia para exibir os horários disponíveis.</p>
             </div>
         </section>
 
         <!-- Botão de Confirmação -->
         <div class="flex justify-end">
-            <button
-                id="confirmar-btn"
-                class="bg-gray-400 text-white font-semibold py-2 px-4 rounded-md cursor-not-allowed"
-                disabled
-                onclick="confirmarConsulta()"
-            >
-                Confirmar Consulta
-            </button>
+            <button id="confirmar-btn" class="confirm-btn text-white font-semibold py-2 px-4 rounded-md cursor-pointer" disabled onclick="confirmarConsulta()">Confirmar Consulta</button>
         </div>
+        
     </div>
 
     <script>
         let selectedPolo = "";
-        let selectedHorario = "";
         let selectedMedico = "";
+        let selectedData = "";
+        let selectedHorario = "";
 
-        // Função para selecionar o local da consulta
         function selectLocal(localId) {
             clearSelected("polo");
             selectedPolo = localId;
@@ -98,23 +96,20 @@
             updateMedicos();
         }
 
-        // Atualização de médicos disponíveis
         async function updateMedicos() {
-            const data = document.getElementById("data-consulta").value;
             const medicosContainer = document.getElementById("medicos-container");
             medicosContainer.innerHTML = "";
 
-            if (selectedPolo && data) {
+            if (selectedPolo) {
                 try {
-                    const response = await fetch(`/medicos-disponiveis?data=${data}&local=${selectedPolo}`);
+                    const response = await fetch(`/medicos-disponiveis?local=${selectedPolo}`);
                     const medicos = await response.json();
 
-                    medicos.forEach((medico) => {
+                    medicos.forEach(medico => {
                         const card = document.createElement("div");
-                        card.className =
-                            "bg-[#FAF3E9] p-4 rounded-md shadow-md text-center text-[#465C47] font-medium cursor-pointer hover:bg-[#EAE5DA] transform transition duration-200";
-                        card.innerHTML = `<p>${medico.nome}</p>`;
-                        card.onclick = () => toggleSelection(card, "medico", medico.id);
+                        card.className = "bg-[#FAF3E9] p-4 rounded-md shadow-md text-center text-[#465C47] font-medium cursor-pointer hover:bg-[#EAE5DA] transform transition duration-200";
+                        card.innerHTML = `<p>${medico.medico_nome}</p>`;
+                        card.onclick = () => toggleSelection(card, "medico", medico.medico_id);
                         medicosContainer.appendChild(card);
                     });
                 } catch (error) {
@@ -122,94 +117,133 @@
                     medicosContainer.innerHTML = `<p class="text-gray-500 col-span-full">Erro ao carregar médicos.</p>`;
                 }
             } else {
-                medicosContainer.innerHTML = `<p class="text-gray-500 col-span-full">Selecione o local e a data para exibir os médicos disponíveis.</p>`;
+                medicosContainer.innerHTML = `<p class="text-gray-500 col-span-full">Selecione o local para exibir os médicos disponíveis.</p>`;
             }
         }
 
-        // Buscar horários disponíveis para um médico específico
-        async function updateHorarios(medicoId) {
-            const data = document.getElementById("data-consulta").value;
+        async function updateDias(medicoId) {
+            const diasContainer = document.getElementById("dias-container");
+            diasContainer.innerHTML = "";
+
+            if (medicoId) {
+                try {
+                    const response = await fetch(`/dias-disponiveis?medicoId=${medicoId}`);
+                    const dias = await response.json();
+
+                    dias.forEach(dia => {
+                        // Convertendo a data manualmente para evitar problemas de fuso horário
+                        const [year, month, day] = dia.split('-');
+                        const formattedDate = `${day}/${month}/${year}`;
+
+                        const button = document.createElement("button");
+                        button.className = "bg-[#FAF3E9] p-2 w-20 text-center rounded-md shadow-md text-[#465C47] font-medium cursor-pointer hover:bg-[#EAE5DA] transition duration-200 text-sm";
+                        button.innerText = formattedDate;
+                        button.onclick = () => toggleSelection(button, "data", dia);
+                        diasContainer.appendChild(button);
+                    });
+                } catch (error) {
+                    console.error('Erro ao buscar dias disponíveis:', error);
+                    diasContainer.innerHTML = `<p class="text-gray-500 col-span-full">Erro ao carregar dias disponíveis.</p>`;
+                }
+            }
+        }
+
+        async function updateHorarios() {
             const horariosContainer = document.getElementById("horarios-container");
             horariosContainer.innerHTML = "";
 
-            if (data && medicoId) {
+            if (selectedMedico && selectedData) {
                 try {
-                    const response = await fetch(`/horarios-disponiveis?data=${data}&medicoId=${medicoId}`);
+                    const response = await fetch(`/horarios-disponiveis?medicoId=${selectedMedico}&dataConsulta=${selectedData}`);
                     const horarios = await response.json();
 
-                    horarios.forEach((horario) => {
+                    horarios.forEach(horarioObj => {
                         const button = document.createElement("button");
-                        button.className =
-                            "bg-[#FAF3E9] p-2 w-20 text-center rounded-md shadow-md text-[#465C47] font-medium cursor-pointer hover:bg-[#EAE5DA] transition duration-200 text-sm";
-                        button.innerText = `${horario}:00`;
-                        button.onclick = () => toggleSelection(button, "horario", horario);
+                        button.className = "p-2 w-20 text-center rounded-md shadow-md text-[#465C47] font-medium transition duration-200 text-sm";
+
+                        button.innerText = horarioObj.horario;
+
+                        if (horarioObj.disponivel) {
+                            button.classList.add("bg-[#FAF3E9]", "cursor-pointer", "hover:bg-[#EAE5DA]");
+                            button.onclick = () => toggleSelection(button, "horario", horarioObj.horario);
+                        } else {
+                            button.classList.add("bg-gray-300", "disabled");
+                            button.disabled = true;
+                        }
+
                         horariosContainer.appendChild(button);
                     });
                 } catch (error) {
                     console.error('Erro ao buscar horários:', error);
                     horariosContainer.innerHTML = `<p class="text-gray-500 col-span-full">Erro ao carregar horários.</p>`;
                 }
+            } else {
+                horariosContainer.innerHTML = `<p class="text-gray-500 col-span-full">Selecione um dia para exibir os horários disponíveis.</p>`;
             }
         }
 
-        // Alternar seleção
         function toggleSelection(element, type, value) {
             if (element.classList.contains("selected")) {
                 element.classList.remove("selected");
                 if (type === "polo") selectedPolo = "";
-                if (type === "horario") selectedHorario = "";
+                if (type === "data") selectedData = "";
                 if (type === "medico") selectedMedico = "";
+                if (type === "horario") selectedHorario = "";
             } else {
                 clearSelected(type);
                 element.classList.add("selected");
                 if (type === "polo") selectedPolo = value;
-                if (type === "horario") selectedHorario = value;
+                if (type === "data") {
+                    selectedData = value;
+                    updateHorarios();
+                }
                 if (type === "medico") {
                     selectedMedico = value;
-                    updateHorarios(value); // Atualizar horários ao selecionar um médico
+                    updateDias(value);
                 }
+                if (type === "horario") selectedHorario = value;
             }
             updateConfirmButton();
         }
 
-        // Limpar seleção anterior
         function clearSelected(type) {
             const selector =
-                type === "polo"
-                    ? "#locais-container div"
-                    : type === "horario"
-                    ? "#horarios-container button"
-                    : "#medicos-container div";
-            document.querySelectorAll(selector).forEach((element) => {
-                element.classList.remove("selected");
-            });
+                type === "polo" ? "#locais-container div" :
+                type === "data" ? "#dias-container button" :
+                type === "medico" ? "#medicos-container div" :
+                "#horarios-container button";
+            document.querySelectorAll(selector).forEach(element => element.classList.remove("selected"));
         }
 
-        // Atualização do botão de confirmação
         function updateConfirmButton() {
             const btn = document.getElementById("confirmar-btn");
-            btn.disabled = !(selectedPolo && selectedHorario && selectedMedico);
+            btn.disabled = !(selectedPolo && selectedData && selectedMedico && selectedHorario);
             btn.classList.toggle("bg-green-800", !btn.disabled);
             btn.classList.toggle("cursor-pointer", !btn.disabled);
             btn.classList.toggle("cursor-not-allowed", btn.disabled);
             btn.classList.toggle("bg-gray-400", btn.disabled);
         }
 
-        // Confirmação de consulta
+        // Função para pegar o valor de um parâmetro da URL
+        function getQueryParam(param) {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get(param);
+        }
+
+        // Agora, utilize a função para pegar o id do usuário
+        const idUsuario = getQueryParam('id');
+
         async function confirmarConsulta() {
-            const data = document.getElementById("data-consulta").value;
             try {
-                const response = await fetch('/agendar-consulta', {
+                const response = await fetch(`/agendar-consulta`, {
                     method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
+                    headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
-                        data,
+                        data: selectedData,
                         horario: selectedHorario,
                         medicoId: selectedMedico,
                         localConsulta: selectedPolo,
-                        pacienteId: 1 // Troque pelo ID real do paciente
+                        id_usuario: idUsuario // Troque pelo ID real do paciente
                     }),
                 });
 
@@ -217,13 +251,15 @@
                     throw new Error('Erro ao agendar consulta.');
                 }
 
+                
                 alert('Consulta confirmada com sucesso!');
+                window.location.href = '/home/home-paciente/id=' + idUsuario;
+
             } catch (error) {
                 console.error('Erro:', error);
                 alert('Erro ao confirmar consulta. Tente novamente.');
             }
         }
-
     </script>
 </body>
 </html>

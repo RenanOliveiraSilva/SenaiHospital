@@ -69,6 +69,20 @@ const getPacienteById = async (id) => {
     }
 };
 
+//Função para obter um paciente pelo ID do usuário
+const getPacienteByUserId = async (id) => {
+    try {
+        const result = await pool.query(`
+            SELECT * FROM PACIENTES WHERE id_usuario = $1;
+        `, [id]);
+
+        return result.rows[0];
+        } catch (err) {
+        console.error('Erro ao buscar paciente pelo ID do usuário:', err);
+        throw err;
+    }
+};
+
 // Função para atualizar um paciente no banco de dados
 const updatePaciente = async (id, pacienteData) => {
     const {
@@ -130,38 +144,57 @@ const deletePaciente = async (id) => {
     }
 };
 
-
-// Função para verificar horários disponíveis para um médico específico em uma data específica
-const getHorariosDisponiveis = async (data, medicoId) => {
+const getDiasDisponiveis = async (medicoId) => {
     try {
-        const horariosDisponiveis = ['8', '10', '14', '16'];
-
-        const result = await pool.query(`
-            SELECT horario
+        // Consulta para pegar as datas das consultas agendadas para o médico
+        const query = `
+            SELECT DISTINCT data_consulta
             FROM consultas
-            WHERE data = $1 AND medico_id = $2
-        `, [data, medicoId]);
+            WHERE id_medico = $1
+            AND data_consulta BETWEEN CURRENT_DATE AND (CURRENT_DATE + INTERVAL '10 days');
+        `;
 
-        const horariosOcupados = result.rows.map(row => row.horario);
+        const result = await pool.query(query, [medicoId]);
 
-        return horariosDisponiveis.filter(horario => !horariosOcupados.includes(horario));
+        // Cria um conjunto (Set) de datas ocupadas, usando o formato YYYY-MM-DD
+        const datasOcupadas = new Set(result.rows.map(row => row.data_consulta.toISOString().split('T')[0]));
+
+        // Verifica os dias dentro do período de 10 dias, excluindo sábados e domingos
+        const diasDisponiveis = [];
+        for (let i = 0; diasDisponiveis.length < 10; i++) {
+            const dia = new Date();
+            dia.setDate(dia.getDate() + i);
+
+            // Verifica se é sábado ou domingo (0 = domingo, 6 = sábado)
+            const dayOfWeek = dia.getDay();
+            if (dayOfWeek === 0 || dayOfWeek === 6) {
+                continue; // Ignora sábados e domingos
+            }
+
+            const diaString = dia.toISOString().split('T')[0]; // Formato YYYY-MM-DD
+
+            // Adiciona o dia à lista de dias disponíveis, independente de estar ocupado ou não
+            diasDisponiveis.push(diaString);
+        }
+
+        return diasDisponiveis;
     } catch (err) {
-        console.error('Erro ao buscar horários disponíveis:', err);
+        console.error('Erro ao buscar dias disponíveis:', err);
         throw err;
     }
 };
 
+
+
 // Função para obter médicos disponíveis em determinada data e local
-const getMedicosDisponiveis = async (data, localId) => {
+const getMedicosDisponiveis = async ( ) => {
     try {
         const result = await pool.query(`
-            SELECT m.id, u.nome 
-            FROM medico m
-            JOIN funcionario f ON m.id_funcionario = f.id
-            JOIN usuario u ON f.id_usuario = u.id
-            WHERE m.local_consulta = $1
-            AND m.disponibilidade @> $2::date
-        `, [localId, data]);
+           SELECT m.id AS medico_id, u.nome AS medico_nome
+            FROM medicos m
+            JOIN funcionarios f ON m.id_funcionario = f.id
+            JOIN usuarios u ON f.id_usuario = u.id;
+        `);
 
         return result.rows;
     } catch (err) {
@@ -170,21 +203,55 @@ const getMedicosDisponiveis = async (data, localId) => {
     }
 };
 
-// Função para agendar uma consulta
-const agendarConsulta = async (consultaData) => {
-    const { data, horario, medicoId, localConsulta, pacienteId } = consultaData;
+const getHorariosDisponiveis = async (medicoId, dataConsulta) => {
+    try {
+        const query = `
+            SELECT horario_consulta AS horario
+            FROM consultas
+            WHERE id_medico = $1
+            AND data_consulta = $2;
+        `;
+
+        const result = await pool.query(query, [medicoId, dataConsulta]);
+
+        // Obtendo os horários ocupados, padronizando o formato como 'HH:MM'
+        const horariosOcupados = result.rows.map(row => row.horario.trim());
+
+        // Definindo os horários fixos disponíveis
+        const horarios = ['08:00', '12:00', '14:00', '16:00'];
+
+        // Filtrando os horários para desabilitar os já ocupados
+        const horariosDisponiveis = horarios.map(horario => {
+            return {
+                horario,
+                disponivel: !horariosOcupados.includes(horario)
+            };
+        });
+
+        return horariosDisponiveis;
+    } catch (err) {
+        console.error('Erro ao buscar horários disponíveis:', err);
+        throw err;
+    }
+};
+
+// Função para agendar uma consulta (inserir no banco de dados)
+const agendarConsulta = async (dataConsulta) => {
+    const { data, horario, medicoId, localConsulta, pacienteId } = dataConsulta;
 
     try {
-        const result = await pool.query(`
-            INSERT INTO consulta (data, horario, id_medico, local_consulta, id_paciente)
+        const query = `
+            INSERT INTO consultas (data_consulta, horario_consulta, id_medico, local_consulta, id_paciente)
             VALUES ($1, $2, $3, $4, $5)
-            RETURNING *;
-        `, [data, horario, medicoId, localConsulta, pacienteId]);
+        `;
+        const values = [data, horario, medicoId, localConsulta, pacienteId];
 
-        return result.rows[0];
-    } catch (err) {
-        console.error('Erro ao agendar consulta:', err);
-        throw err;
+        // Executa a query de inserção
+        await pool.query(query, values);
+        return { message: "Consulta agendada com sucesso." };
+    } catch (error) {
+        console.error('Erro ao agendar consulta:', error);
+        throw new Error("Erro ao agendar consulta.");
     }
 };
 
@@ -196,6 +263,8 @@ module.exports = {
     deletePaciente,
     agendarConsulta,
     getMedicosDisponiveis,
-    getHorariosDisponiveis
+    getDiasDisponiveis,
+    getHorariosDisponiveis,
+    getPacienteByUserId
     
 };
