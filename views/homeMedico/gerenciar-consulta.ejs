@@ -1,54 +1,80 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/stylesheets/output.css">
-    <title>PediCare+ - Consultas do Médico</title>
+    <link href="/stylesheets/output.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Asap&display=swap" rel="stylesheet">
+    <title>Consultas do Médico - PediCare+</title>
     <style>
+        body {
+            font-family: 'Asap', sans-serif;
+        }
+
+        input.field,
+        select {
+            font-family: 'Asap', sans-serif;
+        }
+
         .selected {
-            border: 2px solid #465c47 !important;
+            border: 2px solid #2C5545 !important;
             background-color: #f4f4f4 !important;
         }
+
         .disabled {
             background-color: #d3d3d3 !important;
             cursor: not-allowed !important;
         }
     </style>
 </head>
-<body class="bg-[#F9F8F3] font-sans">
-    <div class="w-3/5 mx-auto p-6">
-        <!-- Cabeçalho -->
-        <header class="bg-[#EAE5DA] p-4 rounded-md shadow-md mb-6 text-center">
-            <h1 class="text-3xl font-bold text-[#465C47]">Consultas do Médico</h1>
-        </header>
 
-        <!-- Seção de seleção da data -->
+<body class="bg-[#F9F8F3] font-sans min-h-screen flex flex-col">
+
+    <!-- Navbar -->
+    <header class="bg-[#2C5545] h-20 shadow-lg flex items-center p-4">
+        <div class="container mx-auto flex justify-between items-center">
+            <img src="/images/logo-branco.png" alt="logo" class="h-12">
+        </div>
+    </header>
+
+    <!-- Container -->
+    <div class="bg-white max-w-4xl w-full mx-auto my-10 p-8 rounded-lg shadow-lg">
+        <h2 class="text-3xl font-bold text-center text-[#2C5545] mb-8">Gerar Prontuário Médico</h2>
+
+        <!-- Seção de Seleção da Data -->
         <section class="mb-8">
-            <h2 class="text-xl font-semibold text-[#465C47] mb-4">
-                Escolha a data para ver as consultas
-            </h2>
-            <input type="date" id="data-consulta" class="p-3 border rounded-md text-gray-700 mb-4">
-            <button id="buscar-btn" class="bg-green-500 text-white font-semibold py-2 px-4 rounded-md cursor-pointer" onclick="buscarConsultas()">
-                Buscar Consultas
-            </button>
+            <h3 class="text-xl font-semibold text-[#2C5545] mb-4">Escolha a data para ver as consultas</h3>
+            <div class="flex items-center gap-4">
+                <input type="date" id="data-consulta"
+                    class="p-3 border border-gray-300 rounded-lg text-sm text-gray-700 focus:outline-none focus:ring-2 focus:ring-[#2C5545]"
+                    required>
+                <button id="buscar-btn"
+                    class="bg-[#2C5545] text-white font-semibold py-3 px-6 rounded-lg shadow-md transition duration-300 ease-in-out hover:bg-[#234536]"
+                    onclick="buscarConsultas()">Buscar Consultas</button>
+            </div>
         </section>
 
         <!-- Consultas do Médico -->
         <section class="mb-8">
-            <h3 class="text-xl font-semibold text-[#465C47] mb-4">
-                Consultas do Dia
-            </h3>
+            <h3 class="text-xl font-semibold text-[#2C5545] mb-4">Consultas do Dia</h3>
             <div id="consultas-container" class="flex flex-col gap-4">
                 <p class="text-gray-500">Selecione uma data para ver as consultas do dia.</p>
             </div>
         </section>
+
+        <!-- Botão para Visualizar Todos os Prontuários -->
+        <div class="flex justify-center mt-10">
+            <a href="/prontuarios-todos"
+                class="bg-[#2C5545] text-white font-semibold py-3 px-8 rounded-lg shadow-md transition duration-300 ease-in-out hover:bg-[#234536]">
+                Visualizar Todos os Prontuários
+            </a>
+        </div>
     </div>
 
     <script>
-
-         // Função para pegar o valor de um parâmetro da URL
-         function getQueryParam(param) {
+        // Função para pegar o valor de um parâmetro da URL
+        function getQueryParam(param) {
             const urlParams = new URLSearchParams(window.location.search);
             return urlParams.get(param);
         }
@@ -70,17 +96,24 @@
                     if (consultas.length > 0) {
                         consultas.forEach((consulta) => {
                             const consultaCard = document.createElement("div");
-                            consultaCard.className = "bg-[#FAF3E9] p-4 rounded-md shadow-md text-[#465C47]";
+                            consultaCard.className = "bg-[#FAF3E9] p-4 rounded-lg shadow-md text-[#2C5545]";
                             consultaCard.innerHTML = `
                                 <p><strong>Paciente:</strong> ${consulta.nome_paciente}</p>
                                 <p><strong>Horário:</strong> ${consulta.horario}</p>
-                                <p><strong>Local:</strong> ${consulta.local}</p>
+                                <p><strong>Local:</strong> ${consulta.local_consulta}</p>
+                                <div class="mt-4 flex justify-end">
+                                    <a href="/prontuario?id=${consulta.id_consulta}" 
+                                        class="bg-[#2C5545] text-white font-semibold py-2 px-4 rounded-lg transition duration-300 ease-in-out hover:bg-[#234536]">
+                                        Gerar Prontuário
+                                    </a>
+                                </div>
                             `;
                             consultasContainer.appendChild(consultaCard);
                         });
                     } else {
                         consultasContainer.innerHTML = `<p class="text-gray-500">Nenhuma consulta encontrada para essa data.</p>`;
                     }
+
                 } catch (error) {
                     console.error('Erro ao buscar consultas:', error);
                     consultasContainer.innerHTML = `<p class="text-gray-500">Erro ao carregar consultas.</p>`;
@@ -90,5 +123,7 @@
             }
         }
     </script>
+
 </body>
+
 </html>

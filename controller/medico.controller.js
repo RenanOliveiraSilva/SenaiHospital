@@ -1,4 +1,5 @@
 const medicoModel = require('../model/medicos.model');
+const pacienteModel = require('../model/paciente.model');
 const funcModel = require('../model/funcionarios.model');
 
 // Inserção de médico no banco de dados
@@ -133,13 +134,12 @@ const renderizaHomeMedico = (req, res) => {
 
 // Buscar consultas do médico para a data especificada
 const getConsultasDoDia = async (req, res) => {
-    const medicoId = req.query.idMedico;  // Assumindo que o médico já está autenticado e seu ID está disponível
+    const userId = req.query.idMedico;  // Assumindo que o médico já está autenticado e seu ID está disponível
     const dataConsulta = req.query.dataConsulta;
-    
-    const medico = await medicoModel.getMedicoById(medicoId);
-    const id = medico.id;
 
-    console.log(medico);
+    const medico = await medicoModel.getMedicoByIdUser(userId);
+    const id = medico.medico_id;
+
 
     try {
         const consultas = await medicoModel.getConsultasDoDia(id, dataConsulta);
@@ -162,6 +162,61 @@ const renderizarConsultasMedico = (req, res) => {
     res.render('./homeMedico/gerenciar-consulta', { idMedico });
 };
 
+//Renderizar a página de prontuário do médico
+const renderizarProntuario = async (req, res) => {
+    try {
+        const id_consulta = req.query.id; // Assumindo que o ID do médico está sendo passado pela URL
+        const consulta = await medicoModel.getConsultaById(id_consulta);
+        const usuario = await pacienteModel.getUsuarioById(consulta.id_paciente);
+
+        console.log(usuario);
+
+        res.render('./homeMedico/prontuario', { consulta, usuario });
+
+    } catch (error) {
+        console.error('Erro ao renderizar prontuário do médico:', error);
+        res.status(500).send('Erro ao renderizar prontuário do médico');
+    }
+}
+
+// Controller para criar um prontuário
+const criarProntuario = async (req, res) => {
+    // Desestruturação dos dados do corpo da requisição
+    const {
+        anamnese,
+        peso,
+        altura,
+        pressao_arterial,
+        temperatura,
+        diagnostico_definitivo,
+        hipoteses_diagnosticas,
+        tratamentos_efetuados
+    } = req.body;
+    
+    const { id_consulta, id_medico, id_paciente } = req.query;
+
+    try {
+        // Passando os dados para o modelo
+        const novoProntuario = await medicoModel.criarProntuario({
+            id_paciente,
+            id_medico,
+            id_consulta,
+            anamnese,
+            peso,
+            altura,
+            pressao_arterial,
+            temperatura,
+            diagnostico_definitivo,
+            hipoteses_diagnosticas,
+            tratamentos_efetuados
+        });
+
+        res.status(201).json(novoProntuario);
+    } catch (error) {
+        res.status(500).json({ error: 'Erro ao criar prontuário.' });
+    }
+};
+
 module.exports = {
     postMedico,
     excluirMedico,
@@ -169,5 +224,7 @@ module.exports = {
     postEditarMedico,
     renderizaHomeMedico,
     getConsultasDoDia,
-    renderizarConsultasMedico
+    renderizarConsultasMedico,
+    renderizarProntuario,
+    criarProntuario
 };

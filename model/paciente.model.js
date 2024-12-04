@@ -255,6 +255,35 @@ const agendarConsulta = async (dataConsulta) => {
     }
 };
 
+// Model para buscar informações do paciente pelo ID
+const getUsuarioById = async (idPaciente) => {
+    try {
+        const query = `
+            SELECT 
+                u.nome,
+                u.data_nasc AS data_nascimento,
+                p.genero
+            FROM 
+                pacientes p
+            INNER JOIN 
+                usuarios u ON p.id_usuario = u.id
+            WHERE 
+                p.id = $1
+        `;
+        const values = [idPaciente];
+        const result = await pool.query(query, values);
+        
+        if (result.rows.length === 0) {
+            throw new Error('Paciente não encontrado');
+        }
+
+        return result.rows[0]; // Retorna o nome, data de nascimento e gênero do paciente
+    } catch (error) {
+        console.error('Erro ao buscar informações do paciente:', error);
+        throw error;
+    }
+};
+
 module.exports = {
     addPaciente,
     getAllPacientes,
@@ -265,6 +294,7 @@ module.exports = {
     getMedicosDisponiveis,
     getDiasDisponiveis,
     getHorariosDisponiveis,
-    getPacienteByUserId
+    getPacienteByUserId,
+    getUsuarioById
     
 };

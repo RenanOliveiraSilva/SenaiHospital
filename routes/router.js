@@ -50,7 +50,10 @@ router
 router
     .get('/home/home-medico', medicoController.renderizaHomeMedico)
     .get('/home/gerencia-consulta', medicoController.renderizarConsultasMedico)
-    .get('/home/consulta-medico', medicoController.getConsultasDoDia);
+    .get('/home/consulta-medico', medicoController.getConsultasDoDia)
+    .get('/consultas-medico', medicoController.getConsultasDoDia)
+    .get('/prontuario', medicoController.renderizarProntuario)
+    .post('/prontuario', medicoController.criarProntuario);
 
 // //Rotas Paciente
 router
@@ -59,7 +62,6 @@ router
     .get('/medicos-disponiveis', pacienteController.getMedicosDisponiveis)
     .get('/dias-disponiveis', pacienteController.getDiasDisponiveis)
     .get('/horarios-disponiveis', pacienteController.getHorariosDisponiveis)
-    .get('/consultas-medico', medicoController.getConsultasDoDia)
     .post('/agendar-consulta', pacienteController.agendarConsulta);
 
 //Rotas Funcionário

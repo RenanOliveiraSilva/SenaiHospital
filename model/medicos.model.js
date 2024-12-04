@@ -47,6 +47,7 @@ const getMedicoByCrm = async (crm) => {
 const getMedicoById = async (medicoId) => {
     try {
         const result = await pool.query('SELECT * FROM MEDICOS WHERE id = $1', [medicoId]);
+        console.log(result.rows[0]);
         return result.rows[0];
 
     } catch (error) {
@@ -99,7 +100,7 @@ const deleteMedico = async (medicoId) => {
 const getConsultasDoDia = async (medicoId, dataConsulta) => {
     try {
         const query = `
-            SELECT c.horario_consulta AS horario, p.nome AS nome_paciente
+            SELECT c.id AS id_consulta, c.horario_consulta AS horario, c.local_consulta, p.nome AS nome_paciente
                 FROM consultas c
             JOIN pacientes p ON c.id_paciente = p.id
                 WHERE c.id_medico = $1 AND c.data_consulta = $2;
@@ -113,6 +114,83 @@ const getConsultasDoDia = async (medicoId, dataConsulta) => {
     }
 };
 
+//Buscar médico pelo id do usuario
+const getMedicoByIdUser = async (userId) => {
+    try {
+        const result = await pool.query(`
+            SELECT m.id AS medico_id
+            from medicos m 
+            JOIN funcionarios f ON m.id_funcionario = f.id
+            WHERE f.id_usuario = $1`, [userId]);
+
+        return result.rows[0];
+
+    } catch (error) {
+        console.error('Erro ao buscar médico por id do usuário:', error);
+        throw error;
+    }
+}
+
+// Model para criar um prontuário no banco de dados
+const criarProntuario = async (prontuarioData) => {
+
+    const { anamnese, peso, altura, pressao_arterial, temperatura, diagnostico_definitivo, hipoteses_diagnosticas, tratamentos_efetuados } = prontuarioData;
+    console.log(prontuarioData);
+
+    try {
+        const query = `
+            INSERT INTO prontuarios (
+                id_paciente,
+                id_medico,
+                id_consulta,
+                anamnese,
+                peso,
+                altura,
+                pressao_arterial,
+                temperatura,
+                diagnostico_definitivo,
+                hipoteses_diagnosticas,
+                tratamentos_efetuados
+            ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)
+            RETURNING *
+        `;
+        
+        const values = [
+            prontuarioData.id_paciente,
+            prontuarioData.id_medico,
+            prontuarioData.id_consulta,
+            prontuarioData.anamnese,
+            prontuarioData.peso,
+            prontuarioData.altura,
+            prontuarioData.pressao_arterial,
+            prontuarioData.temperatura,
+            prontuarioData.diagnostico_definitivo,
+            prontuarioData.hipoteses_diagnosticas,
+            prontuarioData.tratamentos_efetuados
+        ];
+
+        const result = await pool.query(query, values);
+        return result.rows[0];
+
+    } catch (error) {
+        console.error('Erro ao criar prontuário:', error);
+        throw new Error('Erro ao criar prontuário: ' + error.message);
+    }
+};
+
+const getConsultaById = async (consultaId) => {
+    try {
+        const result = await pool.query(`
+            SELECT * FROM consultas WHERE id = $1`, [consultaId]);
+
+        return result.rows[0];
+
+    } catch (error) {
+        console.error('Erro ao buscar consulta por id:', error);
+        throw error;
+    }
+}
+
 
 module.exports = {
     getTodosMedicos,
@@ -121,5 +199,8 @@ module.exports = {
     deleteMedico,
     getMedicoById,
     editMedico,
-    getConsultasDoDia
+    getConsultasDoDia,
+    getMedicoByIdUser,
+    criarProntuario,
+    getConsultaById
 };
