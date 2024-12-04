@@ -13,118 +13,118 @@
 <body class="bg-[#F0E8D9] ">
     <%
         // Parse a data do valor fornecido para o formato yyyy-MM-dd
-        const dataNascimento = new Date(usuario.data_nascimento).toISOString().split('T')[0];
+        const dataNascimento = new Date(usuario.data_nasc).toISOString().split('T')[0];
     %>
 
     <!-- Navbar -->
     <header class="bg-[#2C5545] h-20 shadow-lg flex items-center p-4 mb-2">
-      <div class="container mx-auto flex justify-between items-center">
-          <img src="/images/logo-branco.png" alt="logo" class="h-12">
-      </div>
+        <div class="container mx-auto flex justify-between items-center">
+            <img src="/images/logo-branco.png" alt="logo" class="h-12">
+        </div>
     </header>
 
     <div class="min-h-screen flex items-center justify-center">
-        <form action="/prontuario?id_paciente=<%= consulta.id_paciente %>&id_medico=<%= consulta.id_medico%>&id_consulta=<%= consulta.id %>" method="POST">
-          <div id="prontuario-form" class="max-w-5xl mx-auto p-6 bg-white shadow-lg border border-gray-300 rounded-lg">
+        <form action="/prontuario?id_paciente=<%= consulta.id_paciente %>&id_medico=<%= consulta.id_medico%>&id_consulta=<%= consulta.id %>" method="POST" onsubmit="handleSubmit(event)" id="prontuarioForm">
+            <div id="prontuario-form" class="max-w-5xl mx-auto p-6 bg-white shadow-lg border border-gray-300 rounded-lg">
 
-            <!-- Cabeçalho -->
-            <div class="text-center">
-                <h1 class="text-xl font-extrabold">PediCare+</h1>
-                <p class="text-sm">Clínica Pediátrica PediCare+<br>Rua Juarez de Paula, 123 - Centro - Guará - SP</p>
-                <h2 class="text-lg font-bold mt-4">FICHA MÉDICA E PRONTUÁRIO</h2>
-            </div>
+                <!-- Cabeçalho -->
+                <div class="text-center">
+                    <h1 class="text-xl font-extrabold">PediCare+</h1>
+                    <p class="text-sm">Clínica Pediátrica PediCare+<br>Rua Juarez de Paula, 123 - Centro - Guará - SP</p>
+                    <h2 class="text-lg font-bold mt-4">FICHA MÉDICA E PRONTUÁRIO</h2>
+                </div>
 
-            <!-- Informações Pessoais -->
-            <div class="mt-6">
-                <h3 class="text-lg font-bold mb-4">Informações Pessoais</h3>
-                <div class="grid grid-cols-2 gap-4">
-                    <div>
-                        <label class="block text-sm font-medium">Nome do Paciente:</label>
-                        <input type="text" name="nome_paciente" placeholder="Digite o nome do paciente"
-                            class="w-full border border-gray-300 rounded px-3 py-1 text-sm" value="<%= usuario.nome  %>"  disabled>
-                    </div>
-                    <div>
-                        <label class="block text-sm font-medium">Sexo:</label>
-                        <div class="flex items-center gap-4">
-                            <label>
-                                <input type="radio" name="gender" value="male" class="mr-1" <%= usuario.genero === 'M' ? 'checked' : '' %> disabled> Masculino
-                            </label>
-                            <label>
-                                <input type="radio" name="gender" value="female" class="mr-1" <%= usuario.genero === 'F' ? 'checked' : '' %> disabled> Feminino
-                            </label>
+                <!-- Informações Pessoais -->
+                <div class="mt-6">
+                    <h3 class="text-lg font-bold mb-4">Informações Pessoais</h3>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-sm font-medium">Nome do Paciente:</label>
+                            <input type="text" name="nome_paciente" placeholder="Digite o nome do paciente"
+                                class="w-full border border-gray-300 rounded px-3 py-1 text-sm" value="<%= usuario.nome  %>" disabled>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium">Sexo:</label>
+                            <div class="flex items-center gap-4">
+                                <label>
+                                    <input type="radio" name="gender" value="male" class="mr-1" <%= usuario.genero === 'M' ? 'checked' : '' %> disabled> Masculino
+                                </label>
+                                <label>
+                                    <input type="radio" name="gender" value="female" class="mr-1" <%= usuario.genero === 'F' ? 'checked' : '' %> disabled> Feminino
+                                </label>
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-medium">Data de Nascimento:</label>
+                            <input type="date" name="data_nascimento" value="<%= dataNascimento %>" class="w-full border border-gray-300 rounded px-3 py-1 text-sm" disabled>
                         </div>
                     </div>
-                    
-                    <div>
-                        <label class="block text-sm font-medium">Data de Nascimento:</label>
-                        <input type="date" name="data_nascimento" value="<%= dataNascimento %>" class="w-full border border-gray-300 rounded px-3 py-1 text-sm" disabled>
+                </div>
+
+                <!-- Anamnese -->
+                <div class="mt-6">
+                    <h3 class="text-lg font-bold mb-4">Anamnese</h3>
+                    <textarea name="anamnese" placeholder="Descreva as queixas do paciente e observações feitas durante a consulta"
+                        class="w-full border border-gray-300 rounded px-3 py-1 text-sm"></textarea>
+                </div>
+
+                <!-- Exame Físico -->
+                <div class="mt-6">
+                    <h3 class="text-lg font-bold mb-4">Exame Físico</h3>
+                    <div class="grid grid-cols-4 gap-4">
+                        <div>
+                            <label class="block text-sm font-medium">Peso:</label>
+                            <input type="text" name="peso" placeholder="Ex: 25 kg"
+                                class="w-full border border-gray-300 rounded px-3 py-1 text-sm">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium">Altura:</label>
+                            <input type="text" name="altura" placeholder="Ex: 1,20 m"
+                                class="w-full border border-gray-300 rounded px-3 py-1 text-sm">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium">Pressão Arterial:</label>
+                            <input type="text" name="pressao_arterial" placeholder="Ex: 120/80 mmHg"
+                                class="w-full border border-gray-300 rounded px-3 py-1 text-sm">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium">Temperatura:</label>
+                            <input type="text" name="temperatura" placeholder="Ex: 36,5 ºC"
+                                class="w-full border border-gray-300 rounded px-3 py-1 text-sm">
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            <!-- Anamnese -->
-            <div class="mt-6">
-                <h3 class="text-lg font-bold mb-4">Anamnese</h3>
-                <textarea name="anamnese" placeholder="Descreva as queixas do paciente e observações feitas durante a consulta"
-                    class="w-full border border-gray-300 rounded px-3 py-1 text-sm"></textarea>
-            </div>
-
-            <!-- Exame Físico -->
-            <div class="mt-6">
-                <h3 class="text-lg font-bold mb-4">Exame Físico</h3>
-                <div class="grid grid-cols-4 gap-4">
-                    <div>
-                        <label class="block text-sm font-medium">Peso:</label>
-                        <input type="text" name="peso" placeholder="Ex: 25 kg"
-                            class="w-full border border-gray-300 rounded px-3 py-1 text-sm">
-                    </div>
-                    <div>
-                        <label class="block text-sm font-medium">Altura:</label>
-                        <input type="text" name="altura" placeholder="Ex: 1,20 m"
-                            class="w-full border border-gray-300 rounded px-3 py-1 text-sm">
-                    </div>
-                    <div>
-                        <label class="block text-sm font-medium">Pressão Arterial:</label>
-                        <input type="text" name="pressao_arterial" placeholder="Ex: 120/80 mmHg"
-                            class="w-full border border-gray-300 rounded px-3 py-1 text-sm">
-                    </div>
-                    <div>
-                        <label class="block text-sm font-medium">Temperatura:</label>
-                        <input type="text" name="temperatura" placeholder="Ex: 36,5 ºC"
-                            class="w-full border border-gray-300 rounded px-3 py-1 text-sm">
+                <!-- Diagnóstico e Tratamento -->
+                <div class="mt-6">
+                    <h3 class="text-lg font-bold mb-4">Diagnóstico e Tratamento</h3>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-sm font-medium">Diagnóstico Definitivo:</label>
+                            <textarea name="diagnostico_definitivo" placeholder="Descreva o diagnóstico definitivo"
+                                class="w-full border border-gray-300 rounded px-3 py-1 text-sm"></textarea>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium">Hipóteses Diagnósticas:</label>
+                            <textarea name="hipoteses_diagnosticas" placeholder="Descreva as hipóteses diagnósticas"
+                                class="w-full border border-gray-300 rounded px-3 py-1 text-sm"></textarea>
+                        </div>
+                        <div class="col-span-2">
+                            <label class="block text-sm font-medium">Tratamentos Efetuados:</label>
+                            <textarea name="tratamentos_efetuados" placeholder="Descreva os tratamentos efetuados"
+                                class="w-full border border-gray-300 rounded px-3 py-1 text-sm"></textarea>
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            <!-- Diagnóstico e Tratamento -->
-            <div class="mt-6">
-                <h3 class="text-lg font-bold mb-4">Diagnóstico e Tratamento</h3>
-                <div class="grid grid-cols-2 gap-4">
-                    <div>
-                        <label class="block text-sm font-medium">Diagnóstico Definitivo:</label>
-                        <textarea name="diagnostico_definitivo" placeholder="Descreva o diagnóstico definitivo"
-                            class="w-full border border-gray-300 rounded px-3 py-1 text-sm"></textarea>
-                    </div>
-                    <div>
-                        <label class="block text-sm font-medium">Hipóteses Diagnósticas:</label>
-                        <textarea name="hipoteses_diagnosticas" placeholder="Descreva as hipóteses diagnósticas"
-                            class="w-full border border-gray-300 rounded px-3 py-1 text-sm"></textarea>
-                    </div>
-                    <div class="col-span-2">
-                        <label class="block text-sm font-medium">Tratamentos Efetuados:</label>
-                        <textarea name="tratamentos_efetuados" placeholder="Descreva os tratamentos efetuados"
-                            class="w-full border border-gray-300 rounded px-3 py-1 text-sm"></textarea>
-                    </div>
+                <!-- Assinatura -->
+                <div class="mt-6 text-center">
+                    <p class="text-sm font-medium">______________________________</p>
+                    <p class="text-sm">Assinatura do Médico</p>
                 </div>
-            </div>
 
-            <!-- Assinatura -->
-            <div class="mt-6 text-center">
-                <p class="text-sm font-medium">______________________________</p>
-                <p class="text-sm">Assinatura do Médico</p>
             </div>
-
-          </div>
 
             <!-- Botões -->
             <div class="flex items-center justify-center mt-2 mb-2">
@@ -139,9 +139,41 @@
                 </div>
             </div>
         </form>
-      </div>
+    </div>
 
     <script>
+        async function handleSubmit(event) {
+            event.preventDefault(); // Previne o envio padrão do formulário
+            console.log('Formulário enviado!');
+
+            const form = document.getElementById('prontuarioForm');
+            const formData = new FormData(form);
+            const data = {};
+            formData.forEach((value, key) => {
+                data[key] = value;
+            });
+
+            try {
+                const response = await fetch(form.action, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(data),
+                });
+
+                if (!response.ok) {
+                    throw new Error('Erro ao enviar prontuário.');
+                }
+
+                alert('Prontuário cadastrado com sucesso!');
+
+            } catch (error) {
+                console.error('Erro ao cadastrar prontuário:', error);
+                alert('Erro ao cadastrar prontuário. Tente novamente.');
+            }
+        }
+
         function gerarPDF() {
             const prontuarioForm = document.getElementById('prontuario-form');
             html2pdf()

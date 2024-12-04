@@ -167,7 +167,7 @@ const renderizarProntuario = async (req, res) => {
     try {
         const id_consulta = req.query.id; // Assumindo que o ID do médico está sendo passado pela URL
         const consulta = await medicoModel.getConsultaById(id_consulta);
-        const usuario = await pacienteModel.getUsuarioById(consulta.id_paciente);
+        const usuario = await pacienteModel.getPacienteById(consulta.id_paciente);
 
         console.log(usuario);
 
@@ -216,6 +216,19 @@ const criarProntuario = async (req, res) => {
         res.status(500).json({ error: 'Erro ao criar prontuário.' });
     }
 };
+
+//Buscar pontruários com id do médico
+const renderizarListaProntuario = async (req, res) => {
+    try {
+        const id_medico = req.query.id; // Assumindo que o ID do médico está sendo passado pela URL
+        const prontuarios = await medicoModel.getProntuariosByMedico(id_medico);
+
+        res.render('./homeMedico/lista-prontuario', { prontuarios });
+    } catch (error) {
+        console.error('Erro ao buscar prontuários do médico:', error);
+        res.status(500).send('Erro ao buscar prontuários do médico');
+    }
+}
 
 module.exports = {
     postMedico,
