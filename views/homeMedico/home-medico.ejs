@@ -9,11 +9,14 @@
 </head>
 <body>
         <div class="bg-[url('/images/fundo-2.png')] bg-cover bg-center h-screen">
-        <img src="/images/logo-branco.png" alt="logo" class="w-32 h-32 object-contain ml-10"> 
+            <a href="/login">
+                <img src="/images/logo-branco.png" alt="logo" class="w-32 h-32 object-contain ml-10"> 
+
+            </a>
         <div class="flex flex-wrap justify-center items-center gap-10">
         <div class="flex flex-col items-center gap-10">
             <a 
-                href="/home/gerencia-consulta?id=<%= medicoId %>" 
+                href="/lista-prontuario?id=<%= medicoId %>" 
                 class="bg-[#F0E8D9] shadow-md rounded-xl p-12 text-center w-80 hover:shadow-lg hover:bg-cream-light transition mt-32">
                 <h3 class="text-xl font-semibold text-[#465C47] mb-2">Prontuário</h3>
                 <p class="text-gray-500">Consultar histórico ou gerar novo prontuário</p>

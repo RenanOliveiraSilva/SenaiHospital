@@ -52,9 +52,10 @@ router
     .get('/home/gerencia-consulta', medicoController.renderizarConsultasMedico)
     .get('/home/consulta-medico', medicoController.getConsultasDoDia)
     .get('/consultas-medico', medicoController.getConsultasDoDia)
-    .get('/lista-prontuario', medicoController.getConsultasDoDia) //ALtera para prontuario
+    .get('/lista-prontuario', medicoController.renderizarListaProntuario) 
     .get('/prontuario', medicoController.renderizarProntuario)
-    .post('/prontuario', medicoController.criarProntuario);
+    .post('/prontuario', medicoController.criarProntuario)
+    .delete('/prontuarios/:id', medicoController.deleteProntuario);
 
 // //Rotas Paciente
 router

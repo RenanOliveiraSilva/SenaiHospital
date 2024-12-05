@@ -191,6 +191,31 @@ const getConsultaById = async (consultaId) => {
     }
 }
 
+const getProntuariosByMedico = async (medicoId) => {
+    try {
+        const result = await pool.query(`
+            SELECT p.*, pac.nome AS nome_paciente, c.data_consulta FROM prontuarios p 
+                JOIN pacientes pac ON p.id_paciente = pac.id
+                JOIN consultas c ON p.id_consulta = c.id 
+            WHERE p.id_medico = $1;`, [medicoId]);
+
+        return result.rows;
+
+    } catch (error) {
+        console.error('Erro ao buscar prontuários por id do médico:', error);
+        throw error;
+    }
+}
+
+const deleteProntuario = async (prontuarioId) => {
+    try {
+        console.log(prontuarioId);
+        const result = await pool.query('DELETE FROM prontuarios WHERE id_prontuario = $1 RETURNING *', [prontuarioId]);
+        return result.rows[0];
+    } catch (error) {
+        throw error;
+    }
+};
 
 module.exports = {
     getTodosMedicos,
@@ -202,5 +227,7 @@ module.exports = {
     getConsultasDoDia,
     getMedicoByIdUser,
     criarProntuario,
-    getConsultaById
+    getConsultaById,
+    getProntuariosByMedico,
+    deleteProntuario
 };

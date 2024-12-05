@@ -14,7 +14,7 @@
     <!-- Navbar -->
     <header class="bg-[#2C5545] shadow-md p-4 flex items-center justify-between">
         <h1 class="text-white text-2xl font-bold">PediCare+ - Listagem de Prontuários</h1>
-        <a href="/home/gerar_prontuario" class="bg-[#CAC2B5] hover:bg-[#938b7b] text-white font-semibold px-6 py-3 rounded-md">
+        <a href="/home/gerencia-consulta?id=<%= id_usuario %>" class="bg-[#CAC2B5] hover:bg-[#938b7b] text-white font-semibold px-6 py-3 rounded-md">
             + Gerar Novo Prontuário
         </a>
     </header>
@@ -35,7 +35,8 @@
                 <table class="min-w-full text-left border-collapse">
                     <thead class="bg-[#E5E0D5] text-[#465C47]">
                         <tr>
-                            <th class="py-3 px-4 text-center">Paciente</th>
+                            <th class="py-3 px-4 text-center">Nome Paciente</th>
+                            <th class="py-3 px-4 text-center">Data da Consulta</th>
                             <th class="py-3 px-4 text-center">Data de Criação</th>
                             <th class="py-3 px-4 text-center">Ações</th>
                         </tr>
@@ -44,12 +45,11 @@
                         <% prontuarios.forEach((prontuario) => { %>
                             <tr>
                                 <td class="py-3 px-4 text-center"><%= prontuario.nome_paciente %></td>
+                                <td class="py-3 px-4 text-center"><%= prontuario.data_consulta %></td>
                                 <td class="py-3 px-4 text-center"><%= prontuario.data_criacao %></td>
                                 <td class="py-3 px-4 flex justify-center gap-4">
                                     <a href="/prontuarios/visualizar/<%= prontuario.id_prontuario %>" class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition">Visualizar</a>
-                                    <form action="/prontuarios/<%= prontuario.id_prontuario %>?_method=DELETE" method="POST">
-                                        <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition">Excluir</button>
-                                    </form>
+                                    <button onclick="excluirProntuario('<%= prontuario.id_prontuario %>')" class="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition">Excluir</button>
                                 </td>
                             </tr>
                         <% }) %>
@@ -60,5 +60,29 @@
     </main>
 
 </body>
+    <!-- Script para excluir prontuário -->
+    <script>
+        async function excluirProntuario(prontuarioId) {
+            if (confirm('Tem certeza que deseja excluir este prontuário?')) {
+                try {
+                    const response = await fetch(`/prontuarios/${prontuarioId}`, {
+                        method: 'DELETE',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        }
+                    });
 
+                    if (response.ok) {
+                        alert('Prontuário excluído com sucesso!');
+                        window.location.reload();
+                    } else {
+                        alert('Erro ao excluir prontuário.');
+                    }
+                } catch (error) {
+                    console.error('Erro ao excluir prontuário:', error);
+                    alert('Erro ao excluir prontuário.');
+                }
+            }
+        }
+    </script>
 </html>

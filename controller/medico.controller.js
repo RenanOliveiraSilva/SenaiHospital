@@ -1,4 +1,5 @@
 const medicoModel = require('../model/medicos.model');
+const usuarioModel = require('../model/usuario.model');
 const pacienteModel = require('../model/paciente.model');
 const funcModel = require('../model/funcionarios.model');
 
@@ -220,15 +221,36 @@ const criarProntuario = async (req, res) => {
 //Buscar pontruários com id do médico
 const renderizarListaProntuario = async (req, res) => {
     try {
-        const id_medico = req.query.id; // Assumindo que o ID do médico está sendo passado pela URL
-        const prontuarios = await medicoModel.getProntuariosByMedico(id_medico);
-
-        res.render('./homeMedico/lista-prontuario', { prontuarios });
+        const id_usuario = req.query.id; // Assumindo que o ID do médico está sendo passado pela URL
+        const medico = await medicoModel.getMedicoByIdUser(id_usuario);
+        
+        const prontuarios = await medicoModel.getProntuariosByMedico(medico.medico_id);
+        
+        res.render('./homeMedico/lista-prontuarios', { prontuarios, medico, id_usuario });
     } catch (error) {
         console.error('Erro ao buscar prontuários do médico:', error);
         res.status(500).send('Erro ao buscar prontuários do médico');
     }
 }
+
+//Rota para deletar pontruários
+const deleteProntuario = async (req, res) => {
+    try {
+        const prontuarioId = req.params.id;
+        console.log(prontuarioId);
+
+        const prontuarioExcluido = await medicoModel.deleteProntuario(prontuarioId);
+
+        if (!prontuarioExcluido) {
+            return res.status(404).json({ message: 'Prontuário não encontrado!' });
+        }
+
+        res.status(204).send();
+    } catch (error) {
+        console.error('Erro ao excluir prontuário:', error);
+        res.status(500).json({ error: 'Erro ao excluir prontuário' });
+    }
+};
 
 module.exports = {
     postMedico,
@@ -239,5 +261,7 @@ module.exports = {
     getConsultasDoDia,
     renderizarConsultasMedico,
     renderizarProntuario,
-    criarProntuario
+    criarProntuario,
+    renderizarListaProntuario,
+    deleteProntuario
 };
