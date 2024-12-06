@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="/stylesheets/output.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Asap&display=swap" rel="stylesheet">
+    <title>Lista de Pacientes - PediCare+</title>
+    <style>
+        body {
+            font-family: 'Asap', sans-serif;
+        }
+    </style>
+</head>
+
+<body class="bg-[#F0E8D9] min-h-screen">
+
+    <header class="bg-[#2C5545] h-20 shadow-lg flex items-center p-4">
+        <img src="/images/logo-branco.png" alt="logo" class="h-12">
+    </header>
+
+
+    <!-- Lista de Pacientes -->
+    <div class="container mx-auto mt-8 p-6">
+        <h2 class="text-2xl font-bold text-[#2C5545] mb-6">Gerar Atestado</h2>
+        <% if (pacientes.length === 0) { %>
+            <!-- Mensagem caso não existam pacientes cadastrados -->
+            <div class="text-center text-[#465C47] mt-8">
+                <p class="text-lg font-semibold">Nenhum paciente cadastrado no momento.</p>
+                <p>Por favor, clique no botão acima para adicionar um novo paciente.</p>
+            </div>
+        <% } else { %>
+            <!-- Tabela -->
+            <div class="bg-white shadow-md rounded-lg overflow-hidden">
+                <table class="min-w-full divide-y divide-gray-200">
+                    <thead class="bg-[#E5E0D5] text-[#465C47]">
+                        <tr>
+                            <th class="py-3 px-6 text-center font-medium">Nome</th>
+                            <th class="py-3 px-6 text-center font-medium">Idade</th>
+                            <th class="py-3 px-6 text-center font-medium">CPF</th>
+                            <th class="py-3 px-6 text-center font-medium">Data de Nascimento</th>
+                            <th class="py-3 px-6 text-center font-medium">Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody class="bg-white divide-y divide-gray-200">
+                        <% pacientes.forEach((paciente) => { %>
+                            <tr>
+                                <td class="py-4 px-6 text-center"><%= paciente.nome %></td>
+                                <td class="py-4 px-6 text-center"><%= paciente.idade %></td>
+                                <td class="py-4 px-6 text-center"><%= paciente.cpf %></td>
+                                <td class="py-4 px-6 text-center"><%= new Date(paciente.data_nasc).toLocaleDateString("pt-BR") %></td>
+                                <td class="py-4 px-6 flex justify-center gap-4">
+                                    <a href="/atestado/<%= paciente.id %>/<%= medico.medico_id %>" class="bg-fontColor hover:bg-[#2c3c2d] text-white px-4 py-2 rounded-lg transition">Gerar Atestado</a>
+                                    
+                                </td>
+                            </tr>
+                        <% }) %>
+                    </tbody>
+                </table>
+            </div>
+        <% } %>
+    </div>
+    <div class="w-full justify-center items-center flex mt-2">
+
+        <a href="/home/home-medico?id=<%= id_usuario %>" class="bg-fontColor text-white px-4 py-2 rounded hover:bg-[#2c3c2d] transition">Retornar</a>
+    </div>
+
+
+</body>
+
+</html>

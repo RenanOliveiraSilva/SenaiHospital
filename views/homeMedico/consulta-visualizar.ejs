@@ -1,13 +1,28 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="/stylesheets/output.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Asap&display=swap" rel="stylesheet">
     <title>Consultas Agendadas</title>
+    <style>
+        body {
+            font-family: 'Asap', sans-serif;
+        }
+    </style>
 </head>
-<body>
-    <div class="container mx-auto mt-6 p-6">
+
+<body class="bg-[#F0E8D9] min-h-screen">
+
+    <header class="bg-[#2C5545] h-20 shadow-lg flex items-center p-4">
+        <img src="/images/logo-branco.png" alt="logo" class="h-12">
+    </header>
+
+
+    <!-- Lista de Pacientes -->
+    <div class="container mx-auto mt-8 p-6">
         <h2 class="text-xl font-bold text-[#2C5545] mb-4">Consultas Agendadas</h2>
         <% if (consultas.length === 0) { %>
             <div class="text-center text-[#465C47] mt-8">
@@ -19,6 +34,7 @@
                     <thead class="bg-[#E5E0D5] text-[#465C47]">
                         <tr>
                             <th class="py-3 px-4 text-center">Nome do Paciente</th>
+                            <th class="py-3 px-4 text-center">Horário da Consulta</th>
                             <th class="py-3 px-4 text-center">Data da Consulta</th>
                         </tr>
                     </thead>
@@ -26,6 +42,7 @@
                         <% consultas.forEach((consulta) => { %>
                             <tr>
                                 <td class="py-3 px-4 text-center"><%= consulta.nome_paciente %></td>
+                                <td class="py-3 px-4 text-center"><%= consulta.horario_consulta %></td>
                                 <td class="py-3 px-4 text-center"><%= new Date(consulta.data_consulta).toLocaleDateString() %></td>
                             </tr>
                         <% }) %>
@@ -34,5 +51,12 @@
             </div>
         <% } %>
     </div>
+
+    <div class="w-full justify-center items-center flex mt-2">
+
+        <a href="/home/home-medico?id=<%= id_usuario %>" class="bg-fontColor text-white px-4 py-2 rounded hover:bg-[#2c3c2d] transition">Retornar</a>
+    </div>
+
 </body>
+
 </html>

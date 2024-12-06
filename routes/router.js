@@ -56,6 +56,9 @@ router
     .get('/prontuario', medicoController.renderizarProntuario)
     .get('/visualizar-prontuarios/:id', medicoController.visualizarProntuario)
     .get('/visualizar/:id', medicoController.visualizarConsultas)
+    .get('/lista-pacientes/:id', medicoController.renderizaListaPacientes)
+    .get('/atestado/:id_paciente/:id_medico', medicoController.renderizaAtestado)
+    .post('/atestado/:id_paciente/:id_medico', medicoController.postAtestado)
     .post('/prontuario', medicoController.criarProntuario)
     .delete('/prontuarios/:id', medicoController.deleteProntuario);
 
@@ -75,9 +78,9 @@ router
 
 
     router.get('/teste', (req, res) => {
-        res.render('homeMedico/consulta-medico'); // Caminho correto para a tela
+        res.render('./homeMedico/receita-medica'); // Caminho correto para a tela
     });
 
-
+    
 
 module.exports = router;

@@ -703,8 +703,8 @@ video {
   margin-bottom: 1rem;
 }
 
-.mb-10 {
-  margin-bottom: 2.5rem;
+.mb-1 {
+  margin-bottom: 0.25rem;
 }
 
 .mb-12 {
@@ -1944,6 +1944,11 @@ html {
 .hover\:bg-red-700:hover {
   --tw-bg-opacity: 1;
   background-color: rgb(185 28 28 / var(--tw-bg-opacity));
+}
+
+.hover\:bg-\[\#2c3c2d\]:hover {
+  --tw-bg-opacity: 1;
+  background-color: rgb(44 60 45 / var(--tw-bg-opacity));
 }
 
 .hover\:underline:hover {

@@ -1,67 +1,71 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="./stylesheets/output.css" rel="stylesheet">
+    <link href="/stylesheets/output.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Asap&display=swap" rel="stylesheet">
-    <title>Atestado Médico</title>
+    <title>Atestado Médico - PediCare+</title>
 </head>
-<body class="bg-[#F0E8D9]">
-    <header class="bg-[#D0C7B6] h-16 flex items-center">
-        <img src="/images/logo-branco.png" alt="logo" class="w-32 h-32 object-contain ml-5">
+<body class="bg-[#F0E8D9] font-sans">
+
+    <!-- Navbar -->
+    <header class="bg-[#2C5545] shadow-md p-4 flex items-center justify-between">
+        <img src="/images/logo-branco.png" alt="logo" class="h-12">
+        <a href="/lista-pacientes/<%= id_usuario %>" class="bg-[#CAC2B5] hover:bg-[#938b7b] text-white font-semibold px-6 py-3 rounded-md">
+            Voltar
+        </a>
     </header>
+    
+    <!-- Formulário de Atestado -->
+    <form action="/atestado/<%= id_paciente %>/<%= id_medico %>" method="POST">
+            <div class="max-w-4xl mx-auto p-6 bg-white shadow-lg border border-gray-300 rounded-lg mt-20">
+                <div class="text-center">
+                    <h1 class="text-xl font-extrabold mt-10 mb-5">ATESTADO MÉDICO</h1>
+                </div>
+            <div class="mt-6">
+                <h3 class="text-md font-medium mb-4">Atesto para devidos fins que o(a) paciente:</h3>
+                <label class="block text-md font-medium mb-1">Nome do Paciente:</label>
+                <input type="text" name="nome_paciente" value="<%= paciente.nome %>" placeholder="Digite o nome do paciente" class="w-full border border-gray-300 rounded px-3 py-1 text-sm" required>
 
-    <div class="max-w-4xl mx-auto p-6 bg-white shadow-lg border border-gray-300 rounded-lg mt-20">
-        <div class="text-center">
-            <h1 class="text-xl font-extrabold mt-10 mb-5">ATESTADO MÉDICO</h1>
+                <div class="grid grid-cols-2 gap-4 mt-4">
+                    <div>
+                        <label class="block text-md font-medium mb-1">Período Recomendado:</label>
+                        <input type="text" name="periodo_recomendado" placeholder="Digite o período recomendado (Ex.: 5 dias de repouso)" class="w-full border border-gray-300 rounded px-3 py-1 text-sm" required>
+                    </div>
+                    <div>
+                        <label class="block text-md font-medium mb-1">Código CID:</label>
+                        <input type="text" name="cid" placeholder="Digite o Código CID" class="w-full border border-gray-300 rounded px-3 py-1 text-sm" required>
+                    </div>
+                </div>
 
-        </div>
+                <div class="mt-4">
+                    <label class="block text-md font-medium mb-1">Motivo da Consulta:</label>
+                    <textarea name="motivo_consulta" placeholder="Descreva o motivo da consulta" class="w-full border border-gray-300 rounded px-3 py-1 text-sm" required></textarea>
+                </div>
 
-        <!-- Identificação do Emitente -->
-        <div class="mt-6">
-            <h3 class="text-md mb-4"></h3>Atesto para devidos fins que </h3>
-            <label class="block text-md font-medium"></label>
-                <input type="text" placeholder="" class="w-full border border-gray-300 rounded px-3 py-1 text-sm">
-            <div class="grid grid-cols-2 gap-4">
-                <div>
-                    <label class="block text-md font-medium">RG:</label>
-                    <input type="text" placeholder="" class="w-full border border-gray-300 rounded px-3 py-1 text-sm">
+                <div class="mt-4">
+                    <label class="block text-md font-medium mb-1">Data de Emissão:</label>
+                    <input type="date" name="data_emissao" class="w-full border border-gray-300 rounded px-3 py-1 text-sm" required>
                 </div>
             </div>
-            <div class="mt-4">
-                <label class="block text-md font-medium">Residente e domiciliado(a) à:</label>
-                <input type="text" placeholder="" class="w-full border border-gray-300 rounded px-3 py-1 text-sm">
-            </div>
-            <div class="mt-4">
-                <label class="block text-md font-medium">Esteve sob tratamento/acompanhamento médico neste consultório no período:</label>
-                <input type="text" placeholder="" class="w-full border border-gray-300 rounded px-3 py-1 text-sm">
-            </div>
-            <div class="mt-4">
-                <label class="block text-md font-medium">Necessitando o(a) mesmo(a) de:</label>
-                <input type="text" placeholder="" class="w-full border border-gray-300 rounded px-3 py-1 text-sm">
-            </div>
-            <div class="mt-4">
-                <label class="block text-md font-medium">de convaslescença.</label>
-            </div>
-        </div>
-       
 
-        <!-- Assinatura -->
-        <div class="mt-32 text-center">
-            <p class="text-sm font-medium">____________________________________</p>
-            <p class="text-sm">Assinatura do Médico</p>
-        </div>
-    </div>
+            <!-- Assinatura -->
+            <div class="mt-32 text-center">
+                <p class="text-sm font-medium">____________________________________</p>
+                <p class="text-sm">Assinatura do Médico</p>
+            </div>
 
-    <!-- Botões -->
-    <div class="flex justify-center mt-6">
-        <button type="button" class="bg-[#D0C7B6] text-white px-6 py-2 rounded hover:bg-[#BFBFBF] mr-4">
-            Enviar
-        </button>
-        <button type="button" onclick="window.print()" class="bg-[#D0C7B6] text-white px-6 py-2 rounded hover:bg-[#BFBFBF]">
-            Imprimir
-        </button>
-    </div>
+        </div>
+            <!-- Botões -->
+            <div class="flex justify-center mt-6 mb-5">
+                <button type="submit" class="bg-[#D0C7B6] text-white px-6 py-2 rounded hover:bg-[#BFBFBF] mr-4">
+                    Enviar
+                </button>
+                <button type="button" onclick="window.print()" class="bg-[#D0C7B6] text-white px-6 py-2 rounded hover:bg-[#BFBFBF]">
+                    Imprimir
+                </button>
+            </div>
+        </form>
 </body>
 </html>

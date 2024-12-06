@@ -56,7 +56,7 @@ const getAllPacientes = async () => {
 const getPacienteById = async (id) => {
     try {
         const result = await pool.query(`
-            SELECT p.*, u.nome AS usuario_nome 
+            SELECT p.*, u.nome AS usuario_nome, u.id AS id_usuario 
             FROM PACIENTES p
             INNER JOIN USUARIOS u ON p.id_usuario = u.id
             WHERE p.id = $1;

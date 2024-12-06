@@ -167,12 +167,13 @@ const renderizarConsultasMedico = (req, res) => {
 const renderizarProntuario = async (req, res) => {
     try {
         const id_consulta = req.query.id; // Assumindo que o ID do médico está sendo passado pela URL
+        const id_usuario = req.query.idUser;
         const consulta = await medicoModel.getConsultaById(id_consulta);
         const usuario = await pacienteModel.getPacienteById(consulta.id_paciente);
 
         console.log(usuario);
 
-        res.render('./homeMedico/prontuario', { consulta, usuario });
+        res.render('./homeMedico/prontuario', { consulta, usuario, id_usuario });
 
     } catch (error) {
         console.error('Erro ao renderizar prontuário do médico:', error);
@@ -273,12 +274,76 @@ const visualizarConsultas = async (req, res) => {
         const medico = await medicoModel.getMedicoByIdUser(id_usuario);
         const consultas = await medicoModel.getConsultasByMedicoId(medico.medico_id);
 
-        res.render('./homeMedico/consulta-visualizar', { consultas });
+        res.render('./homeMedico/consulta-visualizar', { consultas, id_usuario });
     } catch (error) {
         console.error('Erro ao buscar consultas:', error);
         res.status(500).send('Erro ao buscar consultas');
     }
 };
+
+const postAtestado = async (req, res) => {
+    const { id_paciente, id_medico } = req.params;
+    const { motivo_consulta, cid, periodo_recomendado } = req.body;
+
+    // Validações de campos em branco
+    if (!motivo_consulta || !cid || !periodo_recomendado) {
+        return res.status(400).json({ message: "Preencha todos os campos!" });
+    }
+
+    try {
+        const novoAtestado = await medicoModel.createAtestado({
+            id_paciente,
+            id_medico,
+            motivo_consulta,
+            cid,
+            periodo_recomendado
+        });
+
+        if (!novoAtestado) {
+            return res.status(400).json({ message: "Erro ao cadastrar atestado" });
+        }
+
+        res.redirect("/home/medico");
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+};
+
+const renderizaAtestado = async (req, res) => {
+    const { id_paciente, id_medico } = req.params;
+    
+    try {
+        const atestadoData = await medicoModel.getAtestadoData( id_paciente, id_medico);
+        const id_usuario = await medicoModel.getIdUserByMedicoId(id_medico);
+
+        res.render('./homeMedico/atestado', {
+            id_paciente,
+            id_medico,
+            id_usuario,
+            paciente: atestadoData.paciente,
+            medico: atestadoData.medico
+        });
+    } catch (error) {
+        console.error('Erro ao renderizar atestado:', error);
+        res.status(500).send('Erro ao renderizar atestado');
+    }
+};
+
+// Renderizar Página de Lista de Pacientes
+const renderizaListaPacientes = async (req, res) => {
+    try {
+        const id_usuario = req.params.id;
+        const medico = await medicoModel.getMedicoByIdUser(id_usuario);
+
+        const pacientes = await pacienteModel.getAllPacientes();
+        console.log(pacientes);
+        res.render('./homeMedico/lista_pacientes', { pacientes, medico, id_usuario });
+    } catch (err) {
+        console.error('Erro ao renderizar a lista de pacientes:', err);
+        res.status(500).send('Erro ao renderizar a lista de pacientes');
+    }
+};
+
 
 module.exports = {
     postMedico,
@@ -293,5 +358,8 @@ module.exports = {
     renderizarListaProntuario,
     deleteProntuario,
     visualizarProntuario,
-    visualizarConsultas
+    visualizarConsultas,
+    postAtestado,
+    renderizaAtestado,
+    renderizaListaPacientes
 };

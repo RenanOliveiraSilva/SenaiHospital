@@ -203,7 +203,7 @@ const renderizarAgendamentoConsulta = async (req, res) => {
         }
 
         // Renderizar a página com o ID do paciente
-        res.render('./homeUsuario/agendar-consulta', { idPaciente });
+        res.render('./homeUsuario/agendar-consulta', { idPaciente, id });
     } catch (err) {
         console.error('Erro ao renderizar página:', err);
         res.status(500).json({ error: 'Erro ao renderizar página' });

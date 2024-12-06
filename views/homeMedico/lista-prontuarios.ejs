@@ -12,9 +12,9 @@
 
 <body class="bg-[#F0E8D9] font-sans">
 
-    <!-- Navbar -->
-    <header class="bg-[#2C5545] shadow-md p-4 flex items-center justify-between">
-        <h1 class="text-white text-2xl font-bold">PediCare+ - Listagem de Prontuários</h1>
+     <!-- Navbar -->
+     <header class="bg-[#2C5545] shadow-md p-4 flex items-center justify-between">
+        <img src="/images/logo-branco.png" alt="logo" class="h-12">
         <a href="/home/gerencia-consulta?id=<%= id_usuario %>" class="bg-[#CAC2B5] hover:bg-[#938b7b] text-white font-semibold px-6 py-3 rounded-md">
             + Gerar Novo Prontuário
         </a>
@@ -59,6 +59,10 @@
             </div>
         <% } %>
     </main>
+    <div class="w-full justify-center items-center flex mt-2">
+
+        <a href="/home/home-medico?id=<%= id_usuario %>" class="bg-fontColor text-white px-4 py-2 rounded hover:bg-[#2c3c2d] transition">Retornar</a>
+    </div>
 
 </body>
     <!-- Script para excluir prontuário -->

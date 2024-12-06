@@ -256,6 +256,56 @@ const getConsultasByMedicoId = async (medicoId) => {
     }
 }
 
+// Inserir atestado no banco de dados
+const createAtestado = async (atestadoData) => {
+    const { id_paciente, id_medico, motivo_consulta, cid, periodo_recomendado } = atestadoData;
+
+    try {
+        const result = await pool.query(
+            `INSERT INTO atestado (id_paciente, id_medico, motivo_consulta, cid, periodo_recomendado) 
+             VALUES ($1, $2, $3, $4, $5) RETURNING *`,
+            [id_paciente, id_medico, motivo_consulta, cid, periodo_recomendado]
+        );
+        return result.rows[0];
+    } catch (err) {
+        console.error('Erro ao inserir atestado:', err);
+        throw err;
+    }
+};
+
+// Função para buscar dados do atestado
+const getAtestadoData = async (id_paciente, id_medico) => {
+    try {
+        const pacienteResult = await pool.query('SELECT * FROM pacientes WHERE id = $1', [id_paciente]);
+        const medicoResult = await pool.query('SELECT * FROM medicos WHERE id = $1', [id_medico]);
+
+        return {
+            paciente: pacienteResult.rows[0],
+            medico: medicoResult.rows[0]
+        };
+    } catch (err) {
+        console.error('Erro ao buscar dados do atestado:', err);
+        throw err;
+    }
+};
+
+//Função para buscar o id do usuário pelo id do médico
+const getIdUserByMedicoId = async (medicoId) => {
+    try {
+        const result = await pool.query(`
+            SELECT f.id_usuario FROM medicos m
+            JOIN funcionarios f ON m.id_funcionario = f.id
+            WHERE m.id = $1;
+        `, [medicoId]);
+
+        return result.rows[0].id_usuario;
+
+    } catch (error) {
+        console.error('Erro ao buscar id do usuário pelo id do médico:', error);
+        throw error;
+    }
+}
+
 module.exports = {
     getTodosMedicos,
     getMedicoByCrm,
@@ -271,5 +321,8 @@ module.exports = {
     deleteProntuario,
     getProntuarioById,
     getConsultasByMedicoId,
-    updateConsulta
+    updateConsulta,
+    createAtestado,
+    getAtestadoData,
+    getIdUserByMedicoId
 };

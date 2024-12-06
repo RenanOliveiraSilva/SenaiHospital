@@ -17,11 +17,13 @@
     %>
 
     <!-- Navbar -->
-    <header class="bg-[#2C5545] h-20 shadow-lg flex items-center p-4 mb-2">
-        <div class="container mx-auto flex justify-between items-center">
-            <img src="/images/logo-branco.png" alt="logo" class="h-12">
-        </div>
+    <header class="bg-[#2C5545] shadow-md p-4 flex items-center justify-between">
+        <img src="/images/logo-branco.png" alt="logo" class="h-12">
+        <a href="/lista-prontuario?id=<%= id_usuario %>" class="bg-[#CAC2B5] hover:bg-[#938b7b] text-white font-semibold px-6 py-3 rounded-md">
+            Voltar
+        </a>
     </header>
+    
 
     <div class="min-h-screen flex items-center justify-center">
         <form action="/prontuario?id_paciente=<%= consulta.id_paciente %>&id_medico=<%= consulta.id_medico%>&id_consulta=<%= consulta.id %>" method="POST" onsubmit="handleSubmit(event)" id="prontuarioForm">
