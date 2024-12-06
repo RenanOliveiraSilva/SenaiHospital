@@ -50,7 +50,7 @@ const logarUsuario = async (req, res) => {
             //Sucesso
             return res.status(200).json({
                 message: "Autenticado com sucesso!",
-                redirectTo: "/homeRecepcionista/home-recepcionista",
+                redirectTo: "/home/home-funcionario",
             });
         } else if (data.mapa == "A") {
             //Sucesso
