@@ -131,6 +131,16 @@ const getMedicoByIdUser = async (userId) => {
     }
 }
 
+//Marcar status da consulta como realizada
+const updateConsulta = async (consultaId) => {
+    try {
+        const result = await pool.query('UPDATE consultas SET status_consulta = consultada WHERE id = $1 RETURNING *', [consultaId]);
+        return result.rows[0];
+    } catch (error) {
+        throw error;
+    }
+}
+
 // Model para criar um prontuário no banco de dados
 const criarProntuario = async (prontuarioData) => {
 
@@ -217,6 +227,35 @@ const deleteProntuario = async (prontuarioId) => {
     }
 };
 
+const getProntuarioById = async (prontuarioId) => {
+    try {
+        const result = await pool.query(`
+            SELECT * FROM prontuarios WHERE id_prontuario = $1`, [prontuarioId]);
+
+        return result.rows[0];
+
+    } catch (error) {
+        console.error('Erro ao buscar prontuário por id:', error);
+        throw error;
+    }
+}
+
+const getConsultasByMedicoId = async (medicoId) => {
+    try {
+        const result = await pool.query(`
+            SELECT c.*, p.nome AS nome_paciente FROM consultas c
+            JOIN pacientes p ON c.id_paciente = p.id
+            WHERE c.id_medico = $1 AND c.status_consulta = 'marcada';
+        `, [medicoId]);
+
+        return result.rows;
+
+    } catch (error) {
+        console.error('Erro ao buscar consultas por id do médico:', error);
+        throw error;
+    }
+}
+
 module.exports = {
     getTodosMedicos,
     getMedicoByCrm,
@@ -229,5 +268,8 @@ module.exports = {
     criarProntuario,
     getConsultaById,
     getProntuariosByMedico,
-    deleteProntuario
+    deleteProntuario,
+    getProntuarioById,
+    getConsultasByMedicoId,
+    updateConsulta
 };

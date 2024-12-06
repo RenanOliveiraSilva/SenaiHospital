@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="/stylesheets/output.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Asap&display=swap" rel="stylesheet">
+    <title>Prontuário</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.2/html2pdf.bundle.min.js"></script>
+</head>
+
+<body class="bg-[#F0E8D9] ">
+    <%
+        // Parse a data do valor fornecido para o formato yyyy-MM-dd
+        const dataNascimento = new Date(paciente.data_nasc).toISOString().split('T')[0];
+    %>
+
+    <!-- Navbar -->
+    <header class="bg-[#2C5545] h-20 shadow-lg flex items-center p-4 mb-2">
+        <div class="container mx-auto flex justify-between items-center">
+            <img src="/images/logo-branco.png" alt="logo" class="h-12">
+        </div>
+    </header>
+
+    <div class="min-h-screen flex items-center justify-center">
+        <form action="/" method="POST" id="prontuarioForm">
+            <div id="prontuario-form" class="max-w-5xl mx-auto p-6 bg-white shadow-lg border border-gray-300 rounded-lg">
+
+                <!-- Cabeçalho -->
+                <div class="text-center">
+                    <h1 class="text-xl font-extrabold">PediCare+</h1>
+                    <p class="text-sm">Clínica Pediátrica PediCare+<br>Rua Juarez de Paula, 123 - Centro - Guará - SP</p>
+                    <h2 class="text-lg font-bold mt-4">FICHA MÉDICA E PRONTUÁRIO</h2>
+                </div>
+
+                <!-- Informações Pessoais -->
+                <div class="mt-6">
+                    <h3 class="text-lg font-bold mb-4">Informações Pessoais</h3>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-sm font-medium">Nome do Paciente:</label>
+                            <input type="text" name="nome_paciente" placeholder="Digite o nome do paciente"
+                                class="w-full border border-gray-300 rounded px-3 py-1 text-sm" value="<%= paciente.nome  %>" disabled>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium">Sexo:</label>
+                            <div class="flex items-center gap-4">
+                                <label>
+                                    <input type="radio" name="gender" value="male" class="mr-1" <%= paciente.genero === 'M' ? 'checked' : '' %> disabled> Masculino
+                                </label>
+                                <label>
+                                    <input type="radio" name="gender" value="female" class="mr-1" <%= paciente.genero === 'F' ? 'checked' : '' %> disabled> Feminino
+                                </label>
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-medium">Data de Nascimento:</label>
+                            <input type="date" name="data_nascimento" value="<%= dataNascimento %>" class="w-full border border-gray-300 rounded px-3 py-1 text-sm" disabled>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Anamnese -->
+                <div class="mt-6">
+                    <h3 class="text-lg font-bold mb-4">Anamnese</h3>
+                    <textarea name="anamnese" placeholder="<%= prontuario.anamnese %>"
+                        class="w-full border border-gray-300 rounded px-3 py-1 text-sm" disabled></textarea>
+                </div>
+
+                <!-- Exame Físico -->
+                <div class="mt-6">
+                    <h3 class="text-lg font-bold mb-4">Exame Físico</h3>
+                    <div class="grid grid-cols-4 gap-4">
+                        <div>
+                            <label class="block text-sm font-medium">Peso:</label>
+                            <input type="text" name="peso" placeholder="Ex: 25 kg"
+                                class="w-full border border-gray-300 rounded px-3 py-1 text-sm" value="<%= prontuario.peso %>" disabled>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium">Altura:</label>
+                            <input type="text" name="altura" placeholder="Ex: 1,20 m"
+                                class="w-full border border-gray-300 rounded px-3 py-1 text-sm" value="<%= prontuario.altura %>" disabled>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium">Pressão Arterial:</label>
+                            <input type="text" name="pressao_arterial" placeholder="Ex: 120/80 mmHg"
+                                class="w-full border border-gray-300 rounded px-3 py-1 text-sm" value="<%= prontuario.pressao_arterial %>" disabled>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium">Temperatura:</label>
+                            <input type="text" name="temperatura" placeholder="Ex: 36,5 ºC"
+                                class="w-full border border-gray-300 rounded px-3 py-1 text-sm" value="<%= prontuario.temperatura %>" disabled>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Diagnóstico e Tratamento -->
+                <div class="mt-6">
+                    <h3 class="text-lg font-bold mb-4">Diagnóstico e Tratamento</h3>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-sm font-medium">Diagnóstico Definitivo:</label>
+                            <textarea name="diagnostico_definitivo" placeholder="<%= prontuario.diagnostico_definitivo %>"
+                                class="w-full border border-gray-300 rounded px-3 py-1 text-sm" disabled></textarea>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium">Hipóteses Diagnósticas:</label>
+                            <textarea name="hipoteses_diagnosticas" placeholder="<%= prontuario.hipoteses_diagnosticas %>"
+                                class="w-full border border-gray-300 rounded px-3 py-1 text-sm" disabled></textarea>
+                        </div>
+                        <div class="col-span-2">
+                            <label class="block text-sm font-medium">Tratamentos Efetuados:</label>
+                            <textarea name="tratamentos_efetuados" placeholder="<%= prontuario.tratamentos_efetuados %>"
+                                class="w-full border border-gray-300 rounded px-3 py-1 text-sm" disabled></textarea>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Assinatura -->
+                <div class="mt-6 text-center">
+                    <p class="text-sm font-medium">______________________________</p>
+                    <p class="text-sm">Assinatura do Médico</p>
+                </div>
+
+            </div>
+
+            <!-- Botões -->
+            <div class="flex items-center justify-center mt-2 mb-2">
+                <div class="flex justify-center mt-6 ">
+                    <button type="button" onclick="gerarPDF()"
+                        class="bg-[#D0C7B6] text-white px-6 py-2 rounded hover:bg-[#BFBFBF]">
+                        Gerar PDF
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <script>
+
+        function gerarPDF() {
+            const prontuarioForm = document.getElementById('prontuario-form');
+            html2pdf()
+                .set({
+                    margin: 10,
+                    filename: 'prontuario.pdf',
+                    image: { type: 'jpeg', quality: 0.98 },
+                    html2canvas: { scale: 2 },
+                    jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+                })
+                .from(prontuarioForm)
+                .save();
+        }
+    </script>
+</body>
+
+</html>

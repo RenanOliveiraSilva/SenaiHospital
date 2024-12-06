@@ -7,6 +7,7 @@
     <link href="/stylesheets/output.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Asap&display=swap" rel="stylesheet">
     <title>Listagem de Prontuários - PediCare+</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
 </head>
 
 <body class="bg-[#F0E8D9] font-sans">
@@ -45,10 +46,10 @@
                         <% prontuarios.forEach((prontuario) => { %>
                             <tr>
                                 <td class="py-3 px-4 text-center"><%= prontuario.nome_paciente %></td>
-                                <td class="py-3 px-4 text-center"><%= prontuario.data_consulta %></td>
-                                <td class="py-3 px-4 text-center"><%= prontuario.data_criacao %></td>
+                                <td class="py-3 px-4 text-center"><script>document.write(moment('<%= prontuario.data_consulta %>').format('DD/MM/YYYY'))</script></td>
+                                <td class="py-3 px-4 text-center"><script>document.write(moment('<%= prontuario.data_criacao %>').format('DD/MM/YYYY'))</script></td>
                                 <td class="py-3 px-4 flex justify-center gap-4">
-                                    <a href="/prontuarios/visualizar/<%= prontuario.id_prontuario %>" class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition">Visualizar</a>
+                                    <a href="/visualizar-prontuarios/<%= prontuario.id_prontuario %>" class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition">Visualizar</a>
                                     <button onclick="excluirProntuario('<%= prontuario.id_prontuario %>')" class="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition">Excluir</button>
                                 </td>
                             </tr>

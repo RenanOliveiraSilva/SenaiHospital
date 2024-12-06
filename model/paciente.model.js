@@ -284,6 +284,16 @@ const getUsuarioById = async (idPaciente) => {
     }
 };
 
+const getPacienteByCpf = async (cpf) => {
+    try {
+        const result = await pool.query('SELECT * FROM pacientes WHERE cpf = $1', [cpf]);
+        return result.rows[0];
+    } catch (err) {
+        console.error('Erro ao buscar paciente pelo CPF:', err);
+        throw err;
+    }
+}   
+
 module.exports = {
     addPaciente,
     getAllPacientes,
@@ -295,6 +305,6 @@ module.exports = {
     getDiasDisponiveis,
     getHorariosDisponiveis,
     getPacienteByUserId,
-    getUsuarioById
-    
+    getUsuarioById,
+    getPacienteByCpf
 };

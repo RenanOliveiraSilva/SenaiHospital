@@ -54,6 +54,8 @@ router
     .get('/consultas-medico', medicoController.getConsultasDoDia)
     .get('/lista-prontuario', medicoController.renderizarListaProntuario) 
     .get('/prontuario', medicoController.renderizarProntuario)
+    .get('/visualizar-prontuarios/:id', medicoController.visualizarProntuario)
+    .get('/visualizar/:id', medicoController.visualizarConsultas)
     .post('/prontuario', medicoController.criarProntuario)
     .delete('/prontuarios/:id', medicoController.deleteProntuario);
 

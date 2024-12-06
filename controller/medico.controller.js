@@ -212,6 +212,8 @@ const criarProntuario = async (req, res) => {
             tratamentos_efetuados
         });
 
+        await medicoModel.updateConsulta(id_consulta);
+
         res.status(201).json(novoProntuario);
     } catch (error) {
         res.status(500).json({ error: 'Erro ao criar prontuário.' });
@@ -252,6 +254,32 @@ const deleteProntuario = async (req, res) => {
     }
 };
 
+const visualizarProntuario = async (req, res) => {
+    try {
+        const id_prontuario = req.params.id; // Assumindo que o ID do médico está sendo passado pela URL
+        const prontuario = await medicoModel.getProntuarioById(id_prontuario);
+        const paciente = await pacienteModel.getPacienteById(prontuario.id_paciente);
+
+        res.render('./homeMedico/prontuario-visualizar', { prontuario, paciente });
+    } catch (error) {
+        console.error('Erro ao visualizar prontuário do médico:', error);
+        res.status(500).send('Erro ao visualizar prontuário do médico');
+    }
+}
+
+const visualizarConsultas = async (req, res) => {
+    try {
+        const id_usuario = req.params.id;
+        const medico = await medicoModel.getMedicoByIdUser(id_usuario);
+        const consultas = await medicoModel.getConsultasByMedicoId(medico.medico_id);
+
+        res.render('./homeMedico/consulta-visualizar', { consultas });
+    } catch (error) {
+        console.error('Erro ao buscar consultas:', error);
+        res.status(500).send('Erro ao buscar consultas');
+    }
+};
+
 module.exports = {
     postMedico,
     excluirMedico,
@@ -263,5 +291,7 @@ module.exports = {
     renderizarProntuario,
     criarProntuario,
     renderizarListaProntuario,
-    deleteProntuario
+    deleteProntuario,
+    visualizarProntuario,
+    visualizarConsultas
 };
